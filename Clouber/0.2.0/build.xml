@@ -1,0 +1,301 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="Clouber" basedir="." default="try">
+
+    <property name="package" value="Clouber" override="true" />
+    <property name="logdir" value="./log" override="true" />
+    <property name="stagedir" value="./stage" override="true" />
+    <property name="testdir" value="./test" override="true" />
+    <property name="builddir" value="./build" override="true" />
+    <property name="betadir" value="./beta" override="true" />
+    <property name="srcdir" value="./src" override="true" />
+    <property name="jsdocdir" value="./docs/jsdoc" override="true" />
+    <property name="jscoredocdir" value="./docs/jscore" override="true" />
+    <property name="jsportaldocdir" value="./docs/jsportal" override="true" />
+    <property name="phpdocdir" value="./docs/phpdoc" override="true" />
+    <property name="yui-jarfile" value="/opt/yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar" />
+    <property name="svnusername" value="username" />
+    <property name="svnpassword" value="password" />
+    <property name="svnrepo" value="file:///F:/dev/svn/Clouber/0.2.0/src" />
+    <property name="svnpath" value="C:/Program Files/TortoiseSVN/bin/svn.exe" />
+    <property name="svnrevision" value="HEAD" />
+
+    <!-- ============================================  -->
+    <!-- Fileset: codefiles                            -->
+    <!-- ============================================  -->
+    <fileset dir="${builddir}" id="codefiles">
+        <include name="**/*.html" />
+        <include name="**/*.css" />
+        <include name="**/*.js" />
+        <include name="**/*.asp" />
+        <include name="**/*.php" />
+        <include name="**/*.gif" />
+        <include name="**/*.jpg" />
+        <include name="**/*.png" />
+        <include name="**/*.svg" />
+        <include name="**/*.json" />
+        <include name="**/*.conf" />
+        <exclude name="test/**/*" />
+        <exclude name="build/**/*" />
+        <exclude name="design/**/*" />
+        <exclude name="build/**/*" />
+        <exclude name="design/**/*" />
+    </fileset>
+
+    <!-- ============================================  -->
+    <!-- Fileset: buildfiles                            -->
+    <!-- ============================================  -->
+    <fileset dir="${stagedir}" id="buildfiles">
+        <include name="**/*.html" />
+        <include name="lib/js/*.js" />
+        <include name="**/*.min.js" />
+        <include name="**/*-min.js" />
+        <include name="**/*.asp" />
+        <include name="**/*.php" />
+        <include name="**/*.gif" />
+        <include name="**/*.jpg" />
+        <include name="**/*.png" />
+        <include name="**/*.svg" />
+        <include name="**/*.json" />
+        <include name="**/*.conf" />
+        <exclude name="test/**/*" />
+        <exclude name="build/**/*" />
+        <exclude name="design/**/*" />
+        <exclude name="qunit.html" />
+    </fileset>
+
+    <!-- ============================================  -->
+    <!-- Fileset: jsfiles                               -->
+    <!-- ============================================  -->
+    <fileset dir="${stagedir}" id="jsfiles">
+        <include name="**/*.js" />
+        <exclude name="lib/js/*.js" />
+        <exclude name="test/**/*.js" />
+    </fileset>
+
+    <!-- ============================================  -->
+    <!-- Target: clean                                 -->
+    <!-- ============================================  -->
+    <target name="clean">
+        <echo msg="Remove directories." />
+        <delete dir="${stagedir}"/>
+        <delete dir="${builddir}"/>
+        <delete dir="${betadir}"/>
+    </target> 
+    
+
+    <!-- ============================================  -->
+    <!-- Target: export                                  -->
+    <!-- ============================================  -->
+    <target name="export" depends="clean">
+        <echo msg="Export files into a test environment of '${package}' from SVN." />
+        <svnexport
+            repositoryurl="${svnrepo}"
+            todir="${stagedir}"
+            svnpath="${svnpath}"
+            nocache="true"
+            username="${svnusername}"
+            password="${svnpassword}"
+            revision="${svnrevision}"
+        />
+    </target>
+
+    
+    <!-- ============================================  -->
+    <!-- Target: checkout                              -->
+    <!-- ============================================  -->
+    <target name="checkout">
+        <echo msg="Checkout files into a coding environment of '${package}' from SVN." />
+        <delete dir="${srcdir}"/>
+        <mkdir dir="${srcdir}" />
+        <svncheckout
+            repositoryurl="${svnrepo}"
+            todir="${srcdir}"
+            svnpath="${svnpath}"
+            nocache="true"
+            username="${svnusername}"
+            password="${svnpassword}"
+            revision="${svnrevision}"
+        />
+    </target>
+
+  
+    <!-- ============================================  -->
+    <!-- Target: jscoredoc                                 -->
+    <!-- ============================================  -->
+    <target name="jscoredoc" depends="export">
+        <echo msg="Generate JavaScript document." />
+        <delete dir="${jscoredocdir}"/>
+        <mkdir dir="${jscoredocdir}" />
+
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jscoredocdir} -E=jsr ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI" dir="." output="${logdir}\jscoredoc.log"/>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: jsportaldoc                                 -->
+    <!-- ============================================  -->
+    <target name="jsportaldoc" depends="export">
+        <echo msg="Generate JavaScript document." />
+        <delete dir="${jsportaldocdir}"/>
+        <mkdir dir="${jsportaldocdir}" />
+
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\Portlet" dir="." output="${logdir}\jsportaldoc.log"/>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: jsdoc                                 -->
+    <!-- ============================================  -->
+    <target name="jsdoc" depends="export">
+        <echo msg="Generate JavaScript document." />
+        <delete dir="${jsdocdir}"/>
+        <mkdir dir="${jsdocdir}" />
+        <mkdir dir="${logdir}" />
+
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portlet" dir="." output="${logdir}\jsdoc.log"/>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: phpdoc                                 -->
+    <!-- ============================================  -->
+    <target name="phpdoc" depends="export">
+        <echo msg="Generate PHP document." />
+        <delete dir="${phpdocdir}"/>
+        <mkdir dir="${phpdocdir}" />
+
+        <phpdoc2 title="${package} API Documentation" destdir="${phpdocdir}"  template="responsive">
+          <fileset dir="${stagedir}">
+            <include name="**/*.php"/>
+          </fileset>
+        </phpdoc2>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: jsmerg                                -->
+    <!-- ============================================  -->
+    <target name="jsmerg" depends="export">
+        <echo msg="Merge JavaScript codes." />
+        
+        <append destFile="${stagedir}/Sys/0.2.0/Core/core.js">
+            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, Message_en.js, Message_cn.js, Document.js, Cache.js, Config.js, AppConfig.js, Application.js" />
+        </append>
+        <delete>
+            <fileset dir="${stagedir}/Sys/0.2.0/Core">
+                <include name="*.js"/>
+                <exclude name="core.js"/>
+            </fileset>
+        </delete>
+
+        <append destFile="${stagedir}/Sys/0.2.0/UI/ui.js">
+            <filelist dir="${stagedir}/Sys/0.2.0/UI" files="common.js" />
+        </append>
+        <delete>
+            <fileset dir="${stagedir}/Sys/0.2.0/UI">
+                <include name="*.js"/>
+                <exclude name="ui.js"/>
+            </fileset>
+        </delete>
+
+        <append destFile="${stagedir}/Sys/0.2.0/Portal/portal.js">
+            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, PortalApp.js" />
+        </append>
+        <delete>
+            <fileset dir="${stagedir}/Sys/0.2.0/Portal">
+                <include name="*.js"/>
+                <exclude name="portal.js"/>
+            </fileset>
+        </delete>
+        
+        <append destFile="${stagedir}/Sys/0.2.0/Portlet/portlet.js">
+            <filelist dir="${stagedir}/Sys/0.2.0/Portlet" files="WSRP.js, PortletInfo.js, ProducerContext.js, Producer.js" />
+        </append>
+        <delete>
+            <fileset dir="${stagedir}/Sys/0.2.0/Portlet">
+                <include name="*.js"/>
+                <exclude name="portlet.js"/>
+            </fileset>
+        </delete>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: jsmin                                 -->
+    <!-- ============================================  -->
+    <target name="jsmin" depends="jsmerg">
+        <echo msg="Minify JavaScript codes." />
+        <mkdir dir="${builddir}" />
+        <jsMin targetDir="${builddir}" failOnError="false" suffix="">
+            <fileset refid="jsfiles" />
+        </jsMin>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: yuicompressor                         -->
+    <!-- ============================================  -->
+    <target name="yuicompressor">
+        <exec command="java -jar ${yui-jarfile} -o ${builddir}/${filename} ${stagedir}/${filename}" />
+    </target>
+    
+    <!-- ============================================  -->
+    <!-- Target: cssmin                                 -->
+    <!-- ============================================  -->
+    <target name="cssmin" depends="export">
+        <echo msg="**** Minifying CSS files." />
+        <mkdir dir="${builddir}" />
+        <copy todir="${builddir}" overwrite="true">
+            <fileset dir="${stagedir}">
+                <include name="**/*.css"/>
+            </fileset>
+        </copy>
+        <foreach param="filename" absparam="absfilename" target="yuicompressor">
+            <fileset dir="${stagedir}">
+                <include name="**/*.css"/>
+            </fileset>
+        </foreach>
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: phpmin                                 -->
+    <!-- ============================================  -->
+    <target name="phpmin" depends="export">
+        <echo msg="Minify PHP codes." />
+        <mkdir dir="${builddir}" />
+        <exec command="\dev\xampp\php\php \opt\phpminify\phpmin.php ${stagedir}/ ${builddir}/" />
+    </target> 
+    
+    <!-- ============================================  -->
+    <!-- Target: jstest                               -->
+    <!-- ============================================  -->
+    <target name="jstest" depends="">
+        <echo msg="js Test Driver." />
+        <exec command="java -jar ${srcdir}\lib\jsTestDriver\JsTestDriver-1.3.4.b.jar --config ${srcdir}\lib\jsTestDriver\jsTestDriver.conf --basePath ${srcdir} --server http://localhost:4224 --tests all " dir="" checkreturn="TRUE" logoutput="TRUE"/>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: phptest                               -->
+    <!-- ============================================  -->
+    <target name="phptest" depends="export">
+        <phpunit haltonfailure="true" printsummary="true">
+            <batchtest>
+                <fileset dir="${stage}/teste">
+                <include name="*Test.php" />
+            </fileset>
+            </batchtest>
+        </phpunit>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: beta                                 -->
+    <!-- ============================================  -->
+    <target name="beta" depends="export,phpdoc,jsdoc,jsmerg,jsmin,cssmin,phpmin">
+                
+        <echo msg="Copy codes to build environment." />
+        <copy todir="${builddir}" overwrite="true">
+            <fileset refid="buildfiles" />
+        </copy>
+        <echo msg="Copy codes to beta environment." />
+        <copy todir="${betadir}" overwrite="true">
+            <fileset refid="codefiles" />
+        </copy>
+    </target>
+
+
+</project>
