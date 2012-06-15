@@ -1,0 +1,207 @@
+
+.Clouber_Frame {
+    background-color: white;
+	opacity: 1; 
+	position:relative; 
+	clear: both;
+}
+
+.Clouber_Frame_b .FB_S1 {
+    background-color: #FEFEFE;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Frame_b .FB_S2 {
+    background-color: #FEFEFE;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Frame_b .FB_S3 {
+    background-color: #DDDDDD;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Frame_b .FB_S4 {
+    background-color: #999999;
+    padding: 0.07em;
+	border-radius: 0.07em;
+}
+
+.Clouber_Frame_b_hide {
+    background-color: white !important;
+    padding: 0 !important;
+	border-radius: 0 !important;
+}
+
+
+
+.Clouber_Frame .topPANEL {
+	position:relative; 
+    background-color: white;
+    width: 100%;
+	opacity: 1; 
+}
+
+.Clouber_Frame .leftPANEL {
+	position:relative; 
+    float: left;
+    background-color: white;
+    width: 100%;
+	opacity: 1; 
+}
+
+.Clouber_Frame .contentPANEL {
+	position:relative; 
+    float: left;
+    background-color: white;
+	opacity: 1; 
+    width: 100%;
+    padding: 0;
+}
+
+.Clouber_Frame .rightPANEL {
+	position:relative; 
+    float: left;
+    background-color: white;
+    width: 100%;
+	opacity: 1; 
+}
+
+.Clouber_Frame .bottomPANEL {
+	position:relative; 
+    clear: both;
+    background-color: white;
+    width: 100%;
+	opacity: 1; 
+}
+
+.Clouber_Frame_Footer {
+	clear: both;
+}
+
+.Clouber_Frame_locker {
+	background-color: #555555;
+	position: absolute;  
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+	z-index:1000;  
+	opacity: 0.7;  
+	display: none;
+	clear:left;
+}
+
+.Clouber_Frame_popup {
+	background-color: #FFFFFF;
+	position: absolute;  
+	z-index:2000;  
+	opacity: 0.95;  
+	display: none;
+	border-radius: 01em;
+	border: 1em solid #6F9FDB;
+	padding: 1em;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR  .CLOUBER_TAB {
+	margin: 0 0 0 0.5em;
+	border-bottom: 0.3em solid #6E9FD5;
+	clear: left;
+	height: 2.05em;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR  .CLOUBER_TAB_F {
+    clear: left;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR  .CLOUBER_TAB .tab {
+	float: left;
+	margin-left: 0.5em;
+	padding: 0.15em 0.3em 0 0.3em;
+	height: 1.8em;
+	border: 0.1em solid;
+	border-color: #6E9FD5;
+	text-align: center;
+	text-height: 1.8em;
+	vertical-align: bottom;
+	background-color: #ECF3FB;
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR .current{
+	background-color: #6E9FD5 !important;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR.thumbnail {
+	background-image: url(icon.png);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	float: left;
+	width: 1em;
+	height: 1em;
+    margin: 0.3em 0 0 0;
+}
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR .close {
+	background-image: url(close.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: right;
+}
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR div.close:hover {
+	background-image: url(close_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+}
+
+
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR .title h3 {
+	padding: 0.3em 0 0 0;
+	color: #6E9FD5;
+	font-weight:normal;
+	margin:0;
+	text-align: center;
+}
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR  .current .title h3 {
+	color: white;
+}
+
+.Clouber_Frame div.CLOUBER_ACCD.CLOUBER_FRAME_NAVBAR   {
+	margin: 0 0 0 0.5em;
+	float: left !important;
+}
+	
+.Clouber_Frame .CLOUBER_FRAME_NAVBAR .accordion {
+	margin-left: 0.5em;
+	padding: 0.2em 0.3em 0 0.3em;
+	height: 1.8em;
+	border: 0.1em solid;
+	border-color: #6E9FD5;
+	text-align: center;
+	text-height: 1.8em;
+	vertical-align: bottom;
+	background-color: #ECF3FB;
+	border-radius: 0.5em 0 0 0.5em;
+}
+
+.Clouber_Frame div.CLOUBER_ACCD.CLOUBER_COMPS  {
+    position: relative;
+    float: left;
+    padding: 0.5em 0 0 0.5em;
+	border: 0.1em solid #6E9FD5;
+    width: auto;
+}
+
+
+.Clouber_Frame .CLOUBER_COMPS .comp {
+	background-color: #FFFFFF;
+	margin: 0.1em 0 0.1em 0;
+	display: block;
+}
+
+
+
