@@ -123,12 +123,13 @@ Clouber.Sys.Core.Application = function () {
 
         this.confLoading(href);
 
-        Clouber.config.loadConf({
-            href: href,
+        Clouber.document.ajax({
+            url: href,
             data: params.data,
             async: params.async,
             success: params.success,
-            loaded: params.loaded,
+            dataType: "text",
+            complete: params.loaded,
             loadedContext: params.loadedContext,
             error: params.error,
             context: params.context

@@ -40,10 +40,17 @@ Clouber.Sys.Core.ConfigManager = function () {
     * @return {object} config object.
     */
     this.getConfig = function () {
-        if (_conf === null) {
-            _conf = new Clouber.Sys.Core.Cache();
+        var o;
+        try {
+            if (_conf === null) {
+                _conf = new Clouber.Sys.Core.Cache();
+            }
+            o = _conf.get("CLOUBER_CONFIG", null);
+            return JSON.parse(o);
+        } catch (e) {
+            e.code = "Clouber.Sys.Core.ConfigManager#getConfig";
+            console.log(e);
         }
-        return _conf.get(null, "CLOUBER_CONFIG");
     };
 
     /**
@@ -52,11 +59,24 @@ Clouber.Sys.Core.ConfigManager = function () {
      * @param {object} config Clouber system global config.
      */
     this.setting = function (config) {
-        if (_conf === null) {
-            _conf = new Clouber.Sys.Core.Cache();
-        }
-        if (typeof config !==  'undefined') {
-            _conf.put(Clouber.merge(_conf.get("CLOUBER_CONFIG"), config));
+        var o;
+        try {
+            if (_conf === null) {
+                _conf = new Clouber.Sys.Core.Cache();
+            }
+            if (typeof config !==  'undefined') {
+                o = _conf.get("CLOUBER_CONFIG");
+                o = JSON.parse(o);
+                o = Clouber.merge(o, config);
+                _conf.put(
+                    "CLOUBER_CONFIG",
+                    JSON.stringify(o),
+                    null
+                );
+            }
+        } catch (e) {
+            e.code = "Clouber.Sys.Core.ConfigManager#getConfig";
+            console.log(e);
         }
     };
 
@@ -87,18 +107,18 @@ Clouber.Sys.Core.ConfigManager = function () {
     * @return {object} config object.
     */
     this.getConf = function (version) {
-        var i, conf, leng;
+        var i, conf, v;
 
         if (version === undefined) {
             version = this.getVersion();
         }
 
-        for (i = 0, leng = this.getConfig().versions.length; i < leng; i++) {
-
-            if (version === this.getConfig().versions[i].version) {
+        v = this.getConfig().versions;
+        for (i in v) {
+            if (version === v[i].version) {
                 conf = Clouber.merge(
                     this.getConfig(),
-                    this.getConfig().versions[i]
+                    v[i]
                 );
                 break;
             }
@@ -113,17 +133,16 @@ Clouber.Sys.Core.ConfigManager = function () {
     * @return {object} config object.
     */
     this.getAppConf = function (version, app) {
-        var i, j, conf, appconf, leng1, leng2;
+        var i, j, conf, appconf;
 
         conf = this.getConf(version);
 
-        for (i = 0, leng1 = conf.apps.length; i < leng1; i++) {
+        for (i in conf.apps) {
 
             if (app === conf.apps[i].app) {
                 appconf = Clouber.merge(appconf, conf.apps[i]);
 
-                for (j = 0, leng2 = conf.apps[i].versions.length;
-                        j < leng2; j++) {
+                for (j in conf.apps[i].versions) {
                     if (appconf.version ===
                             conf.apps[i].versions[j].version) {
 
@@ -139,9 +158,24 @@ Clouber.Sys.Core.ConfigManager = function () {
         }
         return appconf;
     };
-
+    
     /**
     * Load a configuration information.
+    * @function loadConf
+    */
+    this.loadConf = function () {
+        var that = this,
+            c = this.getConfig();
+        if ((typeof c !== "object") || (c !== null)) {
+            setTimeout(function () {that._loadConf();}, 60000);
+        } else {
+            this._loadConf();
+        }
+    }
+  
+
+    /**
+    * Internal configuration loading function.
     * @function loadConf
     * @param  {object} params Parameter object
     * @param  {string} params.data  post data
@@ -153,12 +187,17 @@ Clouber.Sys.Core.ConfigManager = function () {
     * @param  {function} params.error Error event handler
     * @param  {object} params.context loading event context
     */
-    this.loadConf = function (params) {
+    this._loadConf = function (params) {
 
         if (params === undefined) {    // default loading params
             params = {};
             params.async = false;
-            params.href = this.getConfig().base + "/Sys/conf.json";
+            if ((this.getConfig() === undefined) ||
+                    (this.getConfig() === null)) {
+                params.href = "Sys/conf.json";
+            } else {
+                params.href = this.getConfig().base + "/Sys/conf.json";
+            }
             params.context = this;
             params.success = this.configLoaded;
         }
@@ -477,8 +516,8 @@ Clouber.Sys.Core.ModuleLoader = function (config) {
     this._includeJs = function (href) {      //
         // include js using sync ajax
         Clouber.document.ajax({
-            method: "GET", 
-            url: href, 
+            method: "GET",
+            url: href,
             async: false,
             dataType: "script"
         });

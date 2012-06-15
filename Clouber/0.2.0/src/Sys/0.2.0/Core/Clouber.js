@@ -116,7 +116,7 @@ var Clouber = Clouber || {};
                 }
 
                 str = "obj = new " + name + "(" + str + ")";
-                this.log("Clouber#create:  " + str );
+                this.log("Clouber#create:  " + str);
                 eval(str);
 
                 return obj;
@@ -249,7 +249,7 @@ var Clouber = Clouber || {};
             //return jQuery.extend(object1, object2);
             var attr;
             try {
-                if ((typeof object1 === "undefined") || (object1 === null)) {
+                if ((typeof object1 !== "object") || (object1 === null)) {
                     object1 = {};
                 }
                 // copy property value
@@ -329,7 +329,8 @@ var Clouber = Clouber || {};
                     console.log("[Error] " + this.dump(e));
                 } else {
                     if ((typeof this.config !== "undefined") &&
-                            (this.config !== null)) {
+                            (this.config !== null) &&
+                            (typeof (this.config.getConfig()) === "function")) {
                         if (this.config.getConfig().runtime === "development") {
                             console.log("[Message] " + this.dump(e));
                         }
@@ -340,7 +341,8 @@ var Clouber = Clouber || {};
             }
 
             if ((typeof this.config !== "undefined") &&
-                    (this.config !== null)) {
+                    (this.config !== null) &&
+                    (typeof (this.config.getConfig()) === "function")) {
                 if (this.config.getConfig().runtime === "development") {
                     if ((e instanceof Clouber.Exception) ||
                             (e instanceof Error)) {

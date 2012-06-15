@@ -69,11 +69,12 @@ Clouber.Sys.Core.AppConfig = function () {
 
         this.configLoading(params);
 
-        Clouber.config.loadConf({
+        Clouber.document.ajax({
+            url: href,
             data: params.data,
-            href: href,
             async: params.async,
             success: this._loadSuccess,
+            dataType: "text",
             error: this._loadError,
             context: this
         });

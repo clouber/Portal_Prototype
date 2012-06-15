@@ -272,13 +272,14 @@ Clouber.Sys.Core.Document = function () {
     * @param  {string} params.method  HTTP method, i.e. GET, POST
     * @param  {string} params.data  post data
     * @param  {Map} params.headers  request header attributes
-    * @param  {string} params.href config url
+    * @param  {string} params.url config url
     * @param  {boolean} params.async load mode
     * @param  {function} params.loaded Loaded event handler,use to callback
-    * @param  {object} params.loadedContext loading event context
     * @param  {function} params.success Success event handler
     * @param  {function} params.error Error event handler
     * @param  {object} params.context loading event context
+    * @param  {function} params.complete Complete event handler
+    * @param  {object} params.loadedContext Loading complete event context
     */
     this.ajax = function (params) {
         try {

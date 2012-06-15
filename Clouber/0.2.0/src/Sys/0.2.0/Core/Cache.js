@@ -56,17 +56,19 @@ Clouber.Sys.Core.Cache = function () {
     * @param {string} key Object key.
     * @return {object} caching data object
     */
-    this.get = function (user, key) {
-        if (_key === null) {
+    this.get = function (key, user) {
+        var o;
+        if ((typeof _key === "undefined") || (_key === null)) {
             // get data from localStorage
             if ((typeof key === "string") && (key.length > 0)) {
                 if (typeof (window.localStorage) !== "undefined") {
                     try {
                         if ((typeof user !== "string") || (user.length < 1)) {
-                            window.localStorage.getItem(key + "@public");
+                            o = window.localStorage.getItem("public:" + key);
                         } else {
-                            window.localStorage.getItem(key + "@" + user);
+                            o = window.localStorage.getItem(user + ":" + key);
                         }
+                        return o;
                     } catch (e) {
                         e.code = "Clouber.Sys.Core.Cache#get";
                         Clouber.log(e);
@@ -94,7 +96,7 @@ Clouber.Sys.Core.Cache = function () {
      * @param {string} key Object key.
      * @param {object} data Caching data object.
      */
-    this.put = function (user, key, data) {
+    this.put = function (key, data, user) {
         var item;
 
         if ((typeof key === "string") && (key.length > 0) &&
@@ -112,7 +114,7 @@ Clouber.Sys.Core.Cache = function () {
             // put data into localStorage
             if (typeof (window.localStorage) !== "undefined") {
                 try {
-                    window.localStorage.setItem(_key + "@" + _user, _data);
+                    window.localStorage.setItem(_user + ":" + _key, _data);
                     return true;
                 } catch (e) {
                     e.code = "Clouber.Sys.Core.Cache#get";
