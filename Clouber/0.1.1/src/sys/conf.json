@@ -1,0 +1,4 @@
+{"name":"Clouber","base":".","description":"Cloud based computer OS","version":"0.1.1","":"","runtime":"development","versions":[{"version":"0.1.0","apps":[{"app":"cms","description":"content management system","vendor":"","version":"0.1.0","path":"app/cms/0.1.0"}]},{"version":"0.1.1","apps":[
+{"app":"JobHunter","vendor":"Jon Zhou","description":"Job Hunter System","version":"0.1.0","versions":[{"version":"0.1.0","path":"app/JobHunter"}]},
+{"app":"cms","vendor":"","description":"content management system","version":"0.1.1","versions":[{"version":"0.1.0","path":"app/cms/0.1.0"},{"version":"0.1.1","path":"app/cms/0.1.1"}]}
+]}]}

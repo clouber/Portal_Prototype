@@ -1,0 +1,229 @@
+.Clouber_Window {
+	clear: both;
+}
+
+
+.Clouber_Window_b .wb_s1 {
+    background-color: #FEFEFE;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Window_b .wb_s2 {
+    background-color: #F5F5F5;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Window_b .wb_s3 {
+    background-color: #EEEEEE;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Window_b .wb_s4 {
+    background-color: #DDDDDD;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+.Clouber_Window_b .wb_s5 {
+    background-color: #AAAAAA;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+
+.Clouber_Window_b_hide {
+    background-color: white !important;
+    padding: 0 !important;
+	border-radius: 0 !important;
+}
+
+.Clouber_Window .W_CONTENT  {
+    background-color: white;
+    padding: 0.1em;
+	border-radius: 0.1em;
+}
+
+.Clouber_Window .W_TITLEBAR  {
+}
+
+.Clouber_Window .W_TITLEBAR .title h4 {
+	margin:0;
+	padding:0;
+	text-align: center;
+    color: white;
+    background-color: #2B4B9B;
+}
+
+.Clouber_Window .W_TITLEBAR .captionBtn {
+	float: right;
+}
+
+.Clouber_Window .W_TITLEBAR .option {
+	width: 5em;
+	height: 1em;
+	margin: 0.1em;
+	font-size: 80%
+	display: block;
+	float: left;
+}
+.Clouber_Window .W_TITLEBAR .option:before {
+	content: "more";
+}
+
+.Clouber_Window .W_TITLEBAR .normal {
+	background-image: url(restore.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR .normal:hover {
+	background-image: url(restore_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR .minimized {
+	background-image: url(minimize.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR div.minimized:hover {
+	background-image: url(minimize_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR .maximized {
+	background-image: url(maximize.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR div.maximized:hover {
+	background-image: url(maximize_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+
+.Clouber_Window .W_TITLEBAR .solo {
+	background-image: url(popup.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR .solo:hover {
+	background-image: url(popup_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.Clouber_Window .W_TITLEBAR .close {
+	background-image: url(close.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+.Clouber_Window .W_TITLEBAR div.close:hover {
+	background-image: url(close_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+
+.Clouber_Window .W_TITLEBAR .thumbnail {
+	background-image: url(icon.png);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	float: left;
+	width: 1em;
+	height: 1em;
+}
+
+.Clouber_Window .W_CONTENT {
+    padding: 0;
+}
+
+.Clouber_Window .component {
+    background-color: white;
+	display: block;
+	clear: left;
+}
+
+.Clouber_Window .W_FOOTER {
+	clear: both;
+}
+
+.Clouber_Window .W_FOOTER div.W_STATUSBAR {
+	clear: left;
+	font-size: 50%;
+	padding: 0 0 0 1.5em;
+    color: gray;
+}
+
+.Clouber_Window_locker {
+	background-color: #555555;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 500;
+	opacity: 0.7;
+	clear:left;
+}
+
+.Clouber_Window_pop {
+	background-color: white  !important;
+	position: fixed !important;
+	z-index:900 !important;
+}
+

@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="en-us" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+<link rel="icon" href="sys/0.1.1/portal/Window/theme/default/icon.png" type="image/png" sizes="16x16" />
+
+<!--load common js library-->
+<script type="text/javascript">
+if (location.hostname=="localhost") {
+	document.write("<scr"+"ipt src=\"sys/0.1.1/lib/js/jquery-1.7.2.min.js\"></sc"+"ript>") ;
+} else {
+	document.write("<scr"+"ipt src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></sc"+"ript>") ;
+};
+</script>
+<!-- load normal js files -->
+<script type="text/javascript" src="./sys/0.1.1/core/Clouber.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/Message_en.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/Message_cn.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/Document.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/Config.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/AppConfig.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/core/Application.js"></script>
+
+<script type="text/javascript" src="./sys/0.1.1/ui/common.js"></script>
+
+<script type="text/javascript" src="./sys/0.1.1/portlet/WSRP.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portlet/PortletInfo.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portlet/ProducerContext.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portlet/Producer.js"></script>
+
+
+<script type="text/javascript" src="./sys/0.1.1/portal/PortalInfo.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/PortalContext.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/ProducerConnection.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/Window.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/Frame.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/Page.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/PortalApp.js"></script>
+
+<!-- load minified js files -->
+<script type="text/javascript" src="./sys/0.1.1/core/core.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/ui/ui.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portlet/portlet.js"></script>
+<script type="text/javascript" src="./sys/0.1.1/portal/portal.js"></script>
+
+
+
+<script type="text/javascript">
+    $CB.portal = $CB.create("Clouber.sys.portal.Portal");
+//    $CB.portal.defaultPath = "cms/home";
+    $CB.portal.init();
+</script>
+
+
+</head>
+
+<body>
+<noscript>
+<p>This page requires a JavaScript-enabled browser.</p>
+</noscript>
+
+</body>
+</html>
