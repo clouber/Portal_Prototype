@@ -1,0 +1,249 @@
+.cb_sys_ui_Form {
+	position:relative; 
+	border: 0.1em solid #DBE8F7;
+	padding: 0.2em;
+	border-radius: 0.6em;
+	clear: both;
+}
+
+.cb_sys_ui_Form_Footer {
+	clear: both;
+}
+
+.cb_sys_ui_Form_locker {
+	background-color: #555555;
+	position: absolute;  
+	top: 0; 
+	left: 0; 
+	width: 100%; 
+	height: 100%; 
+	z-index:1000;  
+	opacity: 0.7;  
+	display: none;
+	clear:left;
+}
+
+.cb_sys_ui_Form_popup {
+	background-color: #FFFFFF;
+	position: absolute;  
+	z-index:2000;  
+	opacity: 0.95;  
+	display: none;
+	border-radius: 01em;
+	border: 1em solid #6F9FDB;
+	padding: 1em;
+}
+
+.cb_sys_ui_Form .TitleBar .title h3 {
+	margin:0;
+	padding:0;
+	text-align: center;
+}
+
+.cb_sys_ui_Form .TitleBar .captionBtn {
+	float: right;
+}
+
+.cb_sys_ui_Form .TitleBar .option {
+	width: 5em;
+	height: 1em;
+	margin: 0.1em;
+	font-size: 80%
+	display: block;
+	float: left;
+}
+.cb_sys_ui_Form .TitleBar .option:before {
+	content: "more";
+}
+
+.cb_sys_ui_Form .TitleBar .minimize {
+	background-image: url(minimize.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar div.minimize:hover {
+	background-image: url(minimize_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .maximize {
+	background-image: url(maximize.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+.cb_sys_ui_Form .TitleBar div.maximize:hover {
+	background-image: url(maximize_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .popup {
+	background-image: url(popup.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .popup:hover {
+	background-image: url(popup_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .restore {
+	background-image: url(restore.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .restore:hover {
+	background-image: url(restore_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+
+.cb_sys_ui_Form .TitleBar .close {
+	background-image: url(close.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+.cb_sys_ui_Form .TitleBar div.close:hover {
+	background-image: url(close_hover.jpg);
+	background-repeat: no-repeat;
+	background-size:1em 1em;
+	width: 1em;
+	height: 1em;
+	margin: 0.1em;
+	display: block;
+	float: left;
+}
+.cb_sys_ui_Form .TBars {
+	margin: 0 0 0 0.5em;
+	border-bottom: 0.3em solid #C60;
+	clear: left;
+	height: 2.05em;
+}
+
+.cb_sys_ui_Form .TBars .tab {
+	float: left;
+}
+
+.cb_sys_ui_Form .TBars .TitleBar {
+	float: left;
+	margin-left: 0.5em;
+	padding: 0.2em 0.3em 0 0.3em;
+	height: 1.8em;
+	border: 0.1em solid;
+	border-color: #C60;
+	text-align: center;
+	text-height: 1.8em;
+	vertical-align: bottom;
+	background-color: #FFEFDF;
+	border-radius: 0.5em 0.5em 0 0;
+}
+
+.cb_sys_ui_Form .TBars .TitleBar .title h3 {
+	padding: 0.4em 0 0 0;
+	color: #C60;
+	font-size: 90%;
+	font-weight:normal;
+}
+.cb_sys_ui_Form .TBars .current .TitleBar {
+	background-color: #C60;
+}
+.cb_sys_ui_Form .TBars .current .TitleBar .title h3 {
+	color: white;
+	font-weight:bold;
+}
+
+.cb_sys_ui_Form .Comps .comp {
+	border: 0.1em solid #DBE8F7;
+	border-radius: 0.4em;
+	margin: 0.1em 0 0.1em 0;
+}
+
+.cb_sys_ui_Form .Comps .TitleBar {
+	border-bottom: 0.1em solid #EEEEEE;
+	padding: 0.5em 0.5em 0.5em 0.5em;;
+}
+
+.cb_sys_ui_Form .Comps .TitleBar .title  {
+	display:block;
+}
+
+.cb_sys_ui_Form .Comps .TitleBar .menu  {
+	clear: left;
+}
+
+.cb_sys_ui_Form .TitleBar .thumbnail {
+	float: left;
+	width: 1em;
+	height: 1em;
+}
+
+.cb_sys_ui_Form .TBars .TitleBar .menu {
+	clear: left;
+}
+
+.cb_sys_ui_Form .Comps {
+	clear: left;
+	background-color: #FFFFFF;
+	opacity: 1;  
+}
+
+.cb_sys_ui_Form .Comps .comp {
+	display: block;
+	clear: left;
+}
+
+.cb_sys_ui_Form .Comps .StatusBar {
+	clear: left;
+	font-size: 60%;
+	padding: 0 0 0 1em;
+}
