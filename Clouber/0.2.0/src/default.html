@@ -49,8 +49,10 @@ if (location.hostname=="localhost") {
 
 
 <script type="text/javascript">
-    $CB.portal = $CB.create("Clouber.Sys.Portal.Portal");
-    $CB.portal.init();
+    $CB.ready(function () {
+        $CB.portal = $CB.create("Clouber.Sys.Portal.Portal");
+        $CB.portal.init();
+    });
 </script>
 
 
