@@ -632,6 +632,7 @@ WSRP.PortletDescription = function () {
     /** @type array(Extension) */
     this.extensions = [];
 };
+Clouber.extend(WSRP.PortletDescription, Clouber.BaseObject);
 
 /**
 * 4.1.17 Property Type

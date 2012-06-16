@@ -17,7 +17,7 @@ Clouber.namespace("Clouber.Sys.Portlet");
 */
 Clouber.Sys.Portlet.PortletInfo = function () {
     'use strict';
-    var obj = new WSRP.PortletDescription();
+    var i, obj = new WSRP.PortletDescription();
 
     /**
     * 1 portlet id
@@ -388,13 +388,11 @@ Clouber.Sys.Portlet.PortletInfo = function () {
     */
     Object.defineProperty(obj, "portletHandle", {
         get: function () {
-            return this.getUid();
+            return this.getId();
         },
-        set: function (value) {
-            Clouber.log(Clouber.message.typeErrror +
-                " Clouber.Sys.Portlet.PortletInfo#portletHandle");
-        }
+        set: function (value) {}
     });
+    i = obj.portletHandle;
 
     Object.seal(obj);
 

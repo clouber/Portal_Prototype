@@ -12,20 +12,15 @@ Clouber.namespace("Clouber.Sys.Portlet");
 * Porducer application Context object
 * @class  Clouber.Sys.Portlet.ProducerContext
 * @namespace Clouber.Sys.Portlet
-* @extends Clouber.Sys.Core.AppConfig,
-* @param  {Producer} config Producer config
+* @extends Clouber.Sys.Core.Config,
 * @constructor
 */
-Clouber.Sys.Portlet.ProducerContext = function (config) {
+Clouber.Sys.Portlet.ProducerContext = function () {
     'use strict';
 
-    /**
-    * Internal producer config
-    * @type object
-    * @ignore
-    */
-    this.config = config;
-
+    /** @constant string TYPE */
+    this.TYPE = "PRODUCER_CONTEXT";
+    
     /**
     * Internal producer contexts
     * @property {Map} context
@@ -33,14 +28,27 @@ Clouber.Sys.Portlet.ProducerContext = function (config) {
     this.context = null;
 
     /**
+    * Initialize producer context.
+    * @function init
+    * @param {object} config Config information
+    */
+    this.init = function (config) {
+        //this.setting(config);
+
+        // config file settiing
+        this.setInterval(15000);
+        this.setKey("CLOUBER_PRODUCER_CONTEXT");
+    };
+
+    /**
     * Config loaded success event.
-    * @event loadSuccess
+    * @event confSuccess
     * @param {object} data config data.
     * @override
     */
-    this.loadSuccess = function (data) {
+    this.confSuccess = function (data) {
         //this.context = Clouber.copy(this.config);
-        this.context = this.config;
+        this.context = this.getConfig();
     };
 
     /**
@@ -121,7 +129,7 @@ Clouber.Sys.Portlet.ProducerContext = function (config) {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portlet.ProducerContext, Clouber.Sys.Core.AppConfig);
+Clouber.extend(Clouber.Sys.Portlet.ProducerContext, Clouber.Sys.Core.Config);
 
 
 

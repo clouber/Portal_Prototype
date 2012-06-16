@@ -10,23 +10,22 @@ Clouber.namespace("Clouber.Sys.Portlet");
  * @class  The Portlet Producer.
  * @constructor
  * @extends Clouber.Sys.Core.Application
- * @param {object} params Object initial settings.
- * @param  params.app application name
- * @param  params.version application version
- * @param  params.module application module
- * @param  params.control control name
- * @param  params.theme web page theme, include htmls, CSSs, images
- * @param  params.variable variable instance name
  */
-Clouber.Sys.Portlet.Producer = function (conf) {
+Clouber.Sys.Portlet.Producer = function () {
     'use strict';
+
+    /**
+    * object type;
+    * @type string
+    */
+    this.TYPE = "PORTLET_PRODUCER";
 
     /**
     * Internal configuration context
     * @type object
     * @ignore
     */
-    this._conf = conf;
+    this._conf = null;
 
     /**
     * Internal portlet configuration context
@@ -37,11 +36,37 @@ Clouber.Sys.Portlet.Producer = function (conf) {
 
     /**
      * Initialize Producer control, display the frame.
-     * @param {object} params Object settings.
+     * @param {object} conf Object settings.
      * @override
      */
-    this.init = function () {
-        this.loadConf({async: false});
+    this.init = function (conf) {
+        var c;
+        try {
+            Clouber.log("Clouber.Sys.Portlet.Producer#init");
+
+            // config file settiing
+            this.setInterval(45000);
+            this.setKey("CLOUBER_PRODUCER");
+
+            // initialize context
+            this._context = new Clouber.Sys.Portlet.ProducerContext();
+            this._context.init(conf);
+
+            c = Clouber.config.getAppConf(Clouber.config.getVersion(),
+                    conf.app);
+            if (typeof c === "undefined") {
+                this.loadConf(
+                    {config: "app/" + this.getConf().app + "/conf/conf.json"},
+                    {async: false}
+                );
+            } else {
+                this.loadConf(c, {async: false});
+            }
+
+        } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#init";
+            Clouber.log(e);
+        }
     };
 
     /**
@@ -59,15 +84,19 @@ Clouber.Sys.Portlet.Producer = function (conf) {
     * @override
     */
     this.confSuccess = function (data) {
-
+        var c, p;
         Clouber.log("Clouber.Sys.Portlet.Producer#confSuccess");
 
-        this._context = new Clouber.Sys.Portlet.ProducerContext(this.getConf());
-        this._context.loadConfig({
+        c = this.getConf();
+        if ((typeof c.portlet === "string") && (c.portlet.length > 0)) {
+            p = c.portlet;
+        } else {
+            p = c.path + "/conf/portlet.conf";
+        }
+        this._context.loadConf({
             async: false,
             base: Clouber.config.getConfig().base,
-            path: this.getConf().path + "/conf",
-            file: "portlet.conf"
+            config: p
         });
 
     };
@@ -110,6 +139,7 @@ Clouber.Sys.Portlet.Producer = function (conf) {
             rtn.offeredPortlets = this.getContext().values();
             return rtn;
         } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#getServiceDescription";
             Clouber.log(e);
         }
     };
@@ -200,6 +230,7 @@ Clouber.Sys.Portlet.Producer = function (conf) {
                 return rsp;
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#getMarkup";
             Clouber.log(e);
         }
     };
@@ -298,6 +329,7 @@ Clouber.Sys.Portlet.Producer = function (conf) {
                 return rsp;
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#performBlockingInteraction";
             Clouber.log(e);
         }
     };
@@ -393,6 +425,7 @@ Clouber.Sys.Portlet.Producer = function (conf) {
                 return rsp;
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#handleEvents";
             Clouber.log(e);
         }
     };
@@ -435,71 +468,10 @@ Clouber.Sys.Portlet.Producer = function (conf) {
             this.registrationContext = ctx;
             return this.registrationContext;
         } catch (e) {
+            e.code = "Clouber.Sys.Portlet.Producer#register";
             Clouber.log(e);
         }
     };
-
-    /**
-     * This operation's semantics are that the client/client-agent has
-     * requested additional information in a manner that utilized the Consumer
-     * as a proxy for supplying that information. As the Consumer is only
-     * being used as a proxy for accessing the resource, a number of
-     * techniques for storing the Portlet's navigationalContext are not
-     * available to it. As a result, while the Portlet's navigationalContext is
-     * supplied to this operation, neither the URL nor the response are
-     * permitted to change this navigationalContext. If a logical side effect
-     * of the invocation is changing the Portlet's navigationalContext, either
-     * the Portlet or the Producer will need to manage this change until the
-     * next opportunity to return the navigationalContext to the Consumer.
-     * @function
-     * @param {object} registationContext
-     * @param {object} portletContext
-     * @param {object} runtimeContext
-     * @param {object} userContext
-     * @param {object} resourceParams
-     * @return {object} ResourceResponse.
-     */
-    this.getResource = function (registationContext, portletContext,
-        runtimeContext, userContext, resourceParams) {};
-
-    /**
-     * In general, the Producer completely manages its own environment,
-     * including items such as the initialization of cookies when using the HTTP
-     * transport. There are cases, however, when assistance from the Consumer in
-     * initializing these cookies is useful. Cookies needed to manage
-     * distribution of requests within a load balanced environment are an
-     * example of such.
-     * @function
-     * @param {object} registationContext
-     * @param {object} userContext
-     * @return {object} ReturnAny.
-     */
-    this.initCookie = function (registationContext, userContext) {};
-
-    /**
-     * The Consumer MAY inform the Producer that it will no longer be using a
-     * set of sessions by invoking releaseSessions (e.g. the Consumer is
-     * releasing items related to the sessionIDs).
-     * @function
-     * @param {object} registationContext
-     * @param {Array} sessionIDs
-     * @param {object} userContext
-     * @return {object} ReturnAny.
-     */
-    this.releaseSessions = function (registationContext, sessionIDs,
-        userContext) {};
-
-    /**
-     * This operation provides means for the Consumer to modify a relationship
-     * with a Producer [R353].
-     * @function
-     * @param {object} registrationContext
-     * @param {object} registationData
-     * @param {object} userContext
-     * @return {object} RegistrationState.
-     */
-    this.modifyRegistration = function (registrationContext, registationData,
-        userContext) {};
 
     /**
      * The Consumer MUST NOT consider a relationship with a Producer ended until
@@ -511,220 +483,11 @@ Clouber.Sys.Portlet.Producer = function (conf) {
      * @param {object} userContext
      * @return {object} ReturnAny.
      */
-    this.deregister = function (registrationContext, userContext) {};
-
-    /**
-     * This operation allows a Consumer to refresh its understanding of the
-     * scheduled destruction for a registration.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} userContext
-     * @return {object} Lifetime.
-     */
-    this.getRegistrationLifetime = function (registrationContext, userContext) {
+    this.deregister = function (registrationContext, userContext) {
+        this.registationData = null;
+        this.lifetime = null;
+        this.registrationContext = null;
     };
-
-    /**
-     * This operation allows a Consumer to request a change to the scheduled
-     * destruction of a registration. The Producer returns the actual change
-     * that was made.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @return {object} Lifetime.
-     */
-    this.setRegistrationLifetime = function (registrationContext, userContext,
-        lifetime) {};
-
-    /**
-     * This operation allows a Producer to provide information about the
-     * Portlets it offers in a context-sensitive manner.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} portletContext
-     * @param {object} userContext
-     * @param {array} desiredLocales
-     * @return {object} PortletDescriptionResponse.
-     */
-    this.getPortletDescription = function (registrationContext, portletContext,
-        userContext, desiredLocales) {};
-
-    /**
-     * This operation allows the Consumer to request the creation of a new
-     * Portlet from an existing Portlet.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} portletContext
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @return {object} PortletContext.
-     */
-    this.clonePortlet = function (registrationContext, portletContext,
-        userContext, lifetime) {};
-
-    /**
-     * The Consumer MUST inform the Producer that a Consumer Configured Portlet
-     * which does not use leasing will no longer be used by invoking either the
-     * destroyPortlets or the deregister operation and MUST NOT consider such a
-     * Portlet to have been destroyed until one of these operations has been
-     * successfully invoked for that Portlet.
-     * @function
-     * @param {object} registrationContext
-     * @param {array} portletHandles
-     * @param {object} userContext
-     * @return {object} DestroyPortletsResponse.
-     */
-    this.destroyPortlets = function (registrationContext, portletHandles,
-        userContext) {};
-
-    /**
-     * This operation allows a Consumer to refresh its understanding of the
-     * scheduled destruction for a set of Portlet.
-     * @function
-     * @param {object} registrationContext
-     * @param {array} portletContext
-     * @param {object} userContext
-     * @return {object} GetPortletsLifetimeResponse.
-     */
-    this.getPortletsLifetime = function (registrationContext, portletContext,
-        userContext) {};
-
-    /**
-     * This operation allows a Consumer to request a change to the scheduled
-     * destruction of a set of Portlets. The Producer returns the actual changes
-     * that were made.
-     * @function
-     * @param {object} registrationContext
-     * @param {array} portletContext
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @return {object} SetPortletsLifetimeResponse.
-     */
-    this.setPortletsLifetime = function (registrationContext, portletContext,
-        userContext, lifetime) {};
-
-    /**
-     * This operation provides the means for the Consumer to make new copies of
-     * a set of Portlets, potentially specifying a different registration scope
-     * for the new Portlets.
-     * @function
-     * @param {object} toRegistrationContext
-     * @param {object} toUserContext
-     * @param {object} fromRegistrationContext
-     * @param {object} fromUserContext
-     * @param {array} fromPortletContexts
-     * @param {object} lifetime
-     * @return {object} CopyPortletsResponse.
-     */
-    this.copyPortlets = function (toRegistrationContext, toUserContext,
-        fromRegistrationContext, fromUserContext, fromPortletContexts,
-        lifetime) {};
-
-    /**
-     * This operation allows the Consumer to get an opaque representation of a
-     * Portlet which can be supplied to the corresponding import operation to
-     * reconstitute the Portlet.
-     * @function
-     * @param {object} registrationContext
-     * @param {array} portletContext
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @param {object} exportByValueRequired
-     * @return {object} ExportPortletsResponse.
-     */
-    this.exportPortlets = function (registrationContext, portletContext,
-        userContext, lifetime, exportByValueRequired) {};
-
-    /**
-     * The importPortlets operation reconstitutes a set of previously exported
-     * Portlets. Since Consumers will commonly invoke this operation when
-     * reconstituting a particular configuration, this operation is a bulk
-     * operation. The Consumer passes a list of Portlets which it wants to be
-     * reconstituted. The Producer response MUST contain exactly one element
-     * for each entry in the list supplied to importPortlets.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} importContext
-     * @param {array} importPortlet
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @return {object} ImportPortletsResponse.
-     */
-    this.importPortlets = function (registrationContext, importContext,
-        importPortlet, userContext, lifetime) {};
-
-    /**
-     * The releaseExport operation provides the means for the Consumer to
-     * indicate to the Producer that it no longer needs to maintain any stored
-     * artifacts relative to a particular export.
-     * @function
-     * @param {object} exportContext
-     * @param {object} userContext
-     * @return {object} ReturnAny.
-     */
-    this.releaseExport = function (exportContext, userContext) {};
-
-    /**
-     * The setExportLifetime operation provides the means for the Consumer to
-     * request that the Lifetime of a particular export be changed.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} exportContext
-     * @param {object} userContext
-     * @param {object} lifetime
-     * @return {object} Lifetime.
-     */
-    this.setExportLifetime = function (registrationContext, exportContext,
-        userContext, lifetime) {};
-
-    /**
-     * The Portlet state in the previous operations was opaque to the Consumer
-     * (e.g. as portletState). In addition, means are defined by which a
-     * Producer may publish information about state in a Portlet-specific
-     * manner. This is enabled through Properties that are declared in the
-     * metadata specific to a Portlet. This operation enables the Consumer to
-     * interact with this published portion of a Portlet's state.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} PortletContext.
-     * @param {object} userContext
-     * @param {object} propertyList
-     * @return {object} PortletContext.
-     */
-    this.setPortletProperties = function (registrationContext, portletContext,
-        userContext, propertyList) {};
-
-    /**
-     * This operation provides the means for the Consumer to fetch the current
-     * values of the published Portlet's properties. The intention is to allow a
-     * Consumer-generated user interface to display these for administrative
-     * purposes.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} portletContext
-     * @param {object} userContext
-     * @param {object} names
-     * @return {object} PropertyList.
-     */
-    this.getPortletProperties = function (registrationContext, portletContext,
-        userContext, names) {};
-
-    /**
-     * This operation allows the Consumer to discover the published properties
-     * of a Portlet and information (e.g. type and description) that could be
-     * useful in generating a user interface for editing the Portlet's
-     * configuration.
-     * @function
-     * @param {object} registrationContext
-     * @param {object} portletContext
-     * @param {object} userContext
-     * @param {object} desiredLocales
-     * @return {object} PortletPropertiesDescriptionResponse.
-     */
-    this.getPortletPropertyDescription = function (registrationContext,
-        portletContext, userContext, desiredLocales) {};
-
 
 };
 Clouber.extend(Clouber.Sys.Portlet.Producer, Clouber.Sys.Core.Application);
