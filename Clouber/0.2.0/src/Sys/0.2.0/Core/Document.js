@@ -282,6 +282,7 @@ Clouber.Sys.Core.Document = function () {
     * @param  {object} params.loadedContext Loading complete event context
     */
     this.ajax = function (params) {
+        Clouber.log("Clouber.Sys.Core.Document#ajax #### (" + params.url + ")");
         try {
             jQuery.ajax({
                 type: params.method,
@@ -302,11 +303,11 @@ Clouber.Sys.Core.Document = function () {
                 },
                 dataType: params.dataType,
                 context: params.context,
-                success: jQuery.proxy(params.success, params.context),
+                success: params.success,
                 complete: jQuery.proxy(function (jqXHR, textStatus) {
                     if ((typeof params.complete !== "undefined") &&
                             (typeof params.complete === "function")) {
-                        params.complete(jqXHR, textStatus);
+                        params.complete(jqXHR, textStatus, params.url);
                     } else {
                         Clouber.log("Clouber.Sys.Core.Document#ajax#complete " +
                             textStatus + "(" + params.url + ")");
@@ -316,7 +317,7 @@ Clouber.Sys.Core.Document = function () {
                     if ((typeof params.error !== "undefined") &&
                             (typeof params.error === "function")) {
                         params.error(textStatus, errorThrown, params.url,
-                            jqXHR.responseText);
+                            jqXHR.responseText, params.context);
                     } else {
                         Clouber.log("Clouber.Sys.Core.Document#ajax#error " +
                             textStatus + "(" + params.url + ")");
@@ -324,7 +325,8 @@ Clouber.Sys.Core.Document = function () {
                 }, params.context)
             });
         } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#ajax> " + Clouber.dump(e));
+            e.code = "Clouber.Sys.Core.Document#ajax";
+            Clouber.log(e);
         }
     };
 

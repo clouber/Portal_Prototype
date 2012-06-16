@@ -47,7 +47,15 @@ Clouber.Sys.Core.Cache = function () {
     * @private
     * @ignore
     */
-        _data;
+        _data,
+
+    /**
+    * Count of caching data times.
+    * @property _count
+    * @private
+    * @ignore
+    */
+        _count;
 
     /**
     * Get caching data object.
@@ -58,17 +66,19 @@ Clouber.Sys.Core.Cache = function () {
     */
     this.get = function (key, user) {
         var o;
-        if ((typeof _key === "undefined") || (_key === null)) {
+        if ((typeof _data === "undefined") || (_data === null)) {
             // get data from localStorage
             if ((typeof key === "string") && (key.length > 0)) {
                 if (typeof (window.localStorage) !== "undefined") {
                     try {
                         if ((typeof user !== "string") || (user.length < 1)) {
-                            o = window.localStorage.getItem("public:" + key);
+                            _user = "public";
                         } else {
-                            o = window.localStorage.getItem(user + ":" + key);
+                            _user = user;
                         }
-                        return o;
+                        _data = window.localStorage.getItem(_user + ":" + key);
+                        _key = key;
+                        return _data;
                     } catch (e) {
                         e.code = "Clouber.Sys.Core.Cache#get";
                         Clouber.log(e);
@@ -103,22 +113,24 @@ Clouber.Sys.Core.Cache = function () {
                 (typeof data !== 'undefined') && (data !== null)) {
 
             // put data into memory
+            _key = key;
+            _data = Clouber.copy(data);
             if ((typeof user !== "string") || (user.length < 1)) {
                 _user = "public";
             } else {
                 _user = user;
             }
-            _key = key;
-            _data = Clouber.copy(data);
 
             // put data into localStorage
             if (typeof (window.localStorage) !== "undefined") {
                 try {
                     window.localStorage.setItem(_user + ":" + _key, _data);
+                    _count = this.count() + 1;
                     return true;
                 } catch (e) {
                     e.code = "Clouber.Sys.Core.Cache#get";
                     Clouber.log(e);
+                    window.localStorage.removeItem(_user + ":" + _key, _data);
                     return false;
                 }
             } else {
@@ -128,6 +140,17 @@ Clouber.Sys.Core.Cache = function () {
         }
     };
 
+    /**
+    * Get caching data saving times.
+    * @function get
+    * @return {int} 
+    */
+    this.count = function () {
+        if ((typeof _count === "undefined") || (_count === null)) {
+            _count = 0;
+        }
+        return _count;
+    };
 };
 Clouber.extend(Clouber.Sys.Core.Cache, Clouber.BaseObject);
 

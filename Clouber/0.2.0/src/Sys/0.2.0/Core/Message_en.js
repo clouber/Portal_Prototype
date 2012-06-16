@@ -27,18 +27,20 @@ Clouber.Sys.Core.Message_EN = function () {
 
     this.ajaxCallError = "Ajax call failed!";
     this.defaultValue = "Using default value.";
+    this.getCacheData = "Get data from local cache.";
     this.htmlLoadErrror = "Failed to load HTML file!";
     this.loadError = "Failed to load configuration file!";
     this.noLocalStorage = 
         "HTML5 localStorage is not supported. Please upgrade your browser.";
     this.pageNotExist = "Page doesn't exist!";
-    this.paramError = "Invalid paramters!";
+    this.paramError = "Invalid parameters!";
     this.portletConfigNotExist = 
         "Portlet configuration doesn't get from Portlet Producer!";
     this.portletInvocateError = "Portlet update failure!";
     this.portletUpdated = "Updated successfully.";
     this.producerRegisterError = "Failed to register portlet producer!";
     this.producerRegisterSuccess = "Register portlet producer successfully.";
+    this.saveCacheData = "Save data into local cache.";
     this.typeErrror = "Not a valid type!";
     this.unsupportedLanguage =
         "The language setting is not supported (default language is English)!";

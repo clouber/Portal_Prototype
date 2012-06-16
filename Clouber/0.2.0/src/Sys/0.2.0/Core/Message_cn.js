@@ -27,6 +27,7 @@ Clouber.Sys.Core.Message_CN = function () {
 
     this.ajaxCallError = "Ajax call failed.";
     this.defaultValue = "使用缺省数值。";
+    this.getCacheData = "Get data from local cache.";
     this.htmlLoadErrror = "HTML文件加载失败。";
     this.loadError = "配置文件加载失败。";
     this.noLocalStorage = 
@@ -39,6 +40,7 @@ Clouber.Sys.Core.Message_CN = function () {
     this.portletUpdated = "Portlet updated.";
     this.producerRegisterError = "Portlet Producer注册失败。";
     this.producerRegisterSuccess = "Portlet Producer注册成功。";
+    this.saveCacheData = "Save data into local cache.";
     this.typeErrror = "不是正确的数据类型。";
     this.unsupportedLanguage = 
         "语言设置不支持（默认为是汉语）。";

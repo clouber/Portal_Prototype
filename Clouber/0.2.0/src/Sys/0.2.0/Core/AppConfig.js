@@ -18,9 +18,7 @@
 Clouber.Sys.Core.AppConfig = function () {
     'use strict';
 
-     /**
-    * @constant TYPE
-    */
+    /** @constant string TYPE */
     this.TYPE = "APPLICATION_CONFIG";
 
    /**
@@ -49,35 +47,39 @@ Clouber.Sys.Core.AppConfig = function () {
     */
     this.loadConfig = function (params) {
         var href;
+        try {
+            if ((params === undefined) || (params.base === undefined) ||
+                    (params.path === undefined)) {
+                throw (new Clouber.Exception({
+                    number: 10004,
+                    name: "ParameterError",
+                    message: Clouber.message.paramError,
+                    description: Clouber.message.paramError,
+                    code: "Clouber.sys.portlet.AppConfig#loadConfig"
+                }));
+            }
 
-        if ((params === undefined) || (params.base === undefined) ||
-                (params.path === undefined) || (params.file === undefined)) {
-            throw (new Clouber.Exception({
-                number: 10004,
-                name: "ParameterError",
-                message: Clouber.message.paramError,
-                description: Clouber.message.paramError,
-                code: "Clouber.sys.portlet.AppConfig"
-            }));
+            href = params.base + "/" + params.path;
+
+            if (params.async === undefined) {
+                params.async = true;    // set default event
+            }
+
+            this.configLoading(params);
+
+            Clouber.document.ajax({
+                url: href,
+                data: params.data,
+                async: params.async,
+                success: this._loadSuccess,
+                dataType: "text",
+                error: this._loadError,
+                context: this
+            });
+        } catch (e) {
+            e.code = "Clouber.Sys.Core.AppConfig#loadConfig";
+            Clouber.log(e);
         }
-
-        href = params.base + "/" + params.path + "/" + params.file;
-
-        if (params.async === undefined) {
-            params.async = true;    // set default event
-        }
-
-        this.configLoading(params);
-
-        Clouber.document.ajax({
-            url: href,
-            data: params.data,
-            async: params.async,
-            success: this._loadSuccess,
-            dataType: "text",
-            error: this._loadError,
-            context: this
-        });
     };
 
     /**
@@ -112,18 +114,17 @@ Clouber.Sys.Core.AppConfig = function () {
     *        status, such as "Not Found" or "Internal Server Error."
     * @ignore
     */
-    this._loadError = function (textStatus, errorThrown, url) {
+    this._loadError = function (textStatus, errorThrown, url, text, context) {
         var e;
-        this.loadError({status: textStatus, error: errorThrown});
         e = new Clouber.Exception({
             number: 10001,
             name: textStatus,
-            message: Clouber.message.typeErrror + "(" + url + ")",
+            message: Clouber.message.loadError + "(" + url + ")",
             description: errorThrown,
             code: "Clouber.sys.portlet.AppConfig#_loadError"
         });
         Clouber.log(e);
-        throw (e);
+        context.loadError({status: textStatus, error: errorThrown});
     };
 
     /**

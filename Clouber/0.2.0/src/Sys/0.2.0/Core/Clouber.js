@@ -330,8 +330,8 @@ var Clouber = Clouber || {};
                 } else {
                     if ((typeof this.config !== "undefined") &&
                             (this.config !== null) &&
-                            (typeof (this.config.getConfig()) === "function")) {
-                        if (this.config.getConfig().runtime === "development") {
+                            (this.config._conf !== null)) {
+                        if (this.config._conf.runtime === "development") {
                             console.log("[Message] " + this.dump(e));
                         }
                     } else {
@@ -342,8 +342,8 @@ var Clouber = Clouber || {};
 
             if ((typeof this.config !== "undefined") &&
                     (this.config !== null) &&
-                    (typeof (this.config.getConfig()) === "function")) {
-                if (this.config.getConfig().runtime === "development") {
+                    (this.config._conf !== null)) {
+                if (this.config._conf.runtime === "development") {
                     if ((e instanceof Clouber.Exception) ||
                             (e instanceof Error)) {
                         throw e;
@@ -425,6 +425,8 @@ Clouber.Exception.parent = Error.prototype;
 Clouber.BaseObject = function () {
     'use strict';
 
+    this._uid = null;
+    
     /**
     * Get object unique ID.
     * @function getId
