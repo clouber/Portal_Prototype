@@ -156,36 +156,41 @@ Clouber.Sys.Portal.Page = function (params) {
     this.display = function () {
         var i, l, frm, context = this.getContext();
 
-        // compare current page with page context's template.
-        if ((typeof this._pageContext !== "undefined") &&
-                (context.template === this._pageContext.template)) {
+        try {
+            // compare current page with page context's template.
+            if ((typeof this._pageContext !== "undefined") &&
+                    (context.template === this._pageContext.template)) {
 
-            // current page, only refresh and change a part of frames
-            for (i = 0, l = context.frames.size(); i < l; i++) {
-//                    this.displayFrame(i, context.frames.get(i));
-                if (this._pageContext.frames.get(i).namespace !==
-                        context.frames.get(i).namespace) {
+                // current page, only refresh and change a part of frames
+                for (i = 0, l = context.frames.size(); i < l; i++) {
+    //                    this.displayFrame(i, context.frames.getByIndex(i));
+                    if (this._pageContext.frames.getByIndex(i).namespace !==
+                            context.frames.getByIndex(i).namespace) {
 
-                    this.displayFrame(i, context.frames.get(i));
+                        this.displayFrame(i, context.frames.getByIndex(i));
+                    }
+                }
+
+            } else {
+                // a new page template, need to change every window.
+                // display page template
+                this.view.loadTheme(Clouber.portal.getConf().path);  
+
+                // create and display new frames
+                for (i = 0, l = context.frames.size(); i < l; i++) {
+                    this.displayFrame(i, context.frames.getByIndex(i));
                 }
             }
 
-        } else {
-            // a new page template, need to change every window.
-            // display page template
-            this.view.loadTheme(Clouber.portal.getConf().path);  
+            // set new page context.
+            this._pageContext = context;
 
-            // create and display new frames
-            for (i = 0, l = context.frames.size(); i < l; i++) {
-                this.displayFrame(i, context.frames.get(i));
-            }
+            // set page title
+            this.view.setTitle();
+        } catch (e) {
+            e.code = "Clouber.Sys.Portal.Page#display";
+            Clouber.log(e);
         }
-
-        // set new page context.
-        this._pageContext = context;
-
-        // set page title
-        this.view.setTitle();
     };
 
     /**
@@ -197,28 +202,33 @@ Clouber.Sys.Portal.Page = function (params) {
     this.refresh = function (id) {
         var i, l, c;
 
-        if (id === undefined) {
-            // refresh every Frame and window.
-            for (i = 0, l = this.components.size(); i < l; i++) {
-                this.components.getByIndex(i).refresh();
+        try {
+            if (id === undefined) {
+                // refresh every Frame and window.
+                for (i = 0, l = this.components.size(); i < l; i++) {
+                    this.components.getByIndex(i).refresh();
+                }
+
+            } else if (typeof id === "number") {
+                // refresh by instanceID
+                c = this.getControl(id);
+                if (typeof c !== "undefined") {
+                    c.refresh();
+                }
+
+            } else if (typeof id === "string") {
+                // refresh by portletID
+                for (i = 0, l = this.components.size(); i < l; i++) {
+                    this.components.getByIndex(i).refresh(id);
+                }
             }
 
-        } else if (typeof id === "number") {
-            // refresh by instanceID
-            c = this.getControl(id);
-            if (typeof c !== "undefined") {
-                c.refresh();
-            }
-
-        } else if (typeof id === "string") {
-            // refresh by portletID
-            for (i = 0, l = this.components.size(); i < l; i++) {
-                this.components.getByIndex(i).refresh(id);
-            }
+            // set page title
+            this.view.setTitle();
+        } catch (e) {
+            e.code = "Clouber.Sys.Portal.Page#refresh";
+            Clouber.log(e);
         }
-
-        // set page title
-        this.view.setTitle();
     };
 
     /**
@@ -242,15 +252,20 @@ Clouber.Sys.Portal.Page = function (params) {
     this.displayFrame = function (index, conf) {
         var frm, model;
 
-        // display frames
-        if (conf.Class === undefined) {
-            conf.Class = "Clouber.Sys.Portal.Frame";
+        try {
+            // display frames
+            if (conf.Class === undefined) {
+                conf.Class = "Clouber.Sys.Portal.Frame";
+            }
+            frm = Clouber.create(conf.Class);
+            model = new Clouber.Sys.Portal.FrameContext(index);
+            frm.setModel(model);
+            this.addFrame(index, frm);
+            frm.init();
+        } catch (e) {
+            e.code = "Clouber.Sys.Portal.Page#displayFrame";
+            Clouber.log(e);
         }
-        frm = Clouber.create(conf.Class);
-        model = new Clouber.Sys.Portal.FrameContext(index);
-        frm.setModel(model);
-        this.addFrame(index, frm);
-        frm.init();
     };
 
     /**

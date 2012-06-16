@@ -918,17 +918,22 @@ Clouber.Sys.Portal.Frame = function (params) {
     this.refresh = function (id) {
         var i, l;
 
-        if (id === undefined) {
-            // refresh every window.
-            for (i = 0, l = this.components.size(); i < l; i++) {
-                this.components.getByIndex(i).refresh();
-            }
+        try {
+            if (id === undefined) {
+                // refresh every window.
+                for (i = 0, l = this.components.size(); i < l; i++) {
+                    this.components.getByIndex(i).refresh();
+                }
 
-        } else if (typeof id === "string") {
-            // refresh by portletID
-            for (i = 0, l = this.components.size(); i < l; i++) {
-                this.components.getByIndex(i).refresh(id);
+            } else if (typeof id === "string") {
+                // refresh by portletID
+                for (i = 0, l = this.components.size(); i < l; i++) {
+                    this.components.getByIndex(i).refresh(id);
+                }
             }
+        } catch (e) {
+            e.code = "Clouber.Sys.Portal.Frame#refresh";
+            Clouber.log(e);
         }
     };
 

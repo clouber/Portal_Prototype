@@ -40,10 +40,7 @@ Clouber.namespace("Clouber.Sys.Portal");
 Clouber.Sys.Portal.Portal = function () {
     'use strict';
 
-    /**
-    * object type;
-    * @type string
-    */
+    /** @constant string TYPE */
     this.TYPE = "PORTAL";
 
     /**
@@ -81,7 +78,12 @@ Clouber.Sys.Portal.Portal = function () {
     this.init = function () {
         Clouber.log("Clouber.Sys.Portal.Portal#init");
 
-        this.context = new Clouber.Sys.Portal.PortalContext(this);
+        // config file settiing
+        this.setInterval(50000);
+        this.setKey("CLOUBER_PORTAL");
+
+        this.context = new Clouber.Sys.Portal.PortalContext();
+        this.context.init(this);
         // set hashchange event
         var p = this;
         Clouber.event.addHandler(
@@ -113,27 +115,20 @@ Clouber.Sys.Portal.Portal = function () {
 
         // new portal app
         } else {
-            this._conf = p;
+//            this.setting(p);
             v = Clouber.config.getVersion();
             c = Clouber.config.getAppConf(v, p.app);
 
-            // URL doesn't exist.
-            if ((typeof c === "undefined") ||
-                    (typeof c.version === "undefined")) {
-
-                Clouber.log(new Clouber.Exception({
-                    number: 10007,
-                    name: "PageLoadError",
-                    message: Clouber.message.pageNotExist,
-                    code: "Clouber.Sys.Portal.Portal#load"
-                }));
-                this.errorPage();
+            if ((typeof c !== "undefined") &&
+                    (typeof c.version !== "undefined")) {
+                // load new portal app config
+                this.loadConf(c);
 
             } else {
-                // load new portal app config
-                this.context.pageInfo.app = p.app;
-                this.loadConf();
+                // application doesn't exist in Clouber configuration.
+                this.loadConf({config: "app/" + p.app + "/conf/conf.json"});
             }
+            this.context.pageInfo.app = p.app;
         }
     };
 
@@ -153,15 +148,15 @@ Clouber.Sys.Portal.Portal = function () {
     /**
     * get page information according to url/hash parameters.
     * @function loadPage
-    * @param {string} hash: window.location.hash
     */
-    this.loadPage = function (hash) {
+    this.loadPage = function () {
         var p;
 
-        Clouber.log("Clouber.Sys.Portal.Portal#loadPage (" + hash + ")");
+        Clouber.log("Clouber.Sys.Portal.Portal#loadPage");
 
         try {
-            p = this.getPageInfo(hash);
+            p = this.getPageInfo();
+            this.context.pageInfo.app = p.app;
 
             // load language package
             if (typeof this.getParameters().get("CLOUBER_LANG") !==
@@ -189,8 +184,9 @@ Clouber.Sys.Portal.Portal = function () {
             }
 
             // set page info (app name)
-            this.context.pageInfo = p;
+            this.context.pageInfo.page = p.page;
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#loadPage";
             Clouber.log(e);
         }
     };
@@ -214,6 +210,7 @@ Clouber.Sys.Portal.Portal = function () {
                 this._page.execute(uid, cmd, params);
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#execute";
             Clouber.log(e);
         }
     };
@@ -253,6 +250,7 @@ Clouber.Sys.Portal.Portal = function () {
             }
             window.location.hash = h;
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#changePath";
             Clouber.log(e);
         }
     };
@@ -289,7 +287,7 @@ Clouber.Sys.Portal.Portal = function () {
                     }
                 }
                 p.append(this.getParameters(hash));
-                
+
                 // handle events
                 if ((typeof args.events !== "undefined") &&
                         (args.events !== null) &&
@@ -316,6 +314,7 @@ Clouber.Sys.Portal.Portal = function () {
                 }
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#request";
             Clouber.log(e);
         }
     };
@@ -371,6 +370,7 @@ Clouber.Sys.Portal.Portal = function () {
 
             this.context.request(params, attrs, this.getQueryString());
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#display";
             Clouber.log(e);
         }
     };
@@ -393,13 +393,19 @@ Clouber.Sys.Portal.Portal = function () {
     * @override
     */
     this.confSuccess = function (data) {
+        var c, p;
         Clouber.log("Clouber.Sys.Portal.Portal#confSuccess");
 
         // create a new portal config object
-        this.context.loadConfig({
-            base: Clouber.config.getConfig().base,
-            path: this.getConf().path + "/conf",
-            file: "portal.json"
+        c = this.getConf();
+        if ((typeof c.portal === "string") && (c.portal.length > 0)) {
+            p = c.portal;
+        } else {
+            p = c.path + "/conf/portal.json";
+        }
+        this.context.loadPortalConfig({
+            base: Clouber.config.getBase(),
+            config: p
         });
     };
 
@@ -462,8 +468,11 @@ Clouber.Sys.Portal.Portal = function () {
         // get path info from Clouber configuration
         if ((path === undefined) || (path === null) || (path === "") ||
                 (path === "#!") || (path === "#")) {
-
-            path = Clouber.config.getConf().apps[0].app;
+            if (Clouber.config.getConfig() !== null) {
+                path = Clouber.config.getConf().apps[0].app;
+            } else {
+                path = "";
+            }
         }
         return path;
     };
@@ -541,6 +550,7 @@ Clouber.Sys.Portal.Portal = function () {
                 this.context.request(params, attrs, this.getQueryString());
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#update";
             Clouber.log(e);
         }
     };
@@ -584,6 +594,7 @@ Clouber.Sys.Portal.Portal = function () {
                 break;
             }
         } catch (e) {
+            e.code = "Clouber.Sys.Portal.Portal#change";
             Clouber.log(e);
         }
     };

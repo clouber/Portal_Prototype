@@ -69,10 +69,11 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
     */
     this.registerProducer = function (args) {
         if (args.producer === "localhost") {
-            _producer = new Clouber.Sys.Portlet.Producer(args);
-            _producer.init();
+            _producer = new Clouber.Sys.Portlet.Producer();
+            _producer.init(args);
         } else {
             _producer = new Clouber.Sys.Portlet.Producer(args);
+            _producer.init(args);
         }
 
         // get user context

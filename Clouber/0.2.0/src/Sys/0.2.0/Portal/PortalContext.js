@@ -18,25 +18,21 @@ Clouber.namespace("Clouber.Sys.Portal");
 * The portal configuration loader.
 * @class  Clouber.Sys.Portal.PortalContext
 * @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.Core.AppConfig
+* @extends Clouber.Sys.Core.Config
 * @constructor
-* @param {object} portal Portal instance.
 */
-Clouber.Sys.Portal.PortalContext = function (portal) {
+Clouber.Sys.Portal.PortalContext = function () {
     'use strict';
+
+    /** @constant string TYPE */
+    this.TYPE = "PORTAL_CONTEXT";
 
     /**
     * internal portal instance.
     * @type Portal
     * @ignore
     */
-    this.portal = portal;
-
-    /**
-    * object type;
-    * @type string
-    */
-    this.TYPE = "PORTAL_CONTEXT";
+    this.portal = null;
 
     /**
     * producer connection
@@ -75,6 +71,31 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
     this.pageContext = null;
 
     /**
+    * Initialize portal context.
+    * @function init
+    * @param {object} portal Portal instance.
+    */
+    this.init = function (portal) {
+        this.portal = portal;
+
+        // config file settiing
+        this.setInterval(15000);
+        this.setKey("CLOUBER_PORTAL_CONTEXT");
+    };
+
+    /**
+    * Load a portal configuration information.
+    * @function loadPortalConfig
+    * @param  {object} conf Config object
+    * @param  {string} conf.base Config file base path.
+    * @param  {string} conf.config Config file path.
+    * @param  {object} params Parameter object
+    */
+    this.loadPortalConfig = function (conf, params) {
+        this.loadConf(conf, params);
+    };
+
+    /**
     * get portal producer by name.
     * @function getProducer
     * @param {string} name Producer name.
@@ -102,7 +123,7 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
                         name: "portalRegisterError",
                         message: Clouber.message.producerRegisterError,
                         description: Clouber.message.producerRegisterError,
-                        code: "Clouber.Sys.Core.PortalApp#getProducer"
+                        code: "Clouber.Sys.Core.PortalContext#getProducer"
                     });
                     Clouber.log(e);
                 } else {
@@ -124,7 +145,7 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
     * @function initPortlets
     */
     this.initPortlets = function () {
-        var i, l, list, p, prd, j, m, f, w, s; //, map;
+        var i, l, list, p, prd, j, m, f, w, s, c; //, map;
 
         Clouber.log("Clouber.Sys.Portal.PortalContext#initPortlets");
 
@@ -132,14 +153,20 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
             // get producers
             // p = this.pageContext.portlets.unique();
             this.portlets = new Clouber.Map();
-            for (i = 0, l = this.getConfig().frames.length; i < l; i++) {
-                f = this.getConfig().frames[i];
-                for (j = 0, m = f.windows.length; j < m; j++) {
-                    w = new Clouber.Sys.Portal.WindowInfo();
-                    Object.seal(w);
-                    Clouber.merge(w, f.windows[j]);
-                    this.portlets.put(w.portletID + "@" + w.producer, w);
-                    this._producers.put(w.producer, null);
+            c = this.getConfig();
+            for (i in c.frames) {
+                if (c.frames.hasOwnProperty(i)) {
+                    f = c.frames[i];
+                    for (j in f.windows) {
+                        if (f.windows.hasOwnProperty(j)) {
+                            w = new Clouber.Sys.Portal.WindowInfo();
+                            Object.seal(w);
+                            Clouber.merge(w, f.windows[j]);
+                            this.portlets.put(w.portletID + "@" +
+                                w.producer, w);
+                            this._producers.put(w.producer, null);
+                        }
+                    }
                 }
             }
 
@@ -211,8 +238,9 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
 //                    this.portlets.put(p[i], map);
                 }
             }
-        } catch (ex) {
-            Clouber.log(ex);
+        } catch (e) {
+            e.code = "Clouber.Sys.Core.PortalContext#initPortlets";
+            Clouber.log(e);
         }
     };
 
@@ -542,20 +570,23 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
     * @return {object} portalConf object
     */
     this.getPortalConf = function () {
-        return this.config;
+        return this.getConfig();
     };
 
     /**
     * Portal config loaded success event.
-    * @event portalConfLoading
+    * @event confSuccess
     * @param {object} data portal config
     * @override
     */
-    this.loadSuccess = function (data) {
-        // initialize portlets
-        this.initPortlets();
-        // load page
-        this.portal.loadPage();
+    this.confSuccess = function (data) {
+        if (typeof this._success === "undefined") {
+            this._success = true;
+            // initialize portlets
+            this.initPortlets();
+            // load page
+            this.portal.loadPage();
+        }
     };
 
     /**
@@ -657,9 +688,6 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
                                 frm.right = portalConf.frames[k].rightStyle;
                                 frm.bottom = portalConf.frames[k].bottomStyle;
                                 frm.c_theme = portalConf.frames[k].c_theme;
-                                frm.border = 
-                                    (portalConf.frames[k].border === "true") ?
-                                        true : false;
 
                                 // get frame template code
                                 for (l = 0, leng4 = portalConf.templates.length;
@@ -701,8 +729,7 @@ Clouber.Sys.Portal.PortalContext = function (portal) {
         }
 
     };
-
 };
-Clouber.extend(Clouber.Sys.Portal.PortalContext, Clouber.Sys.Core.AppConfig);
+Clouber.extend(Clouber.Sys.Portal.PortalContext, Clouber.Sys.Core.Config);
 
 

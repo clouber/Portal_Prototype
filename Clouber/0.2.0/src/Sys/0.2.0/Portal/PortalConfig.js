@@ -29,6 +29,9 @@ Clouber.namespace("Clouber.Sys.Portal");
 Clouber.Sys.Portal.PortalConfig = function (portal) {
     'use strict';
 
+    /** @constant string TYPE */
+    this.TYPE = "PORTAL_CONFIG";
+    
     /**
     * internal portal instance.
     * @type Portal
