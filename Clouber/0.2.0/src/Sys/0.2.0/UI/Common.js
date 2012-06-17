@@ -4,9 +4,9 @@
 *          Clouber.Sys.UI.ContainerController, Clouber.Sys.UI.ContainerView
 *          Clouber.Sys.UI.ComponentController, Clouber.Sys.UI.ComponentView
 * @module Clouber.Sys.UI.common
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author  <a href="mailto:jzhouj@gmail.com">Jon Zhou</a>
-* @version 0.1.1
-* @requires clouber
+* @requires Clouber.* Clouber.Sys.Core.*
 */
 
 
