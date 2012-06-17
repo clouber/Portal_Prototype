@@ -1,7 +1,8 @@
 /**
 * @fileOverview Clouber Portlet interfaces' declaration, refer to WSPR 2.0.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portlet.*
 */
 
 Clouber.namespace("WSRP");

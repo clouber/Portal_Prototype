@@ -1,9 +1,10 @@
 /**
- * @fileOverview Clouber Portlet js library.
- * @copyright Clouber.org 2012
- * @author Jon Zhou
- * @module Clouber.Sys.Portlet.PortletConfig
- */
+* @fileOverview Clouber Portlet js library.
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
+* @author Jon Zhou
+* @module Clouber.Sys.Portlet.PortletConfig
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portlet.*
+*/
 
 Clouber.namespace("Clouber.Sys.Portlet");
 

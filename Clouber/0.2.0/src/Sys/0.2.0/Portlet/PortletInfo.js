@@ -1,10 +1,10 @@
 /**
- * @fileOverview Clouber PortletInfo type.
- * @copyright Clouber.org 2012
- * @author Jon Zhou
- * @module Clouber.Sys.Portlet.PortletInfo
- * @license
- */
+* @fileOverview Clouber PortletInfo type.
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
+* @author Jon Zhou
+* @module Clouber.Sys.Portlet.PortletInfo
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portlet.*
+*/
 
 Clouber.namespace("Clouber.Sys.Portlet");
 
