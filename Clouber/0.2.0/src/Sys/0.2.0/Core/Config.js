@@ -1,9 +1,9 @@
 ﻿/**
 * @fileOverview Clouber config, loader js library.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires Clouber
+* @requires Clouber.* Clouber.Sys.Core.*
 */
 
 

@@ -1,9 +1,9 @@
 ﻿/**
 * @fileOverview Clouber Cache uses HTML5 LocalStorage to cache client data.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module clouber
-* @requires Clouber
+* @module Cache
+* @requires Clouber.* Clouber.Sys.Core.*
 */
 
 

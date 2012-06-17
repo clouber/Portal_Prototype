@@ -1,10 +1,10 @@
 ﻿/**
 * Clouber Document library.
 * @fileOverview Document
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires jQuery, Clouber
+* @requires jQuery Clouber.* Clouber.Sys.Core.*
 */
 
 /**
@@ -282,7 +282,6 @@ Clouber.Sys.Core.Document = function () {
     * @param  {object} params.loadedContext Loading complete event context
     */
     this.ajax = function (params) {
-        Clouber.log("Clouber.Sys.Core.Document#ajax #### (" + params.url + ")");
         try {
             jQuery.ajax({
                 type: params.method,
@@ -305,12 +304,13 @@ Clouber.Sys.Core.Document = function () {
                 context: params.context,
                 success: params.success,
                 complete: jQuery.proxy(function (jqXHR, textStatus) {
+                    Clouber.log(
+                        "Clouber.Sys.Core.Document#ajax#complete ********** (" +
+                            params.url + ", " + textStatus + ")"
+                    );
                     if ((typeof params.complete !== "undefined") &&
                             (typeof params.complete === "function")) {
                         params.complete(jqXHR, textStatus, params.url);
-                    } else {
-                        Clouber.log("Clouber.Sys.Core.Document#ajax#complete " +
-                            textStatus + "(" + params.url + ")");
                     }
                 }, params.loadedContext),
                 error: jQuery.proxy(function (jqXHR, textStatus, errorThrown) {
