@@ -1,9 +1,9 @@
 /**
 * @fileOverview Clouber portal Configuration object.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.PortalConfig
-* @requires Clouber
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
 */
 
 /**

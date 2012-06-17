@@ -1,9 +1,10 @@
 /**
 * @fileOverview Clouber portal context object
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.PortalContext
-* @requires  Clouber.*, Clouber.Sys.Core.*, Clouber.Sys.Portal.*
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+*           Clouber.Sys.Portlet.*
 */
 
 
@@ -108,7 +109,7 @@ Clouber.Sys.Portal.PortalContext = function () {
             // find current producer connection
             conn = this._producers.get(name);
 
-            if ((conn === undefined) || (conn === null)) {
+            if (Clouber.isNull(conn)) {
 
                 // create new producer connection
                 conn = new Clouber.Sys.Portal.ProducerConnection(name);
@@ -140,6 +141,44 @@ Clouber.Sys.Portal.PortalContext = function () {
     };
 
     /**
+    * Create a new WindowInfo instance.
+    * @function createWindowCtx
+    * @return {WindowInfo} 
+    * @override
+    */
+    this.createWindowCtx = function () {
+        var o = new Clouber.Sys.Portal.WindowInfo();
+
+        /**
+        * 1 portlet id
+        * @class Clouber.Sys.Portlet.PortletInfo
+        * @property {string} portletID
+        */
+        o._markup = new Clouber.Sys.Core.Cache();
+        Object.defineProperty(o, "markup", {
+            configurable: false,
+            enumerable: true,
+            get: function () {
+                var u = Clouber.portal.user();
+                if (Clouber.isEmpty(u)) {
+                    u = "public";
+                }
+                return o._markup.get(o.portletID + "@" + o.producere, u);
+            },
+            set: function (value) {
+                var u = Clouber.portal.user();
+                if (Clouber.isEmpty(u)) {
+                    u = "public";
+                }
+                o._markup.put(o.portletID + "@" + o.producere, value, u);
+            }
+        });
+
+        Object.seal(o);
+        return o;
+    };
+
+    /**
     * Initialize portlets, get portlets information, portlets' key format is
     * "portletID@producer"
     * @function initPortlets
@@ -159,8 +198,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                     f = c.frames[i];
                     for (j in f.windows) {
                         if (f.windows.hasOwnProperty(j)) {
-                            w = new Clouber.Sys.Portal.WindowInfo();
-                            Object.seal(w);
+                            w = this.createWindowCtx();
                             Clouber.merge(w, f.windows[j]);
                             this.portlets.put(w.portletID + "@" +
                                 w.producer, w);
@@ -483,6 +521,9 @@ Clouber.Sys.Portal.PortalContext = function () {
 
         try {
             events = attrs.get("CLOUBER_EVENT");
+            if (Clouber.isNull(events)) {
+                return;
+            }
 
             for (i = 0, l = this.portlets.size(); i < l; i++) {
                 p = this.portlets.getByIndex(i);
@@ -633,7 +674,7 @@ Clouber.Sys.Portal.PortalContext = function () {
     * @return {object} Page Information object.
     */
     this.getPageConf = function (page, portalConf) {
-        var i, j, k, l, pageInfo, f, frg, leng1, leng2, leng3, leng4, frm;
+        var i, j, k, l, pageInfo, f, frg, leng1, leng2, leng3, leng4, frm, w;
 
         try {
             for (i = 0, leng1 = portalConf.pages.length; i < leng1; i++) {
@@ -705,8 +746,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                                 leng4 = portalConf.frames[k].windows.length;
                                 for (l = 0; l < leng4; l++) {
                                     f = portalConf.frames[k].windows[l];
-                                    if ((f.producer === undefined) ||
-                                            (f.producer === "")) {
+                                    if (Clouber.isEmpty(f.producer)) {
                                         f.producer = "localhost";
                                     }
 

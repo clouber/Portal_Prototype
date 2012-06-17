@@ -1,9 +1,9 @@
 /**
 * @fileOverview Clouber portal js library.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.Portal
-* @requires Clouber, Clouber.Sys.Core.*, Clouber.Sys.UI.*
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
 */
 
 /**
@@ -68,6 +68,19 @@ Clouber.Sys.Portal.Portal = function () {
     */
     this.getContext = function () {
         return this.context;
+    };
+
+    /**
+    * Return current user name.
+    * @function user
+    * @return {string} u
+    */
+    this.user = function (u) {
+        if (Clouber.isEmpty(u)) {
+            return this._user;
+        } else {
+            this._user = u;
+        }
     };
 
     /**

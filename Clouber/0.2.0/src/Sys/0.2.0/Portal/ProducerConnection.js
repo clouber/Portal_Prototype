@@ -1,9 +1,10 @@
 /**
 * @fileOverview Clouber core js library.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.ProducerConnection
-* @requires jQuery, Clouber, WSRP, Clouber.Sys.Portlet.Producer
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+*           Clouber.Sys.Portlet.*
 */
 
 Clouber.namespace("Clouber.Sys.Portal");

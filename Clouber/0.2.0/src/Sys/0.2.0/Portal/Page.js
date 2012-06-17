@@ -1,9 +1,9 @@
 /**
 * @fileOverview Clouber base classes of UI controls.
-* @copyright Clouber.org 2012
+* @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.Page
-* @requires Clouber, Clouber.Sys.UI.common, Clouber.Sys.Portal.Portal
+* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
 */
 
 Clouber.namespace("Clouber.Sys.Portal");
