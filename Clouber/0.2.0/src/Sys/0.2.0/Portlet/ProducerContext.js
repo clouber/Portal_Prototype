@@ -38,7 +38,8 @@ Clouber.Sys.Portlet.ProducerContext = function () {
 
         // config file settiing
         this.setInterval(15000);
-        this.setKey("CLOUBER_PRODUCER_CONTEXT");
+        this.setKey(Clouber.config.getKey());
+        this.setName("CLOUBER_PRODUCER_CONTEXT");
     };
 
     /**

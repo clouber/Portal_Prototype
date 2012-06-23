@@ -41,13 +41,14 @@ Clouber.Sys.Portlet.Producer = function () {
      * @override
      */
     this.init = function (conf) {
-        var c;
+        var c, k;
         try {
             Clouber.log("Clouber.Sys.Portlet.Producer#init");
 
             // config file settiing
             this.setInterval(45000);
-            this.setKey("CLOUBER_PRODUCER");
+            this.setKey(Clouber.config.getKey());
+            this.setName("CLOUBER_PRODUCER");
 
             // initialize context
             this._context = new Clouber.Sys.Portlet.ProducerContext();
