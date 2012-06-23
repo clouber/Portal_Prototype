@@ -7,46 +7,50 @@
 <link rel="icon" href="Sys/0.2.0/Portal/Window/theme/default/icon.png" type="image/png" sizes="16x16" />
 
 <!--load common js library-->
+<script type="text/javascript" src="lib/CryptoJS-3.0.2/rollups/md5.js"></script>
+<script type="text/javascript" src="lib/CryptoJS-3.0.2/rollups/aes.js"></script>
+
 <script type="text/javascript">
 if (location.hostname=="localhost") {
+    // development environment
 	document.write("<scr"+"ipt src=\"lib/js/jquery-1.7.2.min.js\"></sc"+"ript>") ;
+    
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Clouber.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/BaseObject.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Map.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Message_en.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Message_cn.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Crypt.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Document.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Cache.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Config.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/User.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/Application.js\"></sc"+"ript>") ;
+    
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/UI/Common.js\"></sc"+"ript>") ;
+    
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/WSRP.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/PortletInfo.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/ProducerContext.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/Producer.js\"></sc"+"ript>") ;
+    
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortalInfo.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortalContext.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/ProducerConnection.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/Window.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/Frame.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/Page.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortalApp.js\"></sc"+"ript>") ;
+    
 } else {
+    // production environment
 	document.write("<scr"+"ipt src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Core/core.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/UI/ui.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/portlet.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/portal.js\"></sc"+"ript>") ;
 };
 </script>
-<!-- load normal js files -->
-<script type="text/javascript" src="./Sys/0.2.0/Core/Clouber.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/BaseObject.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Map.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Message_en.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Message_cn.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Document.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Cache.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Config.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Core/Application.js"></script>
-
-<script type="text/javascript" src="./Sys/0.2.0/UI/Common.js"></script>
-
-<script type="text/javascript" src="./Sys/0.2.0/Portlet/WSRP.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portlet/PortletInfo.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portlet/ProducerContext.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portlet/Producer.js"></script>
-
-
-<script type="text/javascript" src="./Sys/0.2.0/Portal/PortalInfo.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/PortalContext.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/ProducerConnection.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/Window.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/Frame.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/Page.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/PortalApp.js"></script>
-
-<!-- load minified js files -->
-<script type="text/javascript" src="./Sys/0.2.0/Core/core.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/UI/ui.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portlet/portlet.js"></script>
-<script type="text/javascript" src="./Sys/0.2.0/Portal/portal.js"></script>
-
 
 
 <script type="text/javascript">
