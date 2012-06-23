@@ -26,6 +26,7 @@ Clouber.namespace("Clouber.Sys.Core");
 Clouber.Sys.Core.Message_EN = function () {
 
     this.ajaxCallError = "Ajax call failed!";
+    this.decryptError = "Decryption failed!";
     this.defaultValue = "Using default value.";
     this.getCacheData = "Get data from local cache.";
     this.htmlLoadErrror = "Failed to load HTML file!";

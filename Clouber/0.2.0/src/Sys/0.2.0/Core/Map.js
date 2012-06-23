@@ -21,11 +21,11 @@ Clouber.Map = function () {
 
     /**
     * Associates the specified value with the specified key in this map.
-    * @function put
+    * @function set
     * @param {Object} key
     * @param {Object} value
     */
-    this.put = function (key, value) {
+    this.set = function (key, value) {
         var i = this.getIndexByKey(key);
         if (i > -1) {
             this._list[i] = {key: key, value: value};
@@ -52,6 +52,51 @@ Clouber.Map = function () {
     };
 
     /**
+    * Returns the number of key-value mappings in this map.
+    * @function size
+    * @return {int}
+    */
+    this.size = function () {
+        return this._list.length;
+    };
+
+    /**
+    * Removes the mapping for a key from this map if it is present.
+    * @function delete
+    * @param {Obejct} key
+    */
+    this.delete = function (key) {
+        var i = this.getIndexByKey(key);
+        this.removeByIndex(i);
+    };
+
+    /**
+    * Returns a Array view of the values contained in this map
+    * @function values
+    * @return {Array}
+    */
+    this.keys = function () {
+        var i, l, v = [];
+        for (i = 0, l = this._list.length; i < l; i++) {
+            v.push(this._list[i].key);
+        }
+        return v;
+    };
+
+    /**
+    * Returns a Array view of the values contained in this map
+    * @function values
+    * @return {Array}
+    */
+    this.values = function () {
+        var i, l, v = [];
+        for (i = 0, l = this._list.length; i < l; i++) {
+            v.push(this._list[i].value);
+        }
+        return v;
+    };
+
+    /**
     * Returns true if this map maps one or more keys to the specified value.
     * @function containsValue
     * @return {Boolean}
@@ -72,56 +117,11 @@ Clouber.Map = function () {
     };
 
     /**
-    * Removes the mapping for a key from this map if it is present.
-    * @function remove
-    * @param {Obejct} key
-    */
-    this.remove = function (key) {
-        var i = this.getIndexByKey(key);
-        this.removeByIndex(i);
-    };
-
-    /**
     * Removes all of the mappings from this map.
     * @function clear
     */
     this.clear = function () {
         this._list = [];
-    };
-
-    /**
-    * Returns the number of key-value mappings in this map.
-    * @function size
-    * @return {int}
-    */
-    this.size = function () {
-        return this._list.length;
-    };
-
-    /**
-    * Returns a Array view of the values contained in this map
-    * @function values
-    * @return {Array}
-    */
-    this.values = function () {
-        var i, l, v = [];
-        for (i = 0, l = this._list.length; i < l; i++) {
-            v.push(this._list[i].value);
-        }
-        return v;
-    };
-
-    /**
-    * Returns a Array view of the values contained in this map
-    * @function values
-    * @return {Array}
-    */
-    this.keys = function () {
-        var i, l, v = [];
-        for (i = 0, l = this._list.length; i < l; i++) {
-            v.push(this._list[i].key);
-        }
-        return v;
     };
 
     /**
@@ -377,6 +377,27 @@ Clouber.Map = function () {
             }
             return this;
         }
+    };
+
+    /**
+    * Associates the specified value with the specified key in this map.
+    * @function put
+    * @param {Object} key
+    * @param {Object} value
+    * @deprecated
+    */
+    this.put = function (key, value) {
+        this.set(key, value);
+    };
+
+    /**
+    * Removes the mapping for a key from this map if it is present.
+    * @function remove
+    * @param {Obejct} key
+    * @deprecated
+    */
+    this.remove = function (key) {
+        this.delete(key);
     };
 
 };

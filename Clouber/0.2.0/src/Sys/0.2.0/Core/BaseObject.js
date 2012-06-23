@@ -38,20 +38,19 @@ Clouber.Exception.parent = Error.prototype;
 */
 Clouber.BaseObject = function () {
     'use strict';
-
-    this._uid = null;
     
+    var _uid;
     /**
     * Get object unique ID.
     * @function getId
     * @return {int} Object unique id.
     */
     this.getId = function () {
-        if ((this._uid === undefined) || (this._uid === null)) {
-            this._uid = Clouber.sequence();
+        if ((_uid === undefined) || (_uid === null)) {
+            _uid = Clouber.sequence();
             // * 10000000000000 + new Date().valueOf();
         }
-        return this._uid;
+        return _uid;
     };
 
     /**

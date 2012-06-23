@@ -24,18 +24,18 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.html = function (selector, html) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            if ((typeof html === "string") && (html.length > 0)) {
-                jQuery(selector).html(html);
-            } else {
-                return jQuery(selector).html();
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                if ((typeof html === "string") && (html.length > 0)) {
+                    jQuery(selector).html(html);
+                } else {
+                    return jQuery(selector).html();
+                }
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#html> " +
+                    Clouber.dump(e));
+                return this.text(selector, html);
             }
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#html> " + Clouber.dump(e));
-            return this.text(selector, html);
         }
     };
 
@@ -47,17 +47,17 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.text = function (selector, text) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            if ((typeof text === "string") && (text.length > 0)) {
-                jQuery(selector).text(text);
-            } else {
-                return jQuery(selector).text();
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                if ((typeof text === "string") && (text.length > 0)) {
+                    jQuery(selector).text(text);
+                } else {
+                    return jQuery(selector).text();
+                }
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#text> " +
+                    Clouber.dump(e));
             }
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#text> " + Clouber.dump(e));
         }
     };
 
@@ -69,16 +69,15 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.append = function (selector, html) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            if ((typeof html === "string") && (html.length > 0)) {
-                return jQuery(selector).append(html);
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                if ((typeof html === "string") && (html.length > 0)) {
+                    return jQuery(selector).append(html);
+                }
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#append> " +
+                    Clouber.dump(e));
             }
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#append> " +
-                Clouber.dump(e));
         }
     };
 
@@ -91,13 +90,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.attr = function (selector, attribute, value) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).attr(attribute, value);
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#attr> " + Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).attr(attribute, value);
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#attr> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -109,13 +108,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.size = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).size();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#size> " + Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).size();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#size> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -126,14 +125,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.remove = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).remove();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#remove> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).remove();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#remove> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -144,13 +142,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.show = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).show();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#show> " + Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).show();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#show> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -161,13 +159,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.hide = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).hide();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#hide> " + Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).hide();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#hide> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -178,14 +176,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.fadeIn = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).fadeIn();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#fadeIn> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).fadeIn();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#fadeIn> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -196,14 +193,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.fadeOut = function (selector) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).fadeOut();
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#fadeOut> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).fadeOut();
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#fadeOut> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -215,14 +211,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.addClass = function (selector, className) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).addClass(className);
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#addClass> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).addClass(className);
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#addClass> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -234,14 +229,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.removeClass = function (selector, className) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).removeClass(className);
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#removeClass> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).removeClass(className);
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#removeClass> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -254,14 +248,13 @@ Clouber.Sys.Core.Document = function () {
     * @return {object} DOM object
     */
     this.css = function (selector, name, value) {
-        if ((typeof selector !== "string") || (selector.length === 0)) {
-            return null;
-        }
-        try {
-            return jQuery(selector).css(name, value);
-        } catch (e) {
-            Clouber.log("<Clouber.Sys.Core.Document#css> " +
-                Clouber.dump(e));
+        if (!Clouber.isEmpty(selector)) {
+            try {
+                return jQuery(selector).css(name, value);
+            } catch (e) {
+                Clouber.log("<Clouber.Sys.Core.Document#css> " +
+                    Clouber.dump(e));
+            }
         }
     };
 
@@ -282,6 +275,7 @@ Clouber.Sys.Core.Document = function () {
     * @param  {object} params.loadedContext Loading complete event context
     */
     this.ajax = function (params) {
+        var time = new Date();
         try {
             jQuery.ajax({
                 type: params.method,
@@ -302,27 +296,51 @@ Clouber.Sys.Core.Document = function () {
                 },
                 dataType: params.dataType,
                 context: params.context,
-                success: params.success,
-                complete: jQuery.proxy(function (jqXHR, textStatus) {
+                //success: params.success,
+                success: jQuery.proxy(function (jqXHR, textStatus) {
                     Clouber.log(
-                        "Clouber.Sys.Core.Document#ajax#complete ********** (" +
-                            params.url + ", " + textStatus + ")"
+                        "Clouber.Sys.Core.Document#ajax#success ********** (" +
+                            params.url + ", " + textStatus + ")  [" +
+                            ((new Date() - time) / 1000) + "s]"
                     );
-                    if ((typeof params.complete !== "undefined") &&
-                            (typeof params.complete === "function")) {
-                        params.complete(jqXHR, textStatus, params.url);
+                    if (typeof params.success === "string") {
+                        jQuery.proxy(
+                            params.context[params.success](jqXHR, textStatus,
+                                params.url),
+                            params.context
+                        );
+                    } else if (typeof params.success === "function") {
+                        params.success(jqXHR, textStatus, params.url,
+                            params.context);
                     }
-                }, params.loadedContext),
+                }, params.context),
                 error: jQuery.proxy(function (jqXHR, textStatus, errorThrown) {
-                    if ((typeof params.error !== "undefined") &&
-                            (typeof params.error === "function")) {
+                    Clouber.log("Clouber.Sys.Core.Document#ajax#error ***** (" +
+                            params.url + ", " + textStatus + ")  [" +
+                            ((new Date() - time) / 1000) + "s]"
+                        );
+                    if (typeof params.error === "function") {
                         params.error(textStatus, errorThrown, params.url,
                             jqXHR.responseText, params.context);
-                    } else {
-                        Clouber.log("Clouber.Sys.Core.Document#ajax#error " +
-                            textStatus + "(" + params.url + ")");
+                    } else if (typeof params.error === "string") {
+                        jQuery.proxy(
+                            params.context[params.error](jqXHR, textStatus,
+                                params.url, jqXHR.responseText, params.context),
+                            params.context
+                        );
                     }
-                }, params.context)
+                }, params.context),
+                complete: jQuery.proxy(function (jqXHR, textStatus) {
+                    if (typeof params.complete === "string") {
+                        jQuery.proxy(
+                            params.context[params.complete](jqXHR, textStatus,
+                                params.url),
+                            params.context
+                        );
+                    } else if (typeof params.complete === "function") {
+                        params.complete(jqXHR, textStatus, params.url);
+                    }
+                }, params.loadedContext)
             });
         } catch (e) {
             e.code = "Clouber.Sys.Core.Document#ajax";

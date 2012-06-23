@@ -43,19 +43,27 @@ Clouber.Sys.Core.Config = function () {
 
     /**
     * private config object loading interval.
-    * @ignore
     * @property _interval
     * @private
+    * @ignore
     */
     this._interval = 60000;
 
     /**
-    * private config key name.
-    * @ignore
+    * private encryption key.
     * @property _key
     * @private
+    * @ignore
     */
-    this._key = "CLOUBER_CONFIG";
+    this._key = null;
+
+    /**
+    * private config object name.
+    * @property _name
+    * @private
+    * @ignore
+    */
+    this._name = "CLOUBER_CONFIG";
 
     /**
     * Set config loading interval.
@@ -69,23 +77,34 @@ Clouber.Sys.Core.Config = function () {
     };
 
     /**
-    * Set config key.
+    * Set config name.
+    * @function setName
+    * @param {string} name Configuration name.
+    */
+    this.setName = function (name) {
+        if (typeof name === "string") {
+            this._name = name;
+        }
+    };
+
+    /**
+    * Set encryption key.
     * @function setKey
-    * @param {string} key Configuration key.
+    * @param {string} name encryption key
     */
     this.setKey = function (key) {
-        if (typeof key === "string") {
+        if (!Clouber.isEmpty(key)) {
             this._key = key;
         }
     };
 
     /**
-    * Get config key.
-    * @function setKey
-    * @return {string} key Configuration key.
+    * Get config name.
+    * @function getName
+    * @return {string} name Configuration name.
     */
-    this.getKey = function () {
-        return this._key;
+    this.getName = function () {
+        return this._name;
     };
 
     /**
@@ -98,11 +117,12 @@ Clouber.Sys.Core.Config = function () {
         try {
             if ((typeof this._data === "undefined") || (this._data === null)) {
                 this._data = new Clouber.Sys.Core.Cache();
+                this._data.setKey(this._key);
                 // get config from cache
-                o = this._data.get(this.getKey(), null);
+                o = this._data.get(this.getName(), null);
                 if ((typeof o !== "undefined") && (o !== null)) {
                     Clouber.log(Clouber.message.getCacheData + " (" +
-                        this.getKey() + ")");
+                        this.getName() + ")");
                     try {
                         o = JSON.parse(o);
                         this.setting(o);
@@ -197,28 +217,28 @@ Clouber.Sys.Core.Config = function () {
             params = {};
         }
 
-        if (params.success === undefined) {
-            params.success = this._confSuccess;    // set default success event
+        if (params.context === undefined) {
+            params.context = this;    // set default context event
         }
 
-        if (params.loaded === undefined) {
-            params.loaded = this.confLoaded;    // set default loaded event
+        if (params.error === undefined) {
+            params.error = "_loadError";    // set default error event
+        }
+
+        if (params.success === undefined) {
+            params.success = "_confSuccess";    // set default success event
         }
 
         if (params.loadedContext === undefined) {
             params.loadedContext = this;    // set default loaded context
         }
 
+        if (params.loaded === undefined) {
+            params.loaded = "confLoaded";    // set default loaded event
+        }
+
         if (params.async === undefined) {
             params.async = false;    // set async model
-        }
-
-        if (params.error === undefined) {
-            params.error = this._loadError;    // set default error event
-        }
-
-        if (params.context === undefined) {
-            params.context = this;    // set default context event
         }
 
         this.confLoading(href);
@@ -277,10 +297,11 @@ Clouber.Sys.Core.Config = function () {
             // save config into cache
             if ((typeof this._data === "undefined") || (this._data === null)) {
                 this._data = new Clouber.Sys.Core.Cache();
+                this._data.setKey(this._key);
             }
-            this._data.put(this.getKey(), data, null);
+            this._data.put(this.getName(), data, null);
             Clouber.log(Clouber.message.saveCacheData + " (" +
-                this.getKey() + ")");
+                this.getName() + ")");
 
             try {
                 conf = JSON.parse(data);
@@ -333,7 +354,7 @@ Clouber.Sys.Core.Config = function () {
             code: "Clouber.Sys.Core.Config#_loadError"
         });
         Clouber.log(e);
-        context.loadError({status: status, error: errorThrown});
+        this.loadError({status: status, error: errorThrown});
     };
 
     /**
@@ -367,13 +388,13 @@ Clouber.Sys.Core.ConfigManager = function () {
     this.TYPE = "CLOUBER_CONFIG";
 
     /**
-    * private config key name.
+    * private config name name.
     * @ignore
-    * @property _key
+    * @property _name
     * @private
     * @override
     */
-    this._key = "CLOUBER_CONFIG";
+    this._name = "CLOUBER_CONFIG";
 
     /**
     * Get base path.
@@ -381,11 +402,7 @@ Clouber.Sys.Core.ConfigManager = function () {
     */
     this.getBase = function () {
         var c = this.getConfig();
-        if (c !== null) {
-            return c.base;
-        } else {
-            return ".";
-        }
+        return (c !== null) ? c.base : ".";
     };
 
     /**
@@ -402,6 +419,15 @@ Clouber.Sys.Core.ConfigManager = function () {
             }
             return v;
         }
+    };
+
+    /**
+    * Get public key.
+    * @function getKey
+    */
+    this.getKey = function () {
+        var c = this.getConfig();
+        return (!Clouber.isNull(c)) ? c.key : "";
     };
 
     /**

@@ -34,12 +34,12 @@ Clouber.Sys.Core.Cache = function () {
     var _user,
 
     /**
-    * The key of caching data object.
-    * @property _key
+    * The name of caching data object.
+    * @property _name
     * @private
     * @ignore
     */
-        _key,
+        _name,
 
     /**
     * Caching data object.
@@ -48,6 +48,22 @@ Clouber.Sys.Core.Cache = function () {
     * @ignore
     */
         _data,
+
+    /**
+    * Data object is encrpted.
+    * @property {boolean} _encrypt
+    * @private
+    * @ignore
+    */
+        _encrypt = true,
+
+    /**
+    * Data encrption key.
+    * @property {string} _key
+    * @private
+    * @ignore
+    */
+        _key = null,
 
     /**
     * Count of caching data times.
@@ -61,28 +77,41 @@ Clouber.Sys.Core.Cache = function () {
     * Get caching data object.
     * @function get
     * @param {string} user User account, public user can be null or public.
-    * @param {string} key Object key.
+    * @param {string} name Object name.
     * @return {object} caching data object
     */
-    this.get = function (key, user) {
-        var o;
+    this.get = function (name, user) {
+        var o, t;
         if ((typeof _data === "undefined") || (_data === null)) {
             // get data from localStorage
-            if ((typeof key === "string") && (key.length > 0)) {
-                if (typeof (window.localStorage) !== "undefined") {
-                    try {
-                        if ((typeof user !== "string") || (user.length < 1)) {
-                            _user = "public";
-                        } else {
-                            _user = user;
-                        }
-                        _data = window.localStorage.getItem(_user + ":" + key);
-                        _key = key;
-                        return _data;
-                    } catch (e) {
-                        e.code = "Clouber.Sys.Core.Cache#get";
-                        Clouber.log(e);
+            if (typeof (window.localStorage) !== "undefined") {
+                if (Clouber.isEmpty(user)) {
+                    if (Clouber.isEmpty(_user)) {
+                        user = "public";
+                    } else {
+                        user = _user;
                     }
+                }
+                if (Clouber.isEmpty(name)) {
+                    name = _name;
+                }
+                try {
+                    t = window.localStorage.getItem(user + ":" + name);
+                    if (!Clouber.isNull(t)) {
+                        Clouber.log("Clouber.Sys.Core.Cache#get ======== " +
+                            user + ":" + name);
+                        if (_encrypt) {
+                            _data = Clouber.crypt.decrypt(t, _key);
+                        } else {
+                            _data = t;
+                        }
+                        _name = name;
+                        _user = user;
+                        return _data;
+                    }
+                } catch (e) {
+                    e.code = "Clouber.Sys.Core.Cache#get";
+                    Clouber.log(e);
                 }
             } else {
                 Clouber.log("Clouber.Sys.Core.Cache#get " +
@@ -91,8 +120,8 @@ Clouber.Sys.Core.Cache = function () {
 
         } else {
             // get data from memory
-            if ((typeof key === "undefined") || (key === null) ||
-                    (key === _key)) {
+            if ((typeof name === "undefined") || (name === null) ||
+                    (name === _name)) {
                 return _data;
             }
         }
@@ -103,17 +132,16 @@ Clouber.Sys.Core.Cache = function () {
      * Put data object into cache.
      * @function put
      * @param {string} user User account, public user can be null or public.
-     * @param {string} key Object key.
+     * @param {string} name Object name.
      * @param {object} data Caching data object.
      */
-    this.put = function (key, data, user) {
-        var item;
+    this.put = function (name, data, user) {
+        var item, t;
 
-        if ((typeof key === "string") && (key.length > 0) &&
-                (typeof data !== 'undefined') && (data !== null)) {
+        if ((!Clouber.isEmpty(name)) && (!Clouber.isNull(data))) {
 
             // put data into memory
-            _key = key;
+            _name = name;
             _data = Clouber.copy(data);
             if ((typeof user !== "string") || (user.length < 1)) {
                 _user = "public";
@@ -124,17 +152,22 @@ Clouber.Sys.Core.Cache = function () {
             // put data into localStorage
             if (typeof (window.localStorage) !== "undefined") {
                 try {
-                    window.localStorage.setItem(_user + ":" + _key, _data);
+                    if (_encrypt) {
+                        t = Clouber.crypt.encrypt(_data, _key);
+                    } else {
+                        t = _data;
+                    }
+                    window.localStorage.setItem(_user + ":" + _name, t);
                     _count = this.count() + 1;
                     return true;
                 } catch (e) {
-                    e.code = "Clouber.Sys.Core.Cache#get";
+                    e.code = "Clouber.Sys.Core.Cache#put";
                     Clouber.log(e);
-                    window.localStorage.removeItem(_user + ":" + _key, _data);
+                    window.localStorage.removeItem(_user + ":" + _name, _data);
                     return false;
                 }
             } else {
-                Clouber.log("Clouber.Sys.Core.Cache#get " +
+                Clouber.log("Clouber.Sys.Core.Cache#put " +
                     Clouber.message.noLocalStorage);
             }
         }
@@ -143,14 +176,39 @@ Clouber.Sys.Core.Cache = function () {
     /**
     * Get caching data saving times.
     * @function get
-    * @return {int} 
+    * @return {int}
     */
     this.count = function () {
-        if ((typeof _count === "undefined") || (_count === null)) {
+        if (Clouber.isNull(_count)) {
             _count = 0;
         }
         return _count;
     };
+
+    /**
+    * Return true if data need to encrypt.
+    * @function get
+    * @param {boolean} encrypt
+    * @return {boolean}
+    */
+    this.encrypt = function (encrypt) {
+        if (!Clouber.isNull(encrypt)) {
+            _encrypt = encrypt;
+        }
+        return _encrypt;
+    };
+
+    /**
+    * Set encryption key
+    * @function setKey
+    * @param {string} key
+    */
+    this.setKey = function (key) {
+        if (!Clouber.isEmpty(key)) {
+            _key = key;
+        }
+    };
+
 };
 Clouber.extend(Clouber.Sys.Core.Cache, Clouber.BaseObject);
 

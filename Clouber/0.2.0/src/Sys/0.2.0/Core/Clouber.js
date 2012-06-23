@@ -23,20 +23,28 @@ var Clouber = Clouber || {};
 
     if ((typeof Clouber !== "undefined") &&
             (typeof Clouber.newer === "function") &&
-            (Clouber.newer("0.1.1"))) {
+            (Clouber.newer("0.2.0"))) {
         return;
     }
 
     /**
     * declare the gloabel object Clouber.
     */
-    Clouber = {
+    Clouber = (function () {
+        var _instance = {};
+
+        /**
+        * Clouber's version
+        * @property {String} VERSION
+        * @ignore
+        */
+        _instance._user = null;
 
         /**
         * Clouber's version
         * @property {String} VERSION
         */
-        VERSION: "0.1.2",
+        _instance.VERSION = "0.2.0";
 
         /**
         * Return true if this version is newer than the given version.
@@ -44,7 +52,7 @@ var Clouber = Clouber || {};
         * @param {string} version Version scheme is "major.minor.stage"
         * @return {boolean}
         */
-        newer: function (version) {
+        _instance.newer = function (version) {
             var major, minor, stage, v;
             v = version.split(".");
             if (parseInt(v[0], 10) <= 0) {
@@ -55,7 +63,7 @@ var Clouber = Clouber || {};
                 }
             }
             return false;
-        },
+        };
 
         /**
         * Implement class namespace support.(JavaScript Patterns, Stoyan
@@ -64,7 +72,7 @@ var Clouber = Clouber || {};
         * @param {string} nameSpace Namespace splitted by ".", "/", "_", "\".
         * @return {object} nameSpace
         */
-        namespace: function (nameSpace) {
+        _instance.namespace = function (nameSpace) {
             var parts = nameSpace.split('.'),
                 parent = Clouber,
                 i;
@@ -89,7 +97,7 @@ var Clouber = Clouber || {};
                 parent = parent[parts[i]];
             }
             return parent;
-        },
+        };
 
         /**
         * Create app object instance. Because of performance issues, this
@@ -100,7 +108,7 @@ var Clouber = Clouber || {};
         * @param  {object} params  Parameter object
         * @return  new object instance.
         */
-        create: function (name, params) {
+        _instance.create = function (name, params) {
             var str, obj, uid;
 
             try {
@@ -115,15 +123,15 @@ var Clouber = Clouber || {};
                 }
 
                 str = "obj = new " + name + "(" + str + ")";
-                this.log("Clouber#create:  " + str);
+                _instance.log("Clouber#create:  " + str);
                 eval(str);
 
                 return obj;
             } catch (e) {
                 e.code = "Clouber#create";
-                this.log(e);
+                _instance.log(e);
             }
-        },
+        };
 
         /**
         * Load application js module with module name.
@@ -134,10 +142,10 @@ var Clouber = Clouber || {};
         * @param  params.module  application module
         * @param  params.control  name of the control in an application module
         */
-        extend: function (child, Parent) {
+        _instance.extend = function (child, Parent) {
             if ((typeof child !== "function") ||
                     ((typeof Parent !== "function"))) {
-                this.log(new Clouber.Exception({
+                _instance.log(new Clouber.Exception({
                     number: 10001,
                     name: "typeErrror",
                     message: Clouber.message.typeErrror,
@@ -154,7 +162,7 @@ var Clouber = Clouber || {};
             if (Parent.prototype.constructor === Object.prototype.constructor) {
                 Parent.prototype.constructor = Parent;
             }
-        },
+        };
 
         /**
         * implement Interface implementation validation function.
@@ -162,7 +170,7 @@ var Clouber = Clouber || {};
         * @param {object} Class class .
         * @param {Array} Interface Interfaces which the class implements.
         */
-        implement: function (CLASS, interfaces) {
+        _instance.implement = function (CLASS, interfaces) {
             var i, len, funi, interf, obj, e;
 
             if (arguments.length < 2) {
@@ -197,12 +205,12 @@ var Clouber = Clouber || {};
                                     " Method " + funi + " was not found.",
                                 code: "Clouber#implement"
                             });
-                            this.log(e);
+                            _instance.log(e);
                         }
                     }
                 }
             }
-        },
+        };
 
         /**
         * Clone a new object with same structure.
@@ -210,11 +218,11 @@ var Clouber = Clouber || {};
         * @param  {object} obj Original object
         * @return {object} New object.
         */
-        clone: function (obj) {
+        _instance.clone = function (obj) {
             function F() {}
             F.prototype = obj;
             return new F();
-        },
+        };
 
         /**
         * Copy a new object with same data.
@@ -222,20 +230,20 @@ var Clouber = Clouber || {};
         * @param  {object} object Original object
         * @return {object} New object.
         */
-        copy: function (obj) {
+        _instance.copy = function (obj) {
             var cp, attr;
             try {
                 if ((typeof obj !== "object") || (obj === null)) {
                     return obj;
                 }
                 // clone function
-                cp = this.clone(obj);
-                this.merge(cp, obj);
+                cp = _instance.clone(obj);
+                _instance.merge(cp, obj);
                 return cp;
             } catch (e) {
-                this.log(e);
+                _instance.log(e);
             }
-        },
+        };
 
         /**
         * Merget two objects' property into one object.
@@ -244,7 +252,7 @@ var Clouber = Clouber || {};
         * @param  {object} object2 Object 2.
         * @return {object} new object.
         */
-        merge: function (object1, object2) {
+        _instance.merge = function (object1, object2) {
             //return jQuery.extend(object1, object2);
             var attr;
             try {
@@ -256,7 +264,7 @@ var Clouber = Clouber || {};
                     if (object2.hasOwnProperty(attr)) {
                         switch (typeof object2[attr]) {
                         case "object":
-                            object1[attr] = this.copy(object2[attr]);
+                            object1[attr] = _instance.copy(object2[attr]);
                             break;
                         case "number":
                             object1[attr] = object2[attr];
@@ -277,9 +285,9 @@ var Clouber = Clouber || {};
                 }
                 return object1;
             } catch (e) {
-                this.log(e);
+                _instance.log(e);
             }
-        },
+        };
 
         /**
         * Dump object's property into a string.
@@ -287,7 +295,7 @@ var Clouber = Clouber || {};
         * @param  {object} o Object.
         * @return {string}
         */
-        dump: function (o) {
+        _instance.dump = function (o) {
             //return jQuery.extend(object1, object2);
             var attr, s;
 
@@ -313,50 +321,50 @@ var Clouber = Clouber || {};
                 s = o.toString();
             }
             return s;
-        },
+        };
 
         /**
         * Log error message.
         * @function log
         */
-        log: function (e) {
+        _instance.log = function (e) {
             if ((typeof console !== "undefined") && (console !== null)) {
                 if ((Clouber.Exception !== undefined) &&
                         (e instanceof Clouber.Exception)) {
-                    console.log("[Exception] " + this.dump(e));
+                    console.log("[Exception] " + _instance.dump(e));
                 } else if ((Error !== undefined) && (e instanceof Error)) {
-                    console.log("[Error] " + this.dump(e));
+                    console.log("[Error] " + _instance.dump(e));
                 } else {
-                    if ((typeof this.config !== "undefined") &&
-                            (this.config !== null) &&
-                            (this.config._conf !== null)) {
-                        if (this.config._conf.runtime === "development") {
-                            console.log("[Message] " + this.dump(e));
+                    if ((typeof _instance.config !== "undefined") &&
+                            (_instance.config !== null) &&
+                            (_instance.config._conf !== null)) {
+                        if (_instance.config._conf.runtime === "development") {
+                            console.log("[Message] " + _instance.dump(e));
                         }
                     } else {
-                        console.log("[Message] " + this.dump(e));
+                        console.log("[Message] " + _instance.dump(e));
                     }
                 }
             }
 
-            if ((typeof this.config !== "undefined") &&
-                    (this.config !== null) &&
-                    (this.config._conf !== null)) {
-                if (this.config._conf.runtime === "development") {
+            if ((typeof _instance.config !== "undefined") &&
+                    (_instance.config !== null) &&
+                    (_instance.config._conf !== null)) {
+                if (_instance.config._conf.runtime === "development") {
                     if ((e instanceof Clouber.Exception) ||
                             (e instanceof Error)) {
                         throw e;
                     }
                 }
             }
-        },
+        };
 
         /**
         * Set a event handler of window onload event.
         * @function ready
         * @param  {function} event Window onload event handler
         */
-        ready: function (event) {
+        _instance.ready = function (event) {
 
             if (window.attachEvent) {
                 window.attachEvent('onload', event);
@@ -367,55 +375,61 @@ var Clouber = Clouber || {};
             } else {
                 document.addEventListener('load', event, false);
             }
-        },
+        };
 
         /**
         * Return true if the object is null or undefined.
         * @function isNull
-        * @param  {object} o 
+        * @param  {object} o
         * @return {boolean}
         */
-        isNull: function (o) {
+        _instance.isNull = function (o) {
             return ((typeof o === "undefined") || (o === null));
-        },
+        };
 
         /**
         * Return true if the object is empty.
         * @function isEmpty
-        * @param  {object} o 
+        * @param  {object} o
         * @return {boolean}
         */
-        isEmpty: function (o) {
+        _instance.isEmpty = function (o) {
             var i, b = true;
             if (typeof o === "object") {
                 for (i in o) {
-                    b = false;
+                    if (o.hasOwnProperty(i)) {
+                        b = false;
+                        break;
+                    }
                 }
             } else {
                 b = (
-                    (this.isNull(o)) ||
+                    (_instance.isNull(o)) ||
                     ((typeof o === "string") && (o.length === 0)) ||
                     ((typeof o === "number") && (o === 0))
                 );
             }
             return b;
-        },
+        };
 
         /**
         * Get sequence number.
         * @function sequence
         * @return {int} id
         */
-        sequence: function () {
-            if (typeof this.id === "undefined") {
-                this.id = 0;
+        _instance.sequence = function () {
+            if (typeof _instance.id === "undefined") {
+                _instance.id = 0;
             } else {
-                this.id = this.id + 1;
+                _instance.id = _instance.id + 1;
             }
-            return this.id;
-        }
+            return _instance.id;
+        };
 
-    };
+        return _instance;
+
+    }());
+
 }());
 
 /**

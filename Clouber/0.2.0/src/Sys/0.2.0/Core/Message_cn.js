@@ -26,6 +26,7 @@ Clouber.namespace("Clouber.Sys.Core");
 Clouber.Sys.Core.Message_CN = function () {
 
     this.ajaxCallError = "Ajax call failed.";
+    this.decryptError = "Decryption failed!";
     this.defaultValue = "使用缺省数值。";
     this.getCacheData = "Get data from local cache.";
     this.htmlLoadErrror = "HTML文件加载失败。";
