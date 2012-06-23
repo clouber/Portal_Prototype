@@ -176,7 +176,7 @@
         <echo msg="Merge JavaScript codes." />
         
         <append destFile="${stagedir}/Sys/0.2.0/Core/core.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Document.js, Cache.js, Config.js, Application.js" />
+            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, User.js, Application.js" />
         </append>
         <delete>
             <fileset dir="${stagedir}/Sys/0.2.0/Core">
