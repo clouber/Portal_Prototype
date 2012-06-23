@@ -206,18 +206,20 @@ Clouber.Sys.Portal.WindowView = function () {
     * @override
     */
     this.showPortlet = function (params) {
-        Clouber.log("Clouber.Sys.Portal.WindowView#showPortlet (" +
-            this.getPortletContext().portletID + ")");
+        var html, css, t = new Date();
 
         try {
-            var html = this.getPortletContext().markup,
-                css = this.getPortletContext().css;
+            html = this.getPortletContext().markup;
+            css = this.getPortletContext().css;
 
             Clouber.document.html(this.getContext().tag +
                     " .Clouber_Window .W_COMPONENT", html);
             Clouber.loader.loadCss(this.getPortletContext().css);
-
             this.getPortletContext().changed = false;
+            
+            Clouber.log("Clouber.Sys.Portal.WindowView#showPortlet (" +
+                this.getPortletContext().portletID + ") [" +
+                ((new Date() - t) / 1000) + "s]");
         } catch (e) {
             e.text = this.getPortletContext().portletID;
             e.code = "Clouber.Sys.Portal.WindowView#showPortlet";

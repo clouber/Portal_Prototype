@@ -81,7 +81,8 @@ Clouber.Sys.Portal.PortalContext = function () {
 
         // config file settiing
         this.setInterval(15000);
-        this.setKey("CLOUBER_PORTAL_CONTEXT");
+        this.setKey(Clouber.config.getKey());
+        this.setName("CLOUBER_PORTAL_CONTEXT");
     };
 
     /**
@@ -155,22 +156,23 @@ Clouber.Sys.Portal.PortalContext = function () {
         * @property {string} portletID
         */
         o._markup = new Clouber.Sys.Core.Cache();
+        o._markup.encrypt(false);
         Object.defineProperty(o, "markup", {
             configurable: false,
             enumerable: true,
             get: function () {
-                var u = Clouber.portal.user();
+                var u = Clouber.user.id();
                 if (Clouber.isEmpty(u)) {
                     u = "public";
                 }
-                return o._markup.get(o.portletID + "@" + o.producere, u);
+                return o._markup.get(o.portletID + "@" + o.producer, u);
             },
             set: function (value) {
-                var u = Clouber.portal.user();
+                var u = Clouber.user.id();
                 if (Clouber.isEmpty(u)) {
                     u = "public";
                 }
-                o._markup.put(o.portletID + "@" + o.producere, value, u);
+                o._markup.put(o.portletID + "@" + o.producer, value, u);
             }
         });
 

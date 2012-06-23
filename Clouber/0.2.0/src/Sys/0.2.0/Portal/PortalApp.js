@@ -40,6 +40,8 @@ Clouber.namespace("Clouber.Sys.Portal");
 Clouber.Sys.Portal.Portal = function () {
     'use strict';
 
+    var _time;
+    
     /** @constant string TYPE */
     this.TYPE = "PORTAL";
 
@@ -71,34 +73,23 @@ Clouber.Sys.Portal.Portal = function () {
     };
 
     /**
-    * Return current user name.
-    * @function user
-    * @return {string} u
-    */
-    this.user = function (u) {
-        if (Clouber.isEmpty(u)) {
-            return this._user;
-        } else {
-            this._user = u;
-        }
-    };
-
-    /**
     * Initialize portal application
     * @function init
     * @override
     */
     this.init = function () {
+        var k, p;
         Clouber.log("Clouber.Sys.Portal.Portal#init");
 
         // config file settiing
         this.setInterval(50000);
-        this.setKey("CLOUBER_PORTAL");
+        this.setKey(Clouber.config.getKey());
+        this.setName("CLOUBER_PORTAL");
 
         this.context = new Clouber.Sys.Portal.PortalContext();
         this.context.init(this);
         // set hashchange event
-        var p = this;
+        p = this;
         Clouber.event.addHandler(
             window,
             "hashchange",
@@ -117,6 +108,9 @@ Clouber.Sys.Portal.Portal = function () {
         var p, c, v;
 
         Clouber.log("Clouber.Sys.Portal.Portal#load");
+
+        // start to count time.
+        _time = new Date();
 
         p = this.getPageInfo();
 
@@ -165,8 +159,6 @@ Clouber.Sys.Portal.Portal = function () {
     this.loadPage = function () {
         var p;
 
-        Clouber.log("Clouber.Sys.Portal.Portal#loadPage");
-
         try {
             p = this.getPageInfo();
             this.context.pageInfo.app = p.app;
@@ -198,6 +190,9 @@ Clouber.Sys.Portal.Portal = function () {
 
             // set page info (app name)
             this.context.pageInfo.page = p.page;
+
+            Clouber.log("Clouber.Sys.Portal.Portal#loadPage  [" +
+                ((new Date() -_time)/1000) + "s]");
         } catch (e) {
             e.code = "Clouber.Sys.Portal.Portal#loadPage";
             Clouber.log(e);
