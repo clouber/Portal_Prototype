@@ -1,4 +1,4 @@
-{"name":"Clouber","base":".","description":"Cloud based computer OS","version":"0.2.0","runtime":"development","versions":[
+{"name":"Clouber","base":".","description":"Cloud based computer OS","version":"0.2.0","runtime":"development","key":"432wtwt","versions":[
 {"version":"0.2.0","apps":[
 {"app":"JobHunter","vendor":"Jon Zhou","description":"Job Hunter System","version":"0.1.0","versions":[{"version":"0.1.0","config":"app/JobHunter/conf/conf.json"}]},
 {"app":"itsupportcenter","description":"IT Support Center","vendor":"itsupportcenter.org","version":"0.1.0","config":"app/supportcenter/0.1.0/conf/conf.json"}
