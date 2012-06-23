@@ -267,8 +267,8 @@ Clouber.Sys.UI.View = function () {
                 theme: this.getContext().theme},
             path,
             "html",
-            this._loadhtml,
-            this._loaderror,
+            "_loadhtml",
+            "_loaderror",
             this
         );
     };
