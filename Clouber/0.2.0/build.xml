@@ -139,7 +139,7 @@
         <delete dir="${jsportaldocdir}"/>
         <mkdir dir="${jsportaldocdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\Portlet" dir="." output="${logdir}\jsportaldoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Sys\0.2.0\Portal" dir="." output="${logdir}\jsportaldoc.log"/>
     </target> 
     
     <!-- ============================================  -->
@@ -151,7 +151,7 @@
         <mkdir dir="${jsdocdir}" />
         <mkdir dir="${logdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portlet" dir="." output="${logdir}\jsdoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\UI" dir="." output="${logdir}\jsdoc.log"/>
     </target> 
     
     <!-- ============================================  -->
@@ -196,7 +196,7 @@
         </delete>
 
         <append destFile="${stagedir}/Sys/0.2.0/Portal/portal.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, PortalApp.js" />
+            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, PortalApp.js" />
         </append>
         <delete>
             <fileset dir="${stagedir}/Sys/0.2.0/Portal">
@@ -205,15 +205,6 @@
             </fileset>
         </delete>
         
-        <append destFile="${stagedir}/Sys/0.2.0/Portlet/portlet.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Portlet" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js" />
-        </append>
-        <delete>
-            <fileset dir="${stagedir}/Sys/0.2.0/Portlet">
-                <include name="*.js"/>
-                <exclude name="portlet.js"/>
-            </fileset>
-        </delete>
     </target> 
     
     <!-- ============================================  -->
