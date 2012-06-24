@@ -32,12 +32,12 @@ Clouber.namespace("Clouber.Sys.Portal");
 * 6. Request for a page.
 * 7. Processing interactions.
 * 8. Destruction of relationships.
-* @class Clouber.Sys.Portal.Portal
+* @class Clouber.Sys.Portal.PortalApp
 * @namespace Clouber.Sys.Portal
 * @extends Clouber.BaseObject
 * @constructor
 */
-Clouber.Sys.Portal.Portal = function () {
+Clouber.Sys.Portal.PortalApp = function () {
     'use strict';
 
     var _time;
@@ -608,4 +608,20 @@ Clouber.Sys.Portal.Portal = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.Portal, Clouber.Sys.Core.Application);
+Clouber.extend(Clouber.Sys.Portal.PortalApp, Clouber.Sys.Core.Application);
+
+/**
+* Clouber portal object initialization.
+*/
+Clouber.set("portal", new Clouber.Sys.Portal.PortalApp());
+Object.defineProperty(Clouber, "portal", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("portal");
+    },
+    set: function (value) {
+        return;
+    }
+});
+

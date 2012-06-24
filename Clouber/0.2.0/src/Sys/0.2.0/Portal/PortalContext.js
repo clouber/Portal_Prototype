@@ -351,12 +351,12 @@ Clouber.Sys.Portal.PortalContext = function () {
 
                             prd = this.getProducer(pro);
 
-                            portletCtx = new WSRP.PortletContext();
+                            portletCtx = new Clouber.Sys.Portal.T.PortletContext();
                             portletCtx.portletHandle.handle = p.portletID;
-                            rtctx = new WSRP.RuntimeContext();
+                            rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
                             rtctx.extensions[0] = attrs;
                             rtctx.extensions[1] = qs;
-                            mkp = new WSRP.MarkupParams();
+                            mkp = new Clouber.Sys.Portal.T.MarkupParams();
                             mkp.mode = w.mode;
                             mkp.windowState = w.windowState;
 
@@ -447,16 +447,16 @@ Clouber.Sys.Portal.PortalContext = function () {
                 if ((port === undefined) ||
                         (port === p.portletID + "@" + pro)) {
 
-                    portletCtx = new WSRP.PortletContext();
+                    portletCtx = new Clouber.Sys.Portal.T.PortletContext();
                     portletCtx.portletHandle.handle = p.portletID;
-                    rtctx = new WSRP.RuntimeContext();
+                    rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
                     rtctx.extensions[0] = attrs;
                     rtctx.extensions[1] = qs;
-                    mkp = new WSRP.MarkupParams();
+                    mkp = new Clouber.Sys.Portal.T.MarkupParams();
                     mkp.mode = p.mode;
                     mkp.windowState = p.windowState;
 
-                    ip = new WSRP.InteractionParams();
+                    ip = new Clouber.Sys.Portal.T.InteractionParams();
                     ip.formParameters = params;
 
                     prd = this.getProducer(pro);
@@ -536,16 +536,16 @@ Clouber.Sys.Portal.PortalContext = function () {
                         if (p.config.handledEvents[k] === events[j]) {
 
                             // handleEvents
-                            portletCtx = new WSRP.PortletContext();
+                            portletCtx = new Clouber.Sys.Portal.T.PortletContext();
                             portletCtx.portletHandle.handle = p.portletID;
-                            rtctx = new WSRP.RuntimeContext();
+                            rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
                             rtctx.extensions[0] = attrs;
                             rtctx.extensions[1] = qs;
-                            mkp = new WSRP.MarkupParams();
+                            mkp = new Clouber.Sys.Portal.T.MarkupParams();
                             mkp.mode = p.mode;
                             mkp.windowState = p.windowState;
 
-                            ep = new WSRP.EventParams();
+                            ep = new Clouber.Sys.Portal.T.EventParams();
                             ep.events = events[j];
                             ep.extensions = [params];
                             prd = this.getProducer(pro);

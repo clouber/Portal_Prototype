@@ -77,7 +77,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
         this.userContext.userContextKey = args.username;
 
         // get portlet registration context
-        this.registationData = new WSRP.RegistrationData();
+        this.registationData = new Clouber.Sys.Portal.T.RegistrationData();
         this.registationData.consumerName = Clouber.portal.getConf().name;
         this.registationData.consumerAgent =
             Clouber.config.getConfig().name + "." +
@@ -88,7 +88,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
         this.registationData.consumerWindowStates =
             ["normal", "minimized", "maximized", "solo"];
 
-        this.lifetime = new WSRP.Lifetime();
+        this.lifetime = new Clouber.Sys.Portal.T.Lifetime();
 
         this.registrationContext = this.register(this.registationData,
             this.lifetime, this.userContext);
