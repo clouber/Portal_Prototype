@@ -29,10 +29,10 @@ if (location.hostname=="localhost") {
     
 	document.write("<scr"+"ipt src=\"Sys/0.2.0/UI/Common.js\"></sc"+"ript>") ;
     
-	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/WSRP.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/PortletInfo.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/ProducerContext.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portlet/Producer.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/Type.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortletInfo.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/ProducerContext.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/Producer.js\"></sc"+"ript>") ;
     
 	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortalInfo.js\"></sc"+"ript>") ;
 	document.write("<scr"+"ipt src=\"Sys/0.2.0/Portal/PortalContext.js\"></sc"+"ript>") ;
@@ -61,7 +61,6 @@ if (location.hostname=="localhost") {
 
 <script type="text/javascript">
     $CB.ready(function () {
-        $CB.portal = $CB.create("Clouber.Sys.Portal.Portal");
         $CB.portal.init();
     });
 </script>
