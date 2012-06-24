@@ -398,7 +398,32 @@ Clouber.Sys.Core.Event = function () {
 Clouber.extend(Clouber.Sys.Core.Event, Clouber.BaseObject);
 
 /**
-* Clouber object initialization.
+* Clouber document object initialization.
 */
-Clouber.document = new Clouber.Sys.Core.Document();
-Clouber.event = new Clouber.Sys.Core.Event();
+Clouber.set("document", new Clouber.Sys.Core.Document());
+Object.defineProperty(Clouber, "document", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("document");
+    },
+    set: function (value) {
+        return;
+    }
+});
+
+/**
+* Clouber event object initialization.
+*/
+Clouber.set("event", new Clouber.Sys.Core.Event());
+Object.defineProperty(Clouber, "event", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("event");
+    },
+    set: function (value) {
+        return;
+    }
+});
+

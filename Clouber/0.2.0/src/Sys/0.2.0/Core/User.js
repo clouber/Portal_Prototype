@@ -90,13 +90,15 @@ Clouber.Sys.Core.User = function () {
 };
 Clouber.extend(Clouber.Sys.Core.User, Clouber.BaseObject);
 
+/**
+* Clouber user object initialization.
+*/
+Clouber.set("user", new Clouber.Sys.Core.User());
 Object.defineProperty(Clouber, "user", {
     configurable: false,
     enumerable: true,
     get: function () {
-        this._user = (this.isNull(this._user)) ? new Clouber.Sys.Core.User() :
-            this._user;
-        return this._user;
+        return Clouber.get("user");
     },
     set: function (value) {
         return;

@@ -31,14 +31,14 @@ var Clouber = Clouber || {};
     * declare the gloabel object Clouber.
     */
     Clouber = (function () {
-        var _instance = {};
+        var _instance = {},
 
         /**
-        * Clouber's version
-        * @property {String} VERSION
+        * Clouber's internal objects
+        * @property {array} _objs
         * @ignore
         */
-        _instance._user = null;
+            _objs = [];
 
         /**
         * Clouber's version
@@ -63,6 +63,32 @@ var Clouber = Clouber || {};
                 }
             }
             return false;
+        };
+
+        /**
+        * Return object instance of Clouber if object setting is successful.
+        * @function set
+        * @param {string} name Clouber's object name.
+        * @param {object} obj Clouber's object instance.
+        * @return {object}
+        */
+        _instance.set = function (name, obj) {
+            if (typeof _objs[name] === "undefined") {
+                _objs[name] = obj;
+            } else {
+                return;
+            }
+            return _objs[name];
+        };
+
+        /**
+        * Return object instance of Clouber by given name.
+        * @function get
+        * @param {string} name Clouber's object name.
+        * @return {object}
+        */
+        _instance.get = function (name) {
+            return _objs[name];
         };
 
         /**

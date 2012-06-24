@@ -91,5 +91,19 @@ Clouber.Sys.Core.Crypt = function () {
     };
 };
 Clouber.extend(Clouber.Sys.Core.Crypt, Clouber.BaseObject);
-Clouber.crypt = new Clouber.Sys.Core.Crypt();
+
+/**
+* Clouber crypt object initialization.
+*/
+Clouber.set("crypt", new Clouber.Sys.Core.Crypt());
+Object.defineProperty(Clouber, "crypt", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("crypt");
+    },
+    set: function (value) {
+        return;
+    }
+});
 

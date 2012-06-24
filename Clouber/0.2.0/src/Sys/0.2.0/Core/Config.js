@@ -575,10 +575,21 @@ Clouber.Sys.Core.ConfigManager = function () {
 
 };
 Clouber.extend(Clouber.Sys.Core.ConfigManager, Clouber.Sys.Core.Config);
+
 /**
-* Clouber object initialization.
+* Clouber config object initialization.
 */
-Clouber.config = new Clouber.Sys.Core.ConfigManager();
+Clouber.set("config", new Clouber.Sys.Core.ConfigManager());
+Object.defineProperty(Clouber, "config", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("config");
+    },
+    set: function (value) {
+        return;
+    }
+});
 Clouber.config.loadConf();
 
 
@@ -769,5 +780,19 @@ Clouber.Sys.Core.ModuleLoader = function (config) {
 
 };
 Clouber.extend(Clouber.Sys.Core.ModuleLoader, Clouber.BaseObject);
-Clouber.loader = new Clouber.Sys.Core.ModuleLoader(Clouber.config);
+
+/**
+* Clouber loader object initialization.
+*/
+Clouber.set("loader", new Clouber.Sys.Core.ModuleLoader(Clouber.config));
+Object.defineProperty(Clouber, "loader", {
+    configurable: false,
+    enumerable: true,
+    get: function () {
+        return Clouber.get("loader");
+    },
+    set: function (value) {
+        return;
+    }
+});
 
