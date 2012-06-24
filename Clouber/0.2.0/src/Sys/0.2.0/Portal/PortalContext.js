@@ -4,7 +4,7 @@
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.PortalContext
 * @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
-*           Clouber.Sys.Portlet.*
+*           Clouber.Sys.Portal.*
 */
 
 
@@ -152,7 +152,7 @@ Clouber.Sys.Portal.PortalContext = function () {
 
         /**
         * 1 portlet id
-        * @class Clouber.Sys.Portlet.PortletInfo
+        * @class Clouber.Sys.Portal.PortletInfo
         * @property {string} portletID
         */
         o._markup = new Clouber.Sys.Core.Cache();
@@ -237,14 +237,14 @@ Clouber.Sys.Portal.PortalContext = function () {
                         // window state
                         s = list[j].markupTypes.get("windowStates").split("/");
                         if (s[0] === undefined) {
-                            s[0] = "wsrp:normal";
+                            s[0] = "normal";
                         }
                         w.windowState = s[0];
 
                         // mode
                         s = list[j].markupTypes.get("modes").split("/");
                         if (s[0] === undefined) {
-                            s[0] = "wsrp:view";
+                            s[0] = "view";
                         }
                         w.mode = s[0];
 

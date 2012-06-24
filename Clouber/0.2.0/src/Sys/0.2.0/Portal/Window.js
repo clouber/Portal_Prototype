@@ -76,7 +76,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     };
 
     /**
-    * Get portlet state (wsrp:normal, wsrp:minimized, wsrp:maximized, wsrp:solo)
+    * Get portlet state (normal, minimized, maximized, solo)
     * @function getState
     * @return {String}
     */
@@ -87,7 +87,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
             if (p.markupTypes instanceof Clouber.Map) {
                 s = p.markupTypes.get("windowStates").split("/");
                 if (s[0] === undefined) {
-                    s[0] = "wsrp:normal";
+                    s[0] = "normal";
                 }
                 this.getPortletContext().windowState = s[0];
             }
@@ -97,7 +97,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
 
     /**
     * Get portlet support states
-    * (wsrp:normal, wsrp:minimized, wsrp:maximized, wsrp:solo)
+    * (normal, minimized, maximized, solo)
     * @function getStates
     * @return {Array}
     */
@@ -111,7 +111,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     };
 
     /**
-    * Set portlet state (wsrp:normal, wsrp:minimized, wsrp:maximized, wsrp:solo)
+    * Set portlet state (normal, minimized, maximized, solo)
     * @function setState
     * @params {String}
     */
@@ -238,16 +238,16 @@ Clouber.Sys.Portal.WindowView = function () {
         s = this.controller.model.getStates();
         for (i = 0, l = s.length; i < l; i++) {
             switch (s[i]) {
-            case "wsrp:minimized":
+            case "minimized":
                 min = ' <div class="minimized"></div>';
                 break;
-            case "wsrp:maximized":
+            case "maximized":
                 max = ' <div class="maximized"></div>';
                 break;
-            case "wsrp:solo":
+            case "solo":
                 solo = ' <div class="solo"></div>';
                 break;
-            case "wsrp:normal":
+            case "normal":
                 nor = ' <div class="normal"></div>';
                 break;
             }
@@ -785,13 +785,13 @@ Clouber.Sys.Portal.Window = function (index) {
 
         // initialize the window
         switch (this.model.getState()) {
-        case "wsrp:minimized":
+        case "minimized":
             this.minimized();
             break;
-        case "wsrp:maximized":
+        case "maximized":
             this.maximized();
             break;
-        case "wsrp:solo":
+        case "solo":
             this.solo();
             break;
         default:
@@ -840,7 +840,7 @@ Clouber.Sys.Portal.Window = function (index) {
     */
     this.normal = function () {
         this.view.normal();
-        this.model.setState("wsrp:normal");
+        this.model.setState("normal");
     };
 
     /**
@@ -849,7 +849,7 @@ Clouber.Sys.Portal.Window = function (index) {
     */
     this.minimized = function () {
         this.view.minimized();
-        this.model.setState("wsrp:minimized");
+        this.model.setState("minimized");
     };
 
     /**
@@ -858,7 +858,7 @@ Clouber.Sys.Portal.Window = function (index) {
     */
     this.maximized = function () {
         this.view.maximized();
-        this.model.setState("wsrp:maximized");
+        this.model.setState("maximized");
     };
 
     /**
@@ -867,7 +867,7 @@ Clouber.Sys.Portal.Window = function (index) {
     */
     this.solo = function () {
         this.view.solo();
-        this.model.setState("wsrp:solo");
+        this.model.setState("solo");
     };
 
     /**

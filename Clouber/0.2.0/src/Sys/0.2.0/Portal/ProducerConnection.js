@@ -4,7 +4,7 @@
 * @author Jon Zhou
 * @module Clouber.Sys.Portal.ProducerConnection
 * @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
-*           Clouber.Sys.Portlet.*
+*           Clouber.Sys.Portal.*
 */
 
 Clouber.namespace("Clouber.Sys.Portal");
@@ -69,13 +69,8 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
     * @return {object}
     */
     this.registerProducer = function (args) {
-        if (args.producer === "localhost") {
-            _producer = new Clouber.Sys.Portlet.Producer();
-            _producer.init(args);
-        } else {
-            _producer = new Clouber.Sys.Portlet.Producer(args);
-            _producer.init(args);
-        }
+        _producer = new Clouber.Sys.Portal.Producer();
+        _producer.init(args);
 
         // get user context
         this.userContext = this.getUserContext();
@@ -89,9 +84,9 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
             Clouber.config.getConfig().version;
         this.registationData.methodGetSupported = true;
         this.registationData.consumerModes =
-            ["wsrp:view", "wsrp:edit", "wsrp:preview", "wsrp:help"];
+            ["view", "edit", "preview", "help"];
         this.registationData.consumerWindowStates =
-            ["wsrp:normal", "wsrp:minimized", "wsrp:maximized", "wsrp:solo"];
+            ["normal", "minimized", "maximized", "solo"];
 
         this.lifetime = new WSRP.Lifetime();
 
