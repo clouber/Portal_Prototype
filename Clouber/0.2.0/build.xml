@@ -206,7 +206,7 @@
         </delete>
         
         <append destFile="${stagedir}/Sys/0.2.0/Portlet/portlet.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Portlet" files="WSRP.js, PortletInfo.js, ProducerContext.js, Producer.js" />
+            <filelist dir="${stagedir}/Sys/0.2.0/Portlet" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js" />
         </append>
         <delete>
             <fileset dir="${stagedir}/Sys/0.2.0/Portlet">
