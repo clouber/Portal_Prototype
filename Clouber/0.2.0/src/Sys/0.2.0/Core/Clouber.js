@@ -75,6 +75,16 @@ var Clouber = Clouber || {};
         _instance.set = function (name, obj) {
             if (typeof _objs[name] === "undefined") {
                 _objs[name] = obj;
+                Object.defineProperty(_instance, name, {
+                    configurable: false,
+                    enumerable: true,
+                    get: function () {
+                        return _instance.get(name);
+                    },
+                    set: function (value) {
+                        return;
+                    }
+                });
             } else {
                 return;
             }
@@ -452,6 +462,49 @@ var Clouber = Clouber || {};
             return _instance.id;
         };
 
+        /**
+        * Prevent methods and properties being changed.
+        * @function lock
+        * @param {object} o
+        */
+        _instance.lock = function (o, p) {
+            var m;
+            if (typeof p === "undefined") {
+                for (m in o) {
+                    if (o.hasOwnProperty(m)) {
+                        switch (typeof o[m]) {
+                        case "function":
+                            // lock all methods
+                            Object.defineProperty(o, m, {
+                                configurable: false,
+                                enumerable: true,
+                                writable: false
+                            });
+                            break;
+
+                        default:
+                            // lock all properties
+                            Object.defineProperty(o, m, {
+                                configurable: false,
+                                enumerable: true
+                            });
+                        }
+                    }
+                }
+
+            } else {
+                // lock the specified property
+                Object.defineProperty(o, p, {
+                    configurable: false,
+                    enumerable: true,
+                    writable: false
+                });
+
+            }
+        };
+
+        _instance.lock(_instance);
+        _instance.lock(_instance, "VERSION");
         return _instance;
 
     }());
@@ -463,5 +516,6 @@ var Clouber = Clouber || {};
 */
 var $CB = Clouber;
 var $cb = Clouber;
+Clouber.lock(window, "Clouber");
 Clouber.log("Clouber initialized.");
 
