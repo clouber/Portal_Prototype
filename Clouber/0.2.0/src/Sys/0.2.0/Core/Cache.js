@@ -97,7 +97,7 @@ Clouber.Sys.Core.Cache = function () {
      * @param {object} data Caching data object.
      */
     this.set = function (name, data, user) {
-        var item, t, d = {};
+        var item, t, l, d = {};
 
         if ((!Clouber.isEmpty(name)) && (!Clouber.isNull(data))) {
 
@@ -113,6 +113,7 @@ Clouber.Sys.Core.Cache = function () {
 
             // put data into localStorage
             if (typeof (window.localStorage) !== "undefined") {
+                l = Clouber.location;
                 try {
                     if (_encrypt) {
                         t = Clouber.crypt.encrypt(_data, _key);
@@ -124,13 +125,13 @@ Clouber.Sys.Core.Cache = function () {
                     d.timestamp = _time.getTime();
                     t = JSON.stringify(d);
                     
-                    window.localStorage.setItem(_user + ":" + _name, t);
+                    window.localStorage.setItem(_user + "@" + l + ":" + _name, t);
                     _count = this.count() + 1;
                     return true;
                 } catch (e) {
                     e.code = "Clouber.Sys.Core.Cache#set";
                     Clouber.log(e);
-                    window.localStorage.removeItem(_user + ":" + _name, _data);
+                    window.localStorage.removeItem(_user + "@" + l + ":" + _name);
                     return false;
                 }
             } else {
@@ -148,7 +149,7 @@ Clouber.Sys.Core.Cache = function () {
     * @return {object} caching data object
     */
     this.get = function (name, user) {
-        var o, t, d;
+        var o, t, d, l;
         if ((typeof _data === "undefined") || (_data === null)) {
             // get data from localStorage
             if (typeof (window.localStorage) !== "undefined") {
@@ -163,7 +164,8 @@ Clouber.Sys.Core.Cache = function () {
                     name = _name;
                 }
                 try {
-                    t = window.localStorage.getItem(user + ":" + name);
+                    l = Clouber.location;
+                    t = window.localStorage.getItem(user + "@" + l + ":" + name);
 
                     if (!Clouber.isNull(t)) {
                         d = JSON.parse(t);

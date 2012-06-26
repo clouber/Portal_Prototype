@@ -47,6 +47,13 @@ var Clouber = Clouber || {};
         _instance.VERSION = "0.2.0";
 
         /**
+        * Clouber's location
+        * @property {String} host
+        */
+        _instance.location = window.location.hostname +
+            window.location.pathname;
+
+        /**
         * Return true if this version is newer than the given version.
         * @function newer
         * @param {string} version Version scheme is "major.minor.stage"
