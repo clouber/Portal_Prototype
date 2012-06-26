@@ -516,6 +516,6 @@ var Clouber = Clouber || {};
 */
 var $CB = Clouber;
 var $cb = Clouber;
-Clouber.lock(window, "Clouber");
+//Clouber.lock(window, "Clouber");
 Clouber.log("Clouber initialized.");
 
