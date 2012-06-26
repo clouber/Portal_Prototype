@@ -176,7 +176,7 @@
         <echo msg="Merge JavaScript codes." />
         
         <append destFile="${stagedir}/Sys/0.2.0/Core/core.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, User.js, Application.js" />
+            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, Loader.js, User.js, Application.js" />
         </append>
         <delete>
             <fileset dir="${stagedir}/Sys/0.2.0/Core">
@@ -196,7 +196,7 @@
         </delete>
 
         <append destFile="${stagedir}/Sys/0.2.0/Portal/portal.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, PortalApp.js" />
+            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, Consumer.js" />
         </append>
         <delete>
             <fileset dir="${stagedir}/Sys/0.2.0/Portal">
