@@ -399,7 +399,7 @@ Clouber.Sys.UI.ContainerController = function () {
             this.components = new Clouber.Map();
         }
 
-        this.components.put(index, component);
+        this.components.set(index, component);
         component.setContainer(this);
         component.setting({index: index});
     };
