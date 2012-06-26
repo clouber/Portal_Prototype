@@ -10,7 +10,7 @@ Clouber.namespace("Clouber.Sys.Portal");
 /**
  * @class  The Portlet Producer.
  * @constructor
- * @extends Clouber.Sys.Core.Application
+ * @extends Clouber.BaseObject
  */
 Clouber.Sys.Portal.Producer = function () {
     'use strict';
@@ -20,13 +20,6 @@ Clouber.Sys.Portal.Producer = function () {
     * @type string
     */
     this.TYPE = "PORTLET_PRODUCER";
-
-    /**
-    * Internal configuration context
-    * @type object
-    * @ignore
-    */
-    this._conf = null;
 
     /**
     * Internal portlet configuration context
@@ -41,29 +34,27 @@ Clouber.Sys.Portal.Producer = function () {
      * @override
      */
     this.init = function (conf) {
-        var c, k;
+        var c, k, p;
         try {
             Clouber.log("Clouber.Sys.Portal.Producer#init");
-
-            // config file settiing
-            this.setInterval(45000);
-            this.setKey(Clouber.config.getKey());
-            this.setName("CLOUBER_PRODUCER");
 
             // initialize context
             this._context = new Clouber.Sys.Portal.ProducerContext();
             this._context.init(conf);
 
-            c = Clouber.config.getAppConf(Clouber.config.getVersion(),
-                    conf.app);
-            if (typeof c === "undefined") {
-                this.loadConf(
-                    {config: "app/" + this.getConf().app + "/conf/conf.json"},
-                    {async: false}
-                );
+            // load portlet configuration
+            c = Clouber.portal.getConfig();
+            if ((typeof c.portlet === "string") && (c.portlet.length > 0)) {
+                p = c.portlet;
             } else {
-                this.loadConf(c, {async: false});
+                p = c.path + "/conf/portlet.conf";
             }
+            this._context.loadConf({
+                async: false,
+                base: Clouber.config.getConfig().base,
+                config: p
+            });
+
 
         } catch (e) {
             e.code = "Clouber.Sys.Portal.Producer#init";
@@ -80,30 +71,6 @@ Clouber.Sys.Portal.Producer = function () {
     };
 
     /**
-    * Application config loaded, then initialize portlet producer.
-    * @event confSuccess
-    * @param {object} data PortletConfig's config object get from json object.
-    * @override
-    */
-    this.confSuccess = function (data) {
-        var c, p;
-        Clouber.log("Clouber.Sys.Portal.Producer#confSuccess");
-
-        c = this.getConf();
-        if ((typeof c.portlet === "string") && (c.portlet.length > 0)) {
-            p = c.portlet;
-        } else {
-            p = c.path + "/conf/portlet.conf";
-        }
-        this._context.loadConf({
-            async: false,
-            base: Clouber.config.getConfig().base,
-            config: p
-        });
-
-    };
-
-    /**
     * get connected user's context.
     * @function getUserContext
     * @return {object} UserContext
@@ -114,7 +81,7 @@ Clouber.Sys.Portal.Producer = function () {
             this.userContext.userContextKey = (new Date()).valueOf() * 1000  +
                 Math.round(Math.random() * 1000);
             this.userContext.profile = new Clouber.Sys.Portal.T.UserProfile();
-            this.userContext.extensions[0] = this._conf.Username;
+            this.userContext.extensions[0] = Clouber.user.id();
         }
 
         return this.userContext;
@@ -156,23 +123,25 @@ Clouber.Sys.Portal.Producer = function () {
      * @param {object} runtimeContext
      * @param {object} userContext
      * @param {object} markupParams
+     * @param {function} callback Optional asynchronous callback function
      * @return {object} MarkupResponse.
      */
     this.getMarkup = function (registationContext, portletContext,
-            runtimeContext, userContext, markupParams) {
+            runtimeContext, userContext, markupParams, callback) {
 
-        var pid, rsp, url, params, ns, p, script, method = "POST";
+        var pid, prod, rsp, url, params, ns, p, script, async, method = "POST";
 
         try {
             Clouber.log("Clouber.Sys.Portal.Producer#getMarkup");
 
             pid = portletContext.portletHandle.handle;
+            prod = portletContext.extensions[0];
 
             // invocate portlet
             p = this.getContext().get(pid);
             if (typeof p !== "undefined") {
                 ns = p.groupID + "." + p.displayName;
-                url = Clouber.config.getModulePath(ns, this.getConf().path);
+                url = Clouber.config.getModulePath(ns, Clouber.portal.getConfig().path);
                 script = p.extensions.get("script");
                 if (typeof script !== "undefined") {
                     url = url + script;
@@ -190,25 +159,29 @@ Clouber.Sys.Portal.Producer = function () {
                 params = params.stringify();
 
                 // set attributes, CLOUBER_EVENT, CLOUBER_REQUEST, CLOUBER_PATH
-                runtimeContext.extensions[0].put("CLOUBER_MODE",
+                runtimeContext.extensions[0].set("CLOUBER_MODE",
                     markupParams.mode);
-                runtimeContext.extensions[0].put("CLOUBER_STATE",
+                runtimeContext.extensions[0].set("CLOUBER_STATE",
                     markupParams.windowState);
-                runtimeContext.extensions[0].put("CLOUBER_USER",
-                    userContext.userContextKey);
-                runtimeContext.extensions[0].put("CLOUBER_LANG",
+                runtimeContext.extensions[0].set("CLOUBER_USER",
+                    userContext.extensions[0]);
+                runtimeContext.extensions[0].set("CLOUBER_LANG",
                     markupParams.locales[0]);
-                runtimeContext.extensions[0].put("CLOUBER_PORTLET",
+                runtimeContext.extensions[0].set("CLOUBER_PORTLET",
                     ns);
 
                 // get result
                 rsp = new Clouber.Sys.Portal.T.MarkupResponse();
                 rsp.markupContext.mimeType = "text/html";
                 rsp.markupContext.locale = markupParams.locales[0];
+                rsp.extensions[0] = pid;
+                rsp.extensions[1] = prod;
+
+                async = (Clouber.isNull(callback)) ? false : true;
 
                 Clouber.document.ajax({
                     method: method,
-                    async: false,
+                    async: async,
                     url: url,
                     headers: runtimeContext.extensions[0],
                     data: params,
@@ -216,6 +189,9 @@ Clouber.Sys.Portal.Producer = function () {
                     context: this,
                     success: function (data) {
                         rsp.markupContext.itemString = data;
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     },
                     error: function (status, error, url, text) {
                         rsp.extensions[0] = {
@@ -226,6 +202,9 @@ Clouber.Sys.Portal.Producer = function () {
                         };
                         Clouber.log(Clouber.message.ajaxCallError + " (" + url +
                             ": " + error + ")\n\t" + text);
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     }
                 });
 
@@ -253,24 +232,26 @@ Clouber.Sys.Portal.Producer = function () {
      * @param {object} userContext
      * @param {object} markupParams
      * @param {object} interactionParams
+     * @param {function} callback Optional asynchronous callback function
      * @return {BlockingInteractionResponse}
      */
     this.performBlockingInteraction = function (registationContext,
         portletContext, runtimeContext, userContext, markupParams,
-        interactionParams) {
+        interactionParams, callback) {
 
-        var pid, params, rsp, url, ns, p, script, method = "POST";
+        var pid, prod, params, rsp, url, ns, p, script, async, method = "POST";
 
         Clouber.log("Clouber.Sys.Portal.Producer#performBlockingInteraction");
 
         try {
             pid = portletContext.portletHandle.handle;
+            prod = portletContext.extensions[0];
 
             // invocate portlet
             p = this.getContext().get(pid);
             if (typeof p !== "undefined") {
                 ns = p.groupID + "." + p.displayName;
-                url = Clouber.config.getModulePath(ns, this.getConf().path);
+                url = Clouber.config.getModulePath(ns, Clouber.portal.getConfig().path);
                 script = p.extensions.get("script");
                 if (typeof script !== "undefined") {
                     url = url + script;
@@ -288,15 +269,15 @@ Clouber.Sys.Portal.Producer = function () {
                     interactionParams.formParameters.stringify();
 
                 // set attributes, CLOUBER_EVENT, CLOUBER_REQUEST, CLOUBER_PATH
-                runtimeContext.extensions[0].put("CLOUBER_MODE",
+                runtimeContext.extensions[0].set("CLOUBER_MODE",
                     markupParams.mode);
-                runtimeContext.extensions[0].put("CLOUBER_STATE",
+                runtimeContext.extensions[0].set("CLOUBER_STATE",
                     markupParams.windowState);
-                runtimeContext.extensions[0].put("CLOUBER_USER",
+                runtimeContext.extensions[0].set("CLOUBER_USER",
                     userContext.userContextKey);
-                runtimeContext.extensions[0].put("CLOUBER_LANG",
+                runtimeContext.extensions[0].set("CLOUBER_LANG",
                     markupParams.locales[0]);
-                runtimeContext.extensions[0].put("CLOUBER_PORTLET",
+                runtimeContext.extensions[0].set("CLOUBER_PORTLET",
                     ns);
 
                 // get result
@@ -304,10 +285,14 @@ Clouber.Sys.Portal.Producer = function () {
                 rsp.updateResponse.markupContext.mimeType = "text/html";
                 rsp.updateResponse.markupContext.locale =
                     markupParams.locales[0];
+                rsp.extensions[0] = pid;
+                rsp.extensions[1] = prod;
+
+                async = (Clouber.isNull(callback)) ? false : true;
 
                 Clouber.document.ajax({
                     method: method,
-                    async: false,
+                    async: async,
                     url: url,
                     data: params,
                     headers: runtimeContext.extensions[0],
@@ -315,6 +300,9 @@ Clouber.Sys.Portal.Producer = function () {
                     context: this,
                     success: function (data) {
                         rsp.updateResponse.markupContext.itemString = data;
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     },
                     error: function (status, error, url, text) {
                         rsp.extensions[0] = {
@@ -325,6 +313,9 @@ Clouber.Sys.Portal.Producer = function () {
                         };
                         Clouber.log(Clouber.message.ajaxCallError + " (" + url +
                             ": " + error + ")\n\t" + text);
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     }
                 });
 
@@ -350,23 +341,25 @@ Clouber.Sys.Portal.Producer = function () {
      * @param {object} userContext
      * @param {object} markupParams
      * @param {object} eventParams
+     * @param {function} callback Optional asynchronous callback function
      * @return {HandleEventsResponse} .
      */
     this.handleEvents = function (registationContext, portletContext,
-        runtimeContext, userContext, markupParams, eventParams) {
+        runtimeContext, userContext, markupParams, eventParams, callback) {
 
-        var pid, params, rsp, url, ns, p, script, method = "POST";
+        var pid, prod, params, rsp, url, ns, p, script, async, method = "POST";
 
         Clouber.log("Clouber.Sys.Portal.Producer#handleEvents");
 
         try {
             pid = portletContext.portletHandle.handle;
+            prod = portletContext.extensions[0];
 
             // invocate portlet
             p = this.getContext().get(pid);
             if (typeof p !== "undefined") {
                 ns = p.groupID + "." + p.displayName;
-                url = Clouber.config.getModulePath(ns, this.getConf().path);
+                url = Clouber.config.getModulePath(ns, Clouber.portal.getConfig().path);
                 script = p.extensions.get("script");
                 if (typeof script !== "undefined") {
                     url = url + script;
@@ -384,15 +377,15 @@ Clouber.Sys.Portal.Producer = function () {
                     eventParams.extensions[0].stringify();
 
                 // set attributes, CLOUBER_EVENT, CLOUBER_REQUEST, CLOUBER_PATH
-                runtimeContext.extensions[0].put("CLOUBER_MODE",
+                runtimeContext.extensions[0].set("CLOUBER_MODE",
                     markupParams.mode);
-                runtimeContext.extensions[0].put("CLOUBER_STATE",
+                runtimeContext.extensions[0].set("CLOUBER_STATE",
                     markupParams.windowState);
-                runtimeContext.extensions[0].put("CLOUBER_USER",
+                runtimeContext.extensions[0].set("CLOUBER_USER",
                     userContext.userContextKey);
-                runtimeContext.extensions[0].put("CLOUBER_LANG",
+                runtimeContext.extensions[0].set("CLOUBER_LANG",
                     markupParams.locales[0]);
-                runtimeContext.extensions[0].put("CLOUBER_PORTLET",
+                runtimeContext.extensions[0].set("CLOUBER_PORTLET",
                     ns);
 
                 // get result
@@ -400,10 +393,14 @@ Clouber.Sys.Portal.Producer = function () {
                 rsp.updateResponse.markupContext.mimeType = "text/html";
                 rsp.updateResponse.markupContext.locale =
                     markupParams.locales[0];
+                rsp.extensions[0] = pid;
+                rsp.extensions[1] = prod;
+
+                async = (Clouber.isNull(callback)) ? false : true;
 
                 Clouber.document.ajax({
                     method: method,
-                    async: false,
+                    async: async,
                     url: url,
                     data: params,
                     headers: runtimeContext.extensions[0],
@@ -411,6 +408,9 @@ Clouber.Sys.Portal.Producer = function () {
                     context: this,
                     success: function (data) {
                         rsp.updateResponse.markupContext.itemString = data;
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     },
                     error: function (status, error, url, text) {
                         rsp.extensions[0] = {
@@ -421,6 +421,9 @@ Clouber.Sys.Portal.Producer = function () {
                         };
                         Clouber.log(Clouber.message.ajaxCallError + " (" + url +
                             ": " + error + ")\n\t" + text);
+                        if (!Clouber.isNull(callback)) {
+                            callback(rsp);
+                        }
                     }
                 });
 
@@ -492,4 +495,4 @@ Clouber.Sys.Portal.Producer = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.Producer, Clouber.Sys.Core.Application);
+Clouber.extend(Clouber.Sys.Portal.Producer, Clouber.BaseObject);

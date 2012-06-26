@@ -108,19 +108,19 @@ Clouber.Sys.Portal.ProducerContext = function () {
 
                     // window style
                     s = p.extensions.get("titleBar");
-                    p.extensions.put("titleBar", s === "true");
+                    p.extensions.set("titleBar", s === "true");
                     s = p.extensions.get("statusBar");
-                    p.extensions.put("statusBar", s === "true");
+                    p.extensions.set("statusBar", s === "true");
                     s = p.extensions.get("border");
-                    p.extensions.put("border", s === "true");
+                    p.extensions.set("border", s === "true");
                     s = p.extensions.get("thumbnail");
-                    p.extensions.put("thumbnail", s === "true");
+                    p.extensions.set("thumbnail", s === "true");
                     s = p.extensions.get("option");
-                    p.extensions.put("option", s === "true");
+                    p.extensions.set("option", s === "true");
                     s = p.extensions.get("close");
-                    p.extensions.put("close", s === "true");
+                    p.extensions.set("close", s === "true");
 
-                    map.put(p.portletID, p);
+                    map.set(p.portletID, p);
                 }
             }
             return map;

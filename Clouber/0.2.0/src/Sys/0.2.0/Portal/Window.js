@@ -137,8 +137,8 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     };
 
     /**
-    * Return true if portlet context changed.
-    * @function getPortletContext
+    * Return true if portlet context expired.
+    * @function isChanged
     * @return {boolean}
     */
     this.isChanged = function () {
@@ -153,8 +153,8 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     };
 
     /**
-    * set portlet markup
-    * @function stateChanged
+    * get portlet markup
+    * @function getMarkup
     */
     this.getMarkup = function () {
         return null;
@@ -215,7 +215,7 @@ Clouber.Sys.Portal.WindowView = function () {
             Clouber.document.html(this.getContext().tag +
                     " .Clouber_Window .W_COMPONENT", html);
             Clouber.loader.loadCss(this.getPortletContext().css);
-            this.getPortletContext().changed = false;
+            this.getPortletContext().displayed = true;
             
             Clouber.log("Clouber.Sys.Portal.WindowView#showPortlet (" +
                 this.getPortletContext().portletID + ") [" +
@@ -701,6 +701,7 @@ Clouber.Sys.Portal.Window = function (index) {
 
         this.view.loadTheme(Clouber.portal.getConf().path);
         this.showWindow();
+        // display portlet
         this.view.showPortlet();
     };
 
@@ -711,40 +712,6 @@ Clouber.Sys.Portal.Window = function (index) {
     */
     this.destroying = function () {
         this.model.destroy();
-    };
-
-    /**
-    * Execute a command.
-    * @function execute
-    * @param {String} command Command name.
-    * @param {Object} params Command parameters.
-    * @override
-    */
-    this.execute = function (command, params) {
-        switch (command) {
-        case "close":
-            this.close(params);
-            break;
-        case "active":
-            this.active(params);
-            break;
-        case "normal":
-            this.normal(params);
-            break;
-        case "minimized":
-            this.minimized(params);
-            break;
-        case "maximized":
-            this.maximized(params);
-            break;
-        case "solo":
-            this.solo(params);
-            break;
-        case "event":
-            this.event(params);
-            break;
-        default:
-        }
     };
 
     /**
@@ -760,9 +727,8 @@ Clouber.Sys.Portal.Window = function (index) {
             // refresh window
             this.showWindow();
 
-            // refresh portlet
-            if (this.model.isChanged()) {
-                // display portlet
+            // refresh portlet if it's content is new.
+            if (!this.getPortletContext().displayed) {
                 this.view.showPortlet();
             }
 
@@ -809,6 +775,40 @@ Clouber.Sys.Portal.Window = function (index) {
         this.view.setTitleBar({title: p.title});
         this.view.setStatusBar({status: p.status});
 
+    };
+
+    /**
+    * Execute a command.
+    * @function execute
+    * @param {String} command Command name.
+    * @param {Object} params Command parameters.
+    * @override
+    */
+    this.execute = function (command, params) {
+        switch (command) {
+        case "close":
+            this.close(params);
+            break;
+        case "active":
+            this.active(params);
+            break;
+        case "normal":
+            this.normal(params);
+            break;
+        case "minimized":
+            this.minimized(params);
+            break;
+        case "maximized":
+            this.maximized(params);
+            break;
+        case "solo":
+            this.solo(params);
+            break;
+        case "event":
+            this.event(params);
+            break;
+        default:
+        }
     };
 
     /**

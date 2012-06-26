@@ -774,6 +774,31 @@ Clouber.Sys.Portal.T.StateChange = function () {
 };
 
 /**
+* 5.1.30 InteractionParams Type
+* The InteractionParams structure contains fields specific to invoking the
+* performBlockingInteraction operation.
+* @type Clouber.Sys.Portal.T.InteractionParams
+* @class Clouber.Sys.Portal.T.InteractionParams
+*/
+Clouber.Sys.Portal.T.InteractionParams = function () {
+    'use strict';
+    /** @type StateChange */
+    this.portletStateChange = new Clouber.Sys.Portal.T.StateChange();
+
+    /** @type string */
+    this.interactionState = "";
+
+    /** @type Array(NamedString) */
+    this.formParameters = [];
+
+    /** @type Array(UploadContext) */
+    this.uploadContexts = [];
+
+    /** @type Array(Extension) */
+    this.extensions = [];
+};
+
+/**
 * 5.1.31 EventParams Type
 * The EventParams structure contains fields specific to invoking the
 * handleEvents operation.

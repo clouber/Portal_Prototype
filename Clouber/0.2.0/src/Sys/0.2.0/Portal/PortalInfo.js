@@ -132,12 +132,6 @@ Clouber.Sys.Portal.WindowInfo = function () {
     this.option = false;
 
     /**
-    * Portlet script name
-    * @property {string} script
-    */
-    this.script = null;
-
-    /**
     * producer url, localhost means local producer.
     * @type string
     */
@@ -148,6 +142,12 @@ Clouber.Sys.Portal.WindowInfo = function () {
     * @type string
     */
     this.portletID = "";
+
+    /**
+    * Portlet script name
+    * @property {string} script
+    */
+    this.script = null;
 
     /**
     * Portlet's initial parameter object.
@@ -162,10 +162,16 @@ Clouber.Sys.Portal.WindowInfo = function () {
     this.parameters = new Clouber.Map();
 
     /**
-    * Portlet content.
-    * @property {boolean} changed
+    * Portlet content expired.
+    * @property {boolean} expired
     */
-    this.changed = false;
+    this.expired = false;
+
+    /**
+    * Portlet content displayed.
+    * @property {boolean} displayed
+    */
+    this.displayed = false;
 
     /**
     * Portlet markup.

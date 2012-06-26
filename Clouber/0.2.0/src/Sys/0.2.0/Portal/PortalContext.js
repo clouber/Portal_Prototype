@@ -132,7 +132,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                     Clouber.log(Clouber.message.producerRegisterSuccess + "(" +
                         name + ")");
                 }
-                this._producers.put(name, conn);
+                this._producers.set(name, conn);
             }
 
             return conn;
@@ -150,13 +150,10 @@ Clouber.Sys.Portal.PortalContext = function () {
     this.createWindowCtx = function () {
         var o = new Clouber.Sys.Portal.WindowInfo();
 
-        /**
-        * 1 portlet id
-        * @class Clouber.Sys.Portal.PortletInfo
-        * @property {string} portletID
-        */
+        // set markup property
         o._markup = new Clouber.Sys.Core.Cache();
         o._markup.encrypt(false);
+        o._markup.interval(600);
         Object.defineProperty(o, "markup", {
             configurable: false,
             enumerable: true,
@@ -172,7 +169,20 @@ Clouber.Sys.Portal.PortalContext = function () {
                 if (Clouber.isEmpty(u)) {
                     u = "public";
                 }
-                o._markup.put(o.portletID + "@" + o.producer, value, u);
+                o._markup.set(o.portletID + "@" + o.producer, value, u);
+                o.displayed = false;
+            }
+        });
+
+        // set expired property
+        Object.defineProperty(o, "expired", {
+            configurable: false,
+            enumerable: true,
+            get: function () {
+                return o._markup.expired();
+            },
+            set: function (value) {
+                o._markup.expired(value);
             }
         });
 
@@ -202,9 +212,9 @@ Clouber.Sys.Portal.PortalContext = function () {
                         if (f.windows.hasOwnProperty(j)) {
                             w = this.createWindowCtx();
                             Clouber.merge(w, f.windows[j]);
-                            this.portlets.put(w.portletID + "@" +
+                            this.portlets.set(w.portletID + "@" +
                                 w.producer, w);
-                            this._producers.put(w.producer, null);
+                            this._producers.set(w.producer, null);
                         }
                     }
                 }
@@ -224,7 +234,7 @@ Clouber.Sys.Portal.PortalContext = function () {
 
                 // initialize portlet css, mode, windowState
                 for (j = 0, m = list.length; j < m; j++) {
-//                    map.put(list[j].portletID, list[j]);
+//                    map.set(list[j].portletID, list[j]);
 
                     w = this.getPortletContext(list[j].portletID + "@" +
                             this._producers.getKeyByIndex(i));
@@ -275,7 +285,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                         );
                     }
 
-//                    this.portlets.put(p[i], map);
+//                    this.portlets.set(p[i], map);
                 }
             }
         } catch (e) {
@@ -300,19 +310,19 @@ Clouber.Sys.Portal.PortalContext = function () {
             events = attrs.get("CLOUBER_EVENT");
 
             // portlet requst
-            if ((typeof resq !== "undefined") && (resq !== null) &&
-                    (resq !== "")) {
+            if (!Clouber.isEmpty(resq)) {
                 this.performBlockingInteraction(params, attrs, qs);
             }
 
             // portlet events
-            if ((typeof events !== "undefined") && (events !== null)) {
+            if (!Clouber.isNull(events)) {
                 this.handleEvents(params, attrs, qs);
             }
 
             // get portlet markup
-            this.getMarkup(params, attrs, qs);
-            //this.performBlockingInteraction(params, attrs, qs);
+            if ((!Clouber.isEmpty(resq)) || (!Clouber.isNull(events))) {
+                this.getMarkup(params, attrs, qs);
+            }
         } catch (ex) {
             Clouber.log(ex);
         }
@@ -342,76 +352,70 @@ Clouber.Sys.Portal.PortalContext = function () {
                     p = this.portlets.get(w.portletID + "@" + w.producer);
                     pro = p.producer;
 
-                    if ((port === undefined) || (port === p.portletID)) {
-                        w = this.getPortletContext(p.portletID + "@" + pro);
+                    w = this.getPortletContext(p.portletID + "@" + pro);
 
-                        if ((typeof w !== "undefined") &&
-                                ((w.markup === undefined) ||
-                                (w.markup === null) || (w.markup === ""))) {
+                    if ((typeof w !== "undefined") &&
+                            ((Clouber.isEmpty(w.markup)) || (w.expired))) {
 
-                            prd = this.getProducer(pro);
+                        prd = this.getProducer(pro);
 
-                            portletCtx = new Clouber.Sys.Portal.T.PortletContext();
-                            portletCtx.portletHandle.handle = p.portletID;
-                            rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
-                            rtctx.extensions[0] = attrs;
-                            rtctx.extensions[1] = qs;
-                            mkp = new Clouber.Sys.Portal.T.MarkupParams();
-                            mkp.mode = w.mode;
-                            mkp.windowState = w.windowState;
+                        portletCtx = new Clouber.Sys.Portal.T.PortletContext();
+                        portletCtx.portletHandle.handle = p.portletID;
+                        portletCtx.extensions[0] = p.producer;
+                        
+                        rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
+                        rtctx.extensions[0] = attrs;
+                        rtctx.extensions[1] = qs;
+                        
+                        mkp = new Clouber.Sys.Portal.T.MarkupParams();
+                        mkp.mode = w.mode;
+                        mkp.windowState = w.windowState;
 
-                            // get portlet markup
-                            rtn = prd.getMarkup(
-                                prd.registationContext,
-                                portletCtx,
-                                rtctx,
-                                prd.userContext,
-                                mkp
-                            );
-                            // markup updated, need to refesh page.
-                            b = true;
-                            // get result markup
-                            if ((typeof rtn.extensions !== "undefined") &&
-                                    (typeof rtn.extensions[0] !==
-                                        "undefined") &&
-                                    (typeof rtn.extensions[0].error !==
-                                        "undefined")
-                                    ) {
-                                // failure
-                                w.status = Clouber.message.portletInvocateError;
-                                w.message = rtn.extensions[0].status;
-                                w.changed = false;
-                                Clouber.log(
-                                    Clouber.message.portletInvocateError +
-                                        " (" + w.portletID + ", " +
-                                        w.message + ")"
-                                );
+                        // get portlet markup
+                        rtn = prd.getMarkup(
+                            prd.registationContext,
+                            portletCtx,
+                            rtctx,
+                            prd.userContext,
+                            mkp,
+                            function (rtn) {
+                                var pid, prod, p;
+                                
+                                pid = rtn.extensions[0];
+                                prod = rtn.extensions[1];
+                                p = Clouber.portal.context.getPortletContext(pid + "@" + prod);
+                                // get result markup
+                                if ((typeof rtn.extensions !== "undefined") &&
+                                        (typeof rtn.extensions[0] !==
+                                            "undefined") &&
+                                        (typeof rtn.extensions[0].error !==
+                                            "undefined")
+                                        ) {
+                                    // failure
+                                    p.status = Clouber.message.portletInvocateError;
+                                    p.message = rtn.extensions[0].status;
+                                    p.expired = false;
+                                    Clouber.log(
+                                        Clouber.message.portletInvocateError +
+                                            " (" + p.portletID + ", " +
+                                            p.message + ")"
+                                    );
 
-                            } else {
-                                // success
-                                w.markup = rtn.markupContext.itemString;
-                                w.changed = true;
-                                if (w.statusBar) {
-                                    w.status = Clouber.message.portletUpdated;
                                 } else {
-                                    w.status = "";
-                                }
+                                    // success
+                                    p.markup = rtn.markupContext.itemString;
+                                    if (p.statusBar) {
+                                        p.status = Clouber.message.portletUpdated;
+                                    } else {
+                                        p.status = "";
+                                    }
 
+                                }
+                                Clouber.portal.refresh();
                             }
-                            /*
-                            // refresh window
-                            this.portal.refresh(
-                                this.getPortletContext(
-                                    this.portlets.getKeyByIndex(i)
-                                ).instanceId
-                            );
-                            */
-                        }
+                        );
                     }
                 }
-            }
-            if (b) {
-                this.portal.refresh();
             }
         } catch (ex) {
             Clouber.log(ex);
@@ -449,9 +453,12 @@ Clouber.Sys.Portal.PortalContext = function () {
 
                     portletCtx = new Clouber.Sys.Portal.T.PortletContext();
                     portletCtx.portletHandle.handle = p.portletID;
+                    portletCtx.extensions[0] = p.producer;
+                    
                     rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
                     rtctx.extensions[0] = attrs;
                     rtctx.extensions[1] = qs;
+                    
                     mkp = new Clouber.Sys.Portal.T.MarkupParams();
                     mkp.mode = p.mode;
                     mkp.windowState = p.windowState;
@@ -468,34 +475,41 @@ Clouber.Sys.Portal.PortalContext = function () {
                         rtctx,
                         prd.userContext,
                         mkp,
-                        ip
-                    );
-                    // get result markup
-                    if ((typeof rtn.extensions !== "undefined") &&
-                            (typeof rtn.extensions[0] !== "undefined") &&
-                            (typeof rtn.extensions[0].error !== "undefined")
-                            ) {
-                        // failure
-                        p.status = Clouber.message.portletInvocateError;
-                        p.message = rtn.extensions[0].status;
-                        p.changed = false;
-                        Clouber.log(
-                            Clouber.message.portletInvocateError +
-                                " (" + p.portletID + ", " +
-                                p.message + ")"
-                        );
+                        ip,
+                        function (rtn) {
+                            var pid, prod, p;
+                            
+                            pid = rtn.extensions[0];
+                            prod = rtn.extensions[1];
+                            p = Clouber.portal.context.portlets.get(pid + "@" + prod);
+                            // get result markup
+                            if ((typeof rtn.extensions !== "undefined") &&
+                                    (typeof rtn.extensions[0] !== "undefined") &&
+                                    (typeof rtn.extensions[0].error !== "undefined")
+                                    ) {
+                                // failure
+                                p.status = Clouber.message.portletInvocateError;
+                                p.message = rtn.extensions[0].status;
+                                p.expired = false;
+                                Clouber.log(
+                                    Clouber.message.portletInvocateError +
+                                        " (" + p.portletID + ", " +
+                                        p.message + ")"
+                                );
 
-                    } else {
-                        // success
-                        p.markup =
-                            rtn.updateResponse.markupContext.itemString;
-                        p.changed = true;
-                        if (p.statusBar) {
-                            p.status = Clouber.message.portletUpdated;
-                        } else {
-                            p.status = "";
+                            } else {
+                                // success
+                                p.markup =
+                                    rtn.updateResponse.markupContext.itemString;
+                                Clouber.portal.refresh();
+                                if (p.statusBar) {
+                                    p.status = Clouber.message.portletUpdated;
+                                } else {
+                                    p.status = "";
+                                }
+                            }
                         }
-                    }
+                    );
                 }
             }
         } catch (ex) {
@@ -538,9 +552,12 @@ Clouber.Sys.Portal.PortalContext = function () {
                             // handleEvents
                             portletCtx = new Clouber.Sys.Portal.T.PortletContext();
                             portletCtx.portletHandle.handle = p.portletID;
+                            portletCtx.extensions[0] = p.producer;
+
                             rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
                             rtctx.extensions[0] = attrs;
                             rtctx.extensions[1] = qs;
+
                             mkp = new Clouber.Sys.Portal.T.MarkupParams();
                             mkp.mode = p.mode;
                             mkp.windowState = p.windowState;
@@ -556,38 +573,46 @@ Clouber.Sys.Portal.PortalContext = function () {
                                 rtctx,
                                 prd.userContext,
                                 mkp,
-                                ep
-                            );
-                            // get result markup
-                            if ((typeof rtn.extensions !== "undefined") &&
-                                    (typeof rtn.extensions[0] !==
-                                        "undefined") &&
-                                    (typeof rtn.extensions[0].error !==
-                                        "undefined")
-                                    ) {
-                                // failure
-                                p.status =
-                                    Clouber.message.portletInvocateError;
-                                p.message = rtn.extensions[0].status;
-                                p.changed = false;
-                                Clouber.log(
-                                    Clouber.message.portletInvocateError +
-                                        " (" + p.portletID + ", " +
-                                        p.message + ")"
-                                );
+                                ep,
+                                function (rtn) {
+                                    var pid, prod, p;
+                                    
+                                    pid = rtn.extensions[0];
+                                    prod = rtn.extensions[1];
+                                    p = Clouber.portal.context.portlets.get(pid + "@" + prod);
+                                    // get result markup
+                                    if ((typeof rtn.extensions !== "undefined") &&
+                                            (typeof rtn.extensions[0] !==
+                                                "undefined") &&
+                                            (typeof rtn.extensions[0].error !==
+                                                "undefined")
+                                            ) {
+                                        // failure
+                                        p.status =
+                                            Clouber.message.portletInvocateError;
+                                        p.message = rtn.extensions[0].status;
+                                        p.expired = false;
+                                        Clouber.log(
+                                            Clouber.message.portletInvocateError +
+                                                " (" + p.portletID + ", " +
+                                                p.message + ")"
+                                        );
 
-                            } else {
-                                // success
-                                p.markup = rtn.updateResponse.markupContext.
-                                        itemString;
-                                p.changed = true;
-                                if (p.statusBar) {
-                                    p.status =
-                                        Clouber.message.portletUpdated;
-                                } else {
-                                    p.status = "";
+                                    } else {
+                                        // success
+                                        p.markup = rtn.updateResponse.markupContext.
+                                                itemString;
+                                        Clouber.portal.refresh();
+                                        
+                                        if (p.statusBar) {
+                                            p.status =
+                                                Clouber.message.portletUpdated;
+                                        } else {
+                                            p.status = "";
+                                        }
+                                    }
                                 }
-                            }
+                            );
                         }
                     }
                 }
@@ -752,13 +777,13 @@ Clouber.Sys.Portal.PortalContext = function () {
                                         f.producer = "localhost";
                                     }
 
-                                    frm.windows.put(l, Clouber.copy(f));
+                                    frm.windows.set(l, Clouber.copy(f));
                                 }
 
                                 break;
                             }
                         }
-                        pageInfo.frames.put(j, frm);
+                        pageInfo.frames.set(j, frm);
                     }
 
                     break;

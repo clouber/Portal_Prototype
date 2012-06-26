@@ -278,7 +278,7 @@ Clouber.Sys.Portal.Page = function (params) {
         //if (this.frames === null) {
         //    this.frames = new Clouber.Map();
         //}
-        //this.frames.put(index, frame.getId());
+        //this.frames.set(index, frame.getId());
         this.getContext().frames.get(index).instanceId = frame.getId();
         this.setComponent(frame, index);
         this.addControl(frame);
@@ -305,7 +305,7 @@ Clouber.Sys.Portal.Page = function (params) {
         if (this.controls === null) {
             this.controls = new Clouber.Map();
         }
-        this.controls.put(control.getId(), control);
+        this.controls.set(control.getId(), control);
     };
 
     /**

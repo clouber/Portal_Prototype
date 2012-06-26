@@ -41,7 +41,7 @@ Clouber.Sys.Portal.Consumer = function () {
     'use strict';
 
     var _time;
-    
+
     /** @constant string TYPE */
     this.TYPE = "PORTAL";
 
@@ -79,15 +79,18 @@ Clouber.Sys.Portal.Consumer = function () {
     */
     this.init = function () {
         var k, p;
-        Clouber.log("Clouber.Sys.Portal.Portal#init");
+        Clouber.log("Clouber.Sys.Portal.Portal#init [" + new Date() + "]");
 
         // config file settiing
         this.setInterval(50000);
         this.setKey(Clouber.config.getKey());
         this.setName("CLOUBER_PORTAL");
 
+        // portal context initialization
         this.context = new Clouber.Sys.Portal.PortalContext();
+        Clouber.lock(this.context);
         this.context.init(this);
+
         // set hashchange event
         p = this;
         Clouber.event.addHandler(
@@ -192,7 +195,7 @@ Clouber.Sys.Portal.Consumer = function () {
             this.context.pageInfo.page = p.page;
 
             Clouber.log("Clouber.Sys.Portal.Portal#loadPage  [" +
-                ((new Date() -_time)/1000) + "s]");
+                ((new Date() -_time)/1000) + "s]\n\r");
         } catch (e) {
             e.code = "Clouber.Sys.Portal.Portal#loadPage";
             Clouber.log(e);
@@ -275,14 +278,13 @@ Clouber.Sys.Portal.Consumer = function () {
     this.request = function (args) {
         var attrs, c, p, i, l, hash = window.location.hash;
 
-        Clouber.log("Clouber.Sys.Portal.Portal#request");
+        Clouber.log("Clouber.Sys.Portal.Portal#request [" + new Date() + "]");
 
         try {
-            if ((typeof this._page !== "undefined") && (this._page !== null) &&
-                    (typeof args !== "undefined") && (args !== null)) {
+            if (!Clouber.isNull(args)) {
 
                 attrs = new Clouber.Map();
-                attrs.put("CLOUBER_PATH", this.getPagePath());
+                attrs.set("CLOUBER_PATH", this.getPagePath());
 
                 // set parameters
                 p = new Clouber.Map();
@@ -290,20 +292,19 @@ Clouber.Sys.Portal.Consumer = function () {
                         (args.params !== null) &&
                         ((args.params instanceof Array))) {
                     for (i = 0, l = args.params.length; i < l; i++) {
-                        p.put(encodeURIComponent(args.params[i].name),
+                        p.set(encodeURIComponent(args.params[i].name),
                             encodeURIComponent(args.params[i].value));
                     }
                 }
                 p.append(this.getParameters(hash));
 
                 // handle events
-                if ((typeof args.events !== "undefined") &&
-                        (args.events !== null) &&
+                if ((!Clouber.isNull(args)) &&
                         (args.events instanceof Array)) {
-                    attrs.put("CLOUBER_EVENT", args.events);
+                    attrs.set("CLOUBER_EVENT", args.events);
                 }
                 if (typeof args.portletID !== "undefined") {
-                    attrs.put("CLOUBER_REQUEST", args.portletID);
+                    attrs.set("CLOUBER_REQUEST", args.portletID);
                 }
                  // submit request
                 this.context.request(p, attrs, this.getQueryString());
@@ -358,14 +359,12 @@ Clouber.Sys.Portal.Consumer = function () {
             // set page name
             this.context.pageInfo.page = pname;
 
-            // init portlets' data
-            this.request({events: ["CLOUBER_CHANGE_PATH"]});
-
             // create portal page
             this._page = new Clouber.Sys.Portal.Page();
             this._page.setModel(new Clouber.Sys.Portal.PageContext());
             this._page.init();
             this._page.loadComponents();
+            // display page
             if ((typeof this._page !== "undefined") && (this._page !== null)) {
                 this._page.display();
             }
@@ -373,10 +372,11 @@ Clouber.Sys.Portal.Consumer = function () {
             // parameters and attributes
             params = this.getParameters();
             attrs = new Clouber.Map();
-            attrs.put("CLOUBER_PATH", this.getPagePath());
-            //attrs.put("CLOUBER_EVENT", "init");
+            attrs.set("CLOUBER_PATH", this.getPagePath());
+            attrs.set("CLOUBER_EVENT", ["CLOUBER_CHANGE_PATH"]);
 
             this.context.request(params, attrs, this.getQueryString());
+
         } catch (e) {
             e.code = "Clouber.Sys.Portal.Portal#display";
             Clouber.log(e);
@@ -389,9 +389,11 @@ Clouber.Sys.Portal.Consumer = function () {
     * @param {string} id
     */
     this.refresh = function (id) {
-        Clouber.log("Clouber.Sys.Portal.Portal#refresh (" + id + ")");
+        var t = new Date();
 
         this._page.refresh(id);
+        Clouber.log("Clouber.Sys.Portal.Portal#refresh (" + id + ") [" +
+            ((new Date() - t) / 1000) + "s]\n\r");
     };
 
     /**
@@ -554,7 +556,7 @@ Clouber.Sys.Portal.Consumer = function () {
             if ((typeof this._page !== "undefined") && (this._page !== null)) {
                 params = this.getParameters(hash);
                 attrs = new Clouber.Map();
-                attrs.put("CLOUBER_PATH", this.getPagePath());
+                attrs.set("CLOUBER_PATH", this.getPagePath());
                 this.context.request(params, attrs, this.getQueryString());
             }
         } catch (e) {
@@ -592,7 +594,7 @@ Clouber.Sys.Portal.Consumer = function () {
                 break;
             case 'parameter':
                 m = this.getParameters();
-                m.put(params[0], params[1]);
+                m.set(params[0], params[1]);
                 s = m.stringify();
                 if ((s === undefined) || (s === "")) {
                     window.location.hash = "#!" + this.getPagePath();
