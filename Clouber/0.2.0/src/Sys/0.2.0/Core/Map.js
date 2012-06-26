@@ -288,9 +288,9 @@ Clouber.Map = function () {
                     (pair[0].length > 0)) {
 
                 if (decode) {
-                    this.put(pair[0], decodeURIComponent(pair[1]));
+                    this.set(pair[0], decodeURIComponent(pair[1]));
                 } else {
-                    this.put(pair[0], pair[1]);
+                    this.set(pair[0], pair[1]);
                 }
             }
         }
@@ -373,7 +373,7 @@ Clouber.Map = function () {
                 (map instanceof Clouber.Map)) {
 
             for (i = 0, l = map._list.length; i < l; i++) {
-                this.put(map._list[i].key, map._list[i].value);
+                this.set(map._list[i].key, map._list[i].value);
             }
             return this;
         }

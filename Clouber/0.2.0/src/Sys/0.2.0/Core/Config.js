@@ -299,7 +299,7 @@ Clouber.Sys.Core.Config = function () {
                 this._data = new Clouber.Sys.Core.Cache();
                 this._data.setKey(this._key);
             }
-            this._data.put(this.getName(), data, null);
+            this._data.set(this.getName(), data, null);
             Clouber.log(Clouber.message.saveCacheData + " (" +
                 this.getName() + ")");
 

@@ -63,7 +63,23 @@ Clouber.Sys.Core.Cache = function () {
     * @private
     * @ignore
     */
-        _key = null,
+        _key,
+
+    /**
+    * Put time.
+    * @property {Date} _time
+    * @private
+    * @ignore
+    */
+        _time,
+
+    /**
+    * Cache interval (seconds).
+    * @property {int} _interval
+    * @private
+    * @ignore
+    */
+        _interval,
 
     /**
     * Count of caching data times.
@@ -74,6 +90,57 @@ Clouber.Sys.Core.Cache = function () {
         _count;
 
     /**
+     * Put data object into cache.
+     * @function set
+     * @param {string} user User account, public user can be null or public.
+     * @param {string} name Object name.
+     * @param {object} data Caching data object.
+     */
+    this.set = function (name, data, user) {
+        var item, t, d = {};
+
+        if ((!Clouber.isEmpty(name)) && (!Clouber.isNull(data))) {
+
+            // set data into memory
+            _name = name;
+            _data = Clouber.copy(data);
+            _time = new Date();
+            if ((typeof user !== "string") || (user.length < 1)) {
+                _user = "public";
+            } else {
+                _user = user;
+            }
+
+            // put data into localStorage
+            if (typeof (window.localStorage) !== "undefined") {
+                try {
+                    if (_encrypt) {
+                        t = Clouber.crypt.encrypt(_data, _key);
+                    } else {
+                        t = _data;
+                    }
+                    // get storage object with timestamp
+                    d.value = t;
+                    d.timestamp = _time.getTime();
+                    t = JSON.stringify(d);
+                    
+                    window.localStorage.setItem(_user + ":" + _name, t);
+                    _count = this.count() + 1;
+                    return true;
+                } catch (e) {
+                    e.code = "Clouber.Sys.Core.Cache#set";
+                    Clouber.log(e);
+                    window.localStorage.removeItem(_user + ":" + _name, _data);
+                    return false;
+                }
+            } else {
+                Clouber.log("Clouber.Sys.Core.Cache#set " +
+                    Clouber.message.noLocalStorage);
+            }
+        }
+    };
+
+    /**
     * Get caching data object.
     * @function get
     * @param {string} user User account, public user can be null or public.
@@ -81,7 +148,7 @@ Clouber.Sys.Core.Cache = function () {
     * @return {object} caching data object
     */
     this.get = function (name, user) {
-        var o, t;
+        var o, t, d;
         if ((typeof _data === "undefined") || (_data === null)) {
             // get data from localStorage
             if (typeof (window.localStorage) !== "undefined") {
@@ -97,6 +164,13 @@ Clouber.Sys.Core.Cache = function () {
                 }
                 try {
                     t = window.localStorage.getItem(user + ":" + name);
+
+                    if (!Clouber.isNull(t)) {
+                        d = JSON.parse(t);
+                        _time = d.timestamp; 
+                        t = d.value;
+                    }
+                  
                     if (!Clouber.isNull(t)) {
                         Clouber.log("Clouber.Sys.Core.Cache#get ======== " +
                             user + ":" + name);
@@ -107,6 +181,7 @@ Clouber.Sys.Core.Cache = function () {
                         }
                         _name = name;
                         _user = user;
+                        _time = new Date();
                         return _data;
                     }
                 } catch (e) {
@@ -129,53 +204,8 @@ Clouber.Sys.Core.Cache = function () {
     };
 
     /**
-     * Put data object into cache.
-     * @function put
-     * @param {string} user User account, public user can be null or public.
-     * @param {string} name Object name.
-     * @param {object} data Caching data object.
-     */
-    this.put = function (name, data, user) {
-        var item, t;
-
-        if ((!Clouber.isEmpty(name)) && (!Clouber.isNull(data))) {
-
-            // put data into memory
-            _name = name;
-            _data = Clouber.copy(data);
-            if ((typeof user !== "string") || (user.length < 1)) {
-                _user = "public";
-            } else {
-                _user = user;
-            }
-
-            // put data into localStorage
-            if (typeof (window.localStorage) !== "undefined") {
-                try {
-                    if (_encrypt) {
-                        t = Clouber.crypt.encrypt(_data, _key);
-                    } else {
-                        t = _data;
-                    }
-                    window.localStorage.setItem(_user + ":" + _name, t);
-                    _count = this.count() + 1;
-                    return true;
-                } catch (e) {
-                    e.code = "Clouber.Sys.Core.Cache#put";
-                    Clouber.log(e);
-                    window.localStorage.removeItem(_user + ":" + _name, _data);
-                    return false;
-                }
-            } else {
-                Clouber.log("Clouber.Sys.Core.Cache#put " +
-                    Clouber.message.noLocalStorage);
-            }
-        }
-    };
-
-    /**
     * Get caching data saving times.
-    * @function get
+    * @function count
     * @return {int}
     */
     this.count = function () {
@@ -187,7 +217,7 @@ Clouber.Sys.Core.Cache = function () {
 
     /**
     * Return true if data need to encrypt.
-    * @function get
+    * @function encrypt
     * @param {boolean} encrypt
     * @return {boolean}
     */
@@ -207,6 +237,40 @@ Clouber.Sys.Core.Cache = function () {
         if (!Clouber.isEmpty(key)) {
             _key = key;
         }
+    };
+
+    /**
+    * Return or set cache interval.
+    * @function interval
+    * @param {number} interval
+    * @return {number}
+    */
+    this.interval = function (interval) {
+        if (!Clouber.isNull(interval)) {
+            _interval = interval;
+        }
+        return _interval;
+    };
+
+    /**
+    * Return true if data need to encrypt.
+    * @function get
+    * @param {boolean} b
+    * @return {boolean}
+    */
+    this.expired = function (b) {
+        var r = false;
+        if (Clouber.isNull(b)) {
+            r = ((new Date() - _time) > (_interval * 1000)) ? true : false;
+        } else {
+            if (b) {
+                _time = new Date() - _interval * 1000;
+            } else {
+                _time = new Date();
+            }
+            r = b;
+        }
+        return r;
     };
 
 };
