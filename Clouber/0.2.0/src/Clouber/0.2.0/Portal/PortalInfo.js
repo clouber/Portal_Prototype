@@ -2,25 +2,25 @@
 * @fileOverview Clouber portal data type.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.Portal
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.Portal
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
 */
 
 /**
-* Clouber system portal modules, using namespace Clouber.Sys.UI
-* @module Clouber.Sys.Portal
-* @namespace Clouber.Sys.Portal
+* Clouber system portal modules, using namespace Clouber.Core
+* @module Clouber.Portal
+* @namespace Clouber.Portal
 */
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 
 /**
 * Page window information type.
 * @type WindowInfo
 * @class WindowInfo
-* @namespace Clouber.Sys.Portal
+* @namespace Clouber.Portal
 */
-Clouber.Sys.Portal.WindowInfo = function () {
+Clouber.Portal.WindowInfo = function () {
     'use strict';
 
     /**
@@ -153,13 +153,13 @@ Clouber.Sys.Portal.WindowInfo = function () {
     * Portlet's initial parameter object.
     * @property {Map} initparam
     */
-    this.initparam = new Clouber.Map();
+    this.initparam = new Clouber.Core.Map();
 
     /**
     * Portlet's request parameters.
     * @property {Map} parameters
     */
-    this.parameters = new Clouber.Map();
+    this.parameters = new Clouber.Core.Map();
 
     /**
     * Portlet content expired.
@@ -191,9 +191,9 @@ Clouber.Sys.Portal.WindowInfo = function () {
 * Page frame information type.
 * @type FrameInfo
 * @class FrameInfo
-* @namespace Clouber.Sys.Portal
+* @namespace Clouber.Portal
 */
-Clouber.Sys.Portal.FrameInfo = function () {
+Clouber.Portal.FrameInfo = function () {
     'use strict';
     /**
     * Frame ID.
@@ -217,7 +217,7 @@ Clouber.Sys.Portal.FrameInfo = function () {
     * Frame's class.
     * @type string
     */
-    this.Class = "Clouber.Sys.Portal.Frame";
+    this.Class = "Clouber.Portal.Frame";
 
     /**
     * Frame's namespace.
@@ -289,7 +289,7 @@ Clouber.Sys.Portal.FrameInfo = function () {
     * Windows of the frame.
     * @type array(WindowInfo)
     */
-    this.windows = new Clouber.Map();
+    this.windows = new Clouber.Core.Map();
 
 };
 
@@ -297,9 +297,9 @@ Clouber.Sys.Portal.FrameInfo = function () {
 * Page information type.
 * @type PageInfo
 * @class PageInfo
-* @namespace Clouber.Sys.Portal
+* @namespace Clouber.Portal
 */
-Clouber.Sys.Portal.PageInfo = function () {
+Clouber.Portal.PageInfo = function () {
     'use strict';
 
     /**
@@ -372,13 +372,13 @@ Clouber.Sys.Portal.PageInfo = function () {
     * Page's frames.
     * @type Map
     */
-    this.frames = new Clouber.Map();
+    this.frames = new Clouber.Core.Map();
 
     /**
     * Page's portlets.
     * @property {Map} portlets
     */
-    this.portlets = new Clouber.Map();
+    this.portlets = new Clouber.Core.Map();
 
 };
 

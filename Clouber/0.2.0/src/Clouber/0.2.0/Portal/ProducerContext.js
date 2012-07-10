@@ -2,21 +2,21 @@
 * @fileOverview Clouber Portlet js library.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.PortletConfig
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.PortletConfig
+* @requires Clouber.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 
 /**
 * Porducer application Context object
-* @class  Clouber.Sys.Portal.ProducerContext
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.Core.Config,
+* @class  Clouber.Portal.ProducerContext
+* @namespace Clouber.Portal
+* @extends Clouber.Core.Config,
 * @constructor
 */
-Clouber.Sys.Portal.ProducerContext = function () {
+Clouber.Portal.ProducerContext = function () {
     'use strict';
 
     /** @constant string TYPE */
@@ -64,9 +64,9 @@ Clouber.Sys.Portal.ProducerContext = function () {
         var lines, items, i1, len1, i2, len2, i3, len3, p, map, s;
 
         try {
-            Clouber.log("Clouber.Sys.Portal.ProducerContext#parse");
+            Clouber.log("Clouber.Portal.ProducerContext#parse");
 
-            map = new Clouber.Map();
+            map = new Clouber.Core.Map();
 
             data = data.replace(/\r\n/g, "\n");  // replace /
             lines = data.split("\n");
@@ -75,7 +75,7 @@ Clouber.Sys.Portal.ProducerContext = function () {
                     break;
                 }
                 items = lines[i1].split(":");
-                p = Clouber.Sys.Portal.PortletInfo();
+                p = Clouber.Portal.PortletInfo();
                 if (items[0].length !== 0) {
                     p.portletID = decodeURIComponent(items[0]);
                     p.displayName = decodeURIComponent(items[1]);
@@ -131,7 +131,7 @@ Clouber.Sys.Portal.ProducerContext = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.ProducerContext, Clouber.Sys.Core.Config);
+Clouber.extend(Clouber.Portal.ProducerContext, Clouber.Core.Config);
 
 
 

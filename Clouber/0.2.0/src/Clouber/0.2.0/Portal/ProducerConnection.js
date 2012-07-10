@@ -2,25 +2,25 @@
 * @fileOverview Clouber core js library.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.ProducerConnection
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
-*           Clouber.Sys.Portal.*
+* @module Clouber.Portal.ProducerConnection
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
+*           Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 
 
 /**
 * Connect is a adapt to connect portlet producer.
 * @class
-* @implements Clouber.Sys.Portal.ServiceDescription, Clouber.Sys.Portal.Markup,
-*       Clouber.Sys.Portal.Registration, Clouber.Sys.Portal.PortletManagement.
+* @implements Clouber.Portal.ServiceDescription, Clouber.Portal.Markup,
+*       Clouber.Portal.Registration, Clouber.Portal.PortletManagement.
 * @constructor
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @param {String} producer producer's URL.
 */
-Clouber.Sys.Portal.ProducerConnection = function (producer) {
+Clouber.Portal.ProducerConnection = function (producer) {
     'use strict';
     var _producer, _conf;
 
@@ -69,7 +69,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
     * @return {object}
     */
     this.registerProducer = function (args) {
-        _producer = new Clouber.Sys.Portal.Producer();
+        _producer = new Clouber.Portal.Producer();
         _producer.init(args);
 
         // get user context
@@ -77,7 +77,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
         this.userContext.userContextKey = args.username;
 
         // get portlet registration context
-        this.registationData = new Clouber.Sys.Portal.T.RegistrationData();
+        this.registationData = new Clouber.Portal.T.RegistrationData();
         this.registationData.consumerName = Clouber.portal.getConf().name;
         this.registationData.consumerAgent =
             Clouber.config.getConfig().name + "." +
@@ -88,7 +88,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
         this.registationData.consumerWindowStates =
             ["normal", "minimized", "maximized", "solo"];
 
-        this.lifetime = new Clouber.Sys.Portal.T.Lifetime();
+        this.lifetime = new Clouber.Portal.T.Lifetime();
 
         this.registrationContext = this.register(this.registationData,
             this.lifetime, this.userContext);
@@ -234,7 +234,7 @@ Clouber.Sys.Portal.ProducerConnection = function (producer) {
 
 
 };
-Clouber.extend(Clouber.Sys.Portal.ProducerConnection,
-    Clouber.BaseObject);
+Clouber.extend(Clouber.Portal.ProducerConnection,
+    Clouber.Core.BaseObject);
 
 

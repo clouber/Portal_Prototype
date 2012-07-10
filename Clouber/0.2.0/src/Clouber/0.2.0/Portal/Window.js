@@ -2,21 +2,21 @@
 * @fileOverview Clouber portal window class.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.Window
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.Window
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 /**
 * The model object of Portal Window.
-* @class  Clouber.Sys.Portal.WindowModel
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ComponentView
+* @class  Clouber.Portal.WindowModel
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ComponentView
 * @constructor
 * @param {object} context Window context information.
 */
-Clouber.Sys.Portal.WindowModel = function (index) {
+Clouber.Portal.WindowModel = function (index) {
     'use strict';
 
     /**
@@ -63,12 +63,12 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     this.getPortletConfig = function () {
         var p = this.getPortletContext();
         if ((p === undefined) || (p === null)) {
-            Clouber.log(new Clouber.Exception({
+            Clouber.log(new Clouber.Core.Exception({
                 number: 10008,
                 name: "portletConfigNotExist",
                 message: Clouber.message.portletConfigNotExist +
                     " (" + this.getPortletContext().portletID + ")",
-                code: "Clouber.Sys.Portal.WindowModel#getPortletConfig"
+                code: "Clouber.Portal.WindowModel#getPortletConfig"
             }));
         } else {
             return p.config;
@@ -84,7 +84,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
         var p, s;
         if (this.getPortletContext().windowState === null) {
             p = this.getPortletConfig();
-            if (p.markupTypes instanceof Clouber.Map) {
+            if (p.markupTypes instanceof Clouber.Core.Map) {
                 s = p.markupTypes.get("windowStates").split("/");
                 if (s[0] === undefined) {
                     s[0] = "normal";
@@ -104,7 +104,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     this.getStates = function () {
         var p, s;
         p = this.getPortletConfig();
-        if (p.markupTypes instanceof Clouber.Map) {
+        if (p.markupTypes instanceof Clouber.Core.Map) {
             s = p.markupTypes.get("windowStates").split("/");
             return s;
         }
@@ -117,7 +117,7 @@ Clouber.Sys.Portal.WindowModel = function (index) {
     */
     this.setState = function (state) {
         var i, l, s, p = this.getPortletConfig();
-        if (p.markupTypes instanceof Clouber.Map) {
+        if (p.markupTypes instanceof Clouber.Core.Map) {
             s = p.markupTypes.get("windowStates").split("/");
             for (i = 0, l = s.length; i < l; i++) {
                 if (state === s[i]) {
@@ -171,18 +171,18 @@ Clouber.Sys.Portal.WindowModel = function (index) {
         this.context = null;
     };
 };
-Clouber.extend(Clouber.Sys.Portal.WindowModel, Clouber.Sys.UI.Model);
+Clouber.extend(Clouber.Portal.WindowModel, Clouber.Core.Model);
 
 
 /**
 * The view object of Portal Window.
-* @class  Clouber.Sys.Portal.WindowView
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ComponentView
+* @class  Clouber.Portal.WindowView
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ComponentView
 * @constructor
 * @param {object} context Window context information.
 */
-Clouber.Sys.Portal.WindowView = function () {
+Clouber.Portal.WindowView = function () {
     'use strict';
 
     /**
@@ -217,12 +217,12 @@ Clouber.Sys.Portal.WindowView = function () {
             Clouber.loader.loadCss(this.getPortletContext().css);
             this.getPortletContext().displayed = true;
             
-            Clouber.log("Clouber.Sys.Portal.WindowView#showPortlet (" +
+            Clouber.log("Clouber.Portal.WindowView#showPortlet (" +
                 this.getPortletContext().portletID + ") [" +
                 ((new Date() - t) / 1000) + "s]");
         } catch (e) {
             e.text = this.getPortletContext().portletID;
-            e.code = "Clouber.Sys.Portal.WindowView#showPortlet";
+            e.code = "Clouber.Portal.WindowView#showPortlet";
             Clouber.log(e);
         }
     };
@@ -662,18 +662,18 @@ Clouber.Sys.Portal.WindowView = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.WindowView, Clouber.Sys.UI.ComponentView);
+Clouber.extend(Clouber.Portal.WindowView, Clouber.Core.ComponentView);
 
 
 /**
 * The MVC based view object of Page controls.
-* @class  Clouber.Sys.Portal.PageView
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ContainerView
+* @class  Clouber.Portal.PageView
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ContainerView
 * @constructor
 * @param {int} index Window index.
 */
-Clouber.Sys.Portal.Window = function (index) {
+Clouber.Portal.Window = function (index) {
     'use strict';
 
     /**
@@ -697,7 +697,7 @@ Clouber.Sys.Portal.Window = function (index) {
         var s, i, l;
         this.model.init();
 
-        this.setView(new Clouber.Sys.Portal.WindowView());
+        this.setView(new Clouber.Portal.WindowView());
 
         this.view.loadTheme(Clouber.portal.getConf().path);
         this.showWindow();
@@ -876,7 +876,7 @@ Clouber.Sys.Portal.Window = function (index) {
     * @param {String} title
     */
     this.setTitle = function (title) {
-        Clouber.log("Clouber.Sys.Portal.Window#setTitle (" + title + " " +
+        Clouber.log("Clouber.Portal.Window#setTitle (" + title + " " +
             this.getPortletContext().portletID + ")");
 
         this.view.setTitleBar({title: title});
@@ -894,7 +894,7 @@ Clouber.Sys.Portal.Window = function (index) {
     * @param {String} status
     */
     this.setStatus = function (status) {
-        Clouber.log("Clouber.Sys.Portal.Window#setStatus (" + status + " " +
+        Clouber.log("Clouber.Portal.Window#setStatus (" + status + " " +
             this.getPortletContext().portletID + ")");
         this.view.setStatusBar({status: status});
         this.getPortletContext().status = status;
@@ -909,7 +909,7 @@ Clouber.Sys.Portal.Window = function (index) {
         if (typeof b === "boolean") {
             this.getPortletContext().border = b;
             this.view.setBorder(b);
-            Clouber.log("Clouber.Sys.Portal.Window#setBorder " + b + " (" +
+            Clouber.log("Clouber.Portal.Window#setBorder " + b + " (" +
                 this.getPortletContext().portletID + ")");
         }
     };
@@ -923,7 +923,7 @@ Clouber.Sys.Portal.Window = function (index) {
         if (typeof b === "boolean") {
             this.getPortletContext().titleBar = b;
             this.view.setTitleBar({display: b});
-            Clouber.log("Clouber.Sys.Portal.Window#setTitleBar " + b + " (" +
+            Clouber.log("Clouber.Portal.Window#setTitleBar " + b + " (" +
                 this.getPortletContext().portletID + ")");
         }
     };
@@ -937,7 +937,7 @@ Clouber.Sys.Portal.Window = function (index) {
         if (typeof b === "boolean") {
             this.getPortletContext().statusBar = b;
             //this.view.setStatusBar({display: b});
-            Clouber.log("Clouber.Sys.Portal.Window#setStatusBar " + b + " (" +
+            Clouber.log("Clouber.Portal.Window#setStatusBar " + b + " (" +
                 this.getPortletContext().portletID + ")");
         }
     };
@@ -953,5 +953,5 @@ Clouber.Sys.Portal.Window = function (index) {
 
 
 };
-Clouber.extend(Clouber.Sys.Portal.Window, Clouber.Sys.UI.ComponentController);
+Clouber.extend(Clouber.Portal.Window, Clouber.Core.ComponentController);
 

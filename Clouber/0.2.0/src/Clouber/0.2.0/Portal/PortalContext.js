@@ -2,27 +2,27 @@
 * @fileOverview Clouber portal context object
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.PortalContext
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
-*           Clouber.Sys.Portal.*
+* @module Clouber.Portal.PortalContext
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
+*           Clouber.Portal.*
 */
 
 
 /**
 * Clouber system portal modules.
-* @module Clouber.Sys.Portal
-* @namespace Clouber.Sys.Portal
+* @module Clouber.Portal
+* @namespace Clouber.Portal
 */
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 /**
 * The portal configuration loader.
-* @class  Clouber.Sys.Portal.PortalContext
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.Core.Config
+* @class  Clouber.Portal.PortalContext
+* @namespace Clouber.Portal
+* @extends Clouber.Core.Config
 * @constructor
 */
-Clouber.Sys.Portal.PortalContext = function () {
+Clouber.Portal.PortalContext = function () {
     'use strict';
 
     /** @constant string TYPE */
@@ -45,7 +45,7 @@ Clouber.Sys.Portal.PortalContext = function () {
     * Portlet producer connections
     * @property {Map} _producers
     */
-    this._producers = new Clouber.Map();
+    this._producers = new Clouber.Core.Map();
 
     /**
     * Portlets in a page
@@ -113,19 +113,19 @@ Clouber.Sys.Portal.PortalContext = function () {
             if (Clouber.isNull(conn)) {
 
                 // create new producer connection
-                conn = new Clouber.Sys.Portal.ProducerConnection(name);
+                conn = new Clouber.Portal.ProducerConnection(name);
                 rtn = conn.registerProducer({username: usr, password: pwd,
                     app: this.portal.getConf().name,
                     version: this.portal.getConf().version,
                     producer: name});
 
                 if (rtn < 0) {
-                    e = new Clouber.Exception({
+                    e = new Clouber.Core.Exception({
                         number: 10002,
                         name: "portalRegisterError",
                         message: Clouber.message.producerRegisterError,
                         description: Clouber.message.producerRegisterError,
-                        code: "Clouber.Sys.Core.PortalContext#getProducer"
+                        code: "Clouber.Core.PortalContext#getProducer"
                     });
                     Clouber.log(e);
                 } else {
@@ -148,10 +148,10 @@ Clouber.Sys.Portal.PortalContext = function () {
     * @override
     */
     this.createWindowCtx = function () {
-        var o = new Clouber.Sys.Portal.WindowInfo();
+        var o = new Clouber.Portal.WindowInfo();
 
         // set markup property
-        o._markup = new Clouber.Sys.Core.Cache();
+        o._markup = new Clouber.Core.Cache();
         o._markup.encrypt(false);
         o._markup.interval(600);
         Object.defineProperty(o, "markup", {
@@ -198,12 +198,12 @@ Clouber.Sys.Portal.PortalContext = function () {
     this.initPortlets = function () {
         var i, l, list, p, prd, j, m, f, w, s, c; //, map;
 
-        Clouber.log("Clouber.Sys.Portal.PortalContext#initPortlets");
+        Clouber.log("Clouber.Portal.PortalContext#initPortlets");
 
         try {
             // get producers
             // p = this.pageContext.portlets.unique();
-            this.portlets = new Clouber.Map();
+            this.portlets = new Clouber.Core.Map();
             c = this.getConfig();
             for (i in c.frames) {
                 if (c.frames.hasOwnProperty(i)) {
@@ -230,7 +230,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                     prd.userContext
                 ).offeredPortlets;
 
-//                map = new Clouber.Map();
+//                map = new Clouber.Core.Map();
 
                 // initialize portlet css, mode, windowState
                 for (j = 0, m = list.length; j < m; j++) {
@@ -289,7 +289,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                 }
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Core.PortalContext#initPortlets";
+            e.code = "Clouber.Core.PortalContext#initPortlets";
             Clouber.log(e);
         }
     };
@@ -339,7 +339,7 @@ Clouber.Sys.Portal.PortalContext = function () {
         var port, i, l, j, m, pro, p, portletCtx, rtctx, mkp,
             prd, rtn, w, ws, b = false;
 
-        Clouber.log("Clouber.Sys.Portal.PortalContext#getMarkup");
+        Clouber.log("Clouber.Portal.PortalContext#getMarkup");
 
         try {
             port = attrs.get("CLOUBER_PORTLET");
@@ -359,15 +359,15 @@ Clouber.Sys.Portal.PortalContext = function () {
 
                         prd = this.getProducer(pro);
 
-                        portletCtx = new Clouber.Sys.Portal.T.PortletContext();
+                        portletCtx = new Clouber.Portal.T.PortletContext();
                         portletCtx.portletHandle.handle = p.portletID;
                         portletCtx.extensions[0] = p.producer;
                         
-                        rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
+                        rtctx = new Clouber.Portal.T.RuntimeContext();
                         rtctx.extensions[0] = attrs;
                         rtctx.extensions[1] = qs;
                         
-                        mkp = new Clouber.Sys.Portal.T.MarkupParams();
+                        mkp = new Clouber.Portal.T.MarkupParams();
                         mkp.mode = w.mode;
                         mkp.windowState = w.windowState;
 
@@ -438,7 +438,7 @@ Clouber.Sys.Portal.PortalContext = function () {
             prd, rtn;
 
         Clouber.log(
-            "Clouber.Sys.Portal.PortalContext#performBlockingInteraction"
+            "Clouber.Portal.PortalContext#performBlockingInteraction"
         );
 
         try {
@@ -451,19 +451,19 @@ Clouber.Sys.Portal.PortalContext = function () {
                 if ((port === undefined) ||
                         (port === p.portletID + "@" + pro)) {
 
-                    portletCtx = new Clouber.Sys.Portal.T.PortletContext();
+                    portletCtx = new Clouber.Portal.T.PortletContext();
                     portletCtx.portletHandle.handle = p.portletID;
                     portletCtx.extensions[0] = p.producer;
                     
-                    rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
+                    rtctx = new Clouber.Portal.T.RuntimeContext();
                     rtctx.extensions[0] = attrs;
                     rtctx.extensions[1] = qs;
                     
-                    mkp = new Clouber.Sys.Portal.T.MarkupParams();
+                    mkp = new Clouber.Portal.T.MarkupParams();
                     mkp.mode = p.mode;
                     mkp.windowState = p.windowState;
 
-                    ip = new Clouber.Sys.Portal.T.InteractionParams();
+                    ip = new Clouber.Portal.T.InteractionParams();
                     ip.formParameters = params;
 
                     prd = this.getProducer(pro);
@@ -533,7 +533,7 @@ Clouber.Sys.Portal.PortalContext = function () {
         var events, i, l, j, m, pro, p, k, n, portletCtx, rtctx, mkp, ep,
             prd, rtn;
 
-        Clouber.log("Clouber.Sys.Portal.PortalContext#handleEvents");
+        Clouber.log("Clouber.Portal.PortalContext#handleEvents");
 
         try {
             events = attrs.get("CLOUBER_EVENT");
@@ -550,19 +550,19 @@ Clouber.Sys.Portal.PortalContext = function () {
                         if (p.config.handledEvents[k] === events[j]) {
 
                             // handleEvents
-                            portletCtx = new Clouber.Sys.Portal.T.PortletContext();
+                            portletCtx = new Clouber.Portal.T.PortletContext();
                             portletCtx.portletHandle.handle = p.portletID;
                             portletCtx.extensions[0] = p.producer;
 
-                            rtctx = new Clouber.Sys.Portal.T.RuntimeContext();
+                            rtctx = new Clouber.Portal.T.RuntimeContext();
                             rtctx.extensions[0] = attrs;
                             rtctx.extensions[1] = qs;
 
-                            mkp = new Clouber.Sys.Portal.T.MarkupParams();
+                            mkp = new Clouber.Portal.T.MarkupParams();
                             mkp.mode = p.mode;
                             mkp.windowState = p.windowState;
 
-                            ep = new Clouber.Sys.Portal.T.EventParams();
+                            ep = new Clouber.Portal.T.EventParams();
                             ep.events = events[j];
                             ep.extensions = [params];
                             prd = this.getProducer(pro);
@@ -675,13 +675,13 @@ Clouber.Sys.Portal.PortalContext = function () {
     this.setPage = function (page) {
         var b = false;
 
-        Clouber.log("Clouber.Sys.Portal.PortalContext#setPage (" + page + ")");
+        Clouber.log("Clouber.Portal.PortalContext#setPage (" + page + ")");
 
         try {
             this.pageInfo.page = page;
             this.pageContext = this.getPageConf(page, this.getPortalConf());
             if ((typeof this.pageContext !== "undefined") &&
-                    (this.pageContext instanceof Clouber.Sys.Portal.PageInfo)) {
+                    (this.pageContext instanceof Clouber.Portal.PageInfo)) {
                 b = true;
             } else {
                 Clouber.log(Clouber.message.pageNotExist + " (" + page + ")");
@@ -708,7 +708,7 @@ Clouber.Sys.Portal.PortalContext = function () {
 
                 if (page  ===  portalConf.pages[i].page) {
                     // get page information
-                    pageInfo = new Clouber.Sys.Portal.PageInfo();
+                    pageInfo = new Clouber.Portal.PageInfo();
                     Object.seal(pageInfo);
                     pageInfo.pid = portalConf.pages[i].page;
                     pageInfo.description = portalConf.pages[i].description;
@@ -735,7 +735,7 @@ Clouber.Sys.Portal.PortalContext = function () {
                     for (j = 0, leng2 = portalConf.pages[i].frames.length;
                             j < leng2; j++) {
 
-                        frm = new Clouber.Sys.Portal.FrameInfo();
+                        frm = new Clouber.Portal.FrameInfo();
                         Object.seal(frm);
                         frm.tag = portalConf.pages[i].frames[j].tag;
                         frm.fid = portalConf.pages[i].frames[j].frame;
@@ -797,6 +797,6 @@ Clouber.Sys.Portal.PortalContext = function () {
 
     };
 };
-Clouber.extend(Clouber.Sys.Portal.PortalContext, Clouber.Sys.Core.Config);
+Clouber.extend(Clouber.Portal.PortalContext, Clouber.Core.Config);
 
 

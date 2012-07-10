@@ -2,20 +2,20 @@
 * @fileOverview Clouber base classes of UI controls.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.Page
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.Page
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 /**
 * The model of portal page.
-* @class  Clouber.Sys.Portal.PageContext
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.Model
+* @class  Clouber.Portal.PageModel
+* @namespace Clouber.Portal
+* @extends Clouber.Core.Model
 * @constructor
 */
-Clouber.Sys.Portal.PageContext = function () {
+Clouber.Portal.PageModel = function () {
     'use strict';
 
     /**
@@ -35,13 +35,13 @@ Clouber.Sys.Portal.PageContext = function () {
 
 
 };
-Clouber.extend(Clouber.Sys.Portal.PageContext, Clouber.Sys.UI.Model);
+Clouber.extend(Clouber.Portal.PageModel, Clouber.Core.Model);
 
 /**
 * The MVC based view object of Page controls.
-* @class  Clouber.Sys.Portal.PageView
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ContainerView
+* @class  Clouber.Portal.PageView
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ContainerView
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -50,7 +50,7 @@ Clouber.extend(Clouber.Sys.Portal.PageContext, Clouber.Sys.UI.Model);
 * @param  params.control control name
 * @param  params.theme web page theme, include htmls, CSSs, images
 */
-Clouber.Sys.Portal.PageView = function () {
+Clouber.Portal.PageView = function () {
     'use strict';
     /**
     * class type
@@ -59,10 +59,38 @@ Clouber.Sys.Portal.PageView = function () {
     this.TYPE = "PAGE_VIEW";
 
     /**
+    * Initialization
+    * @function init
+    * @override
+    */
+    this.init = function () {
+        this.displayPage();
+    };
+
+    /**
+    * Display Clouber portal page.
+    * @function displayPage
+    * @override
+    */
+    this.displayPage = function () {
+        // load page default HTML
+        Clouber.document.html("body",
+            '<div id="CLOUBER_PAGE_BAR"></div><div id="CLOUBER_PAGE"></div>');
+
+        // load page's default CSS
+        Clouber.loader.load(
+            {namespace: "Clouber.Portal.Page",
+                theme: this.getContext().theme},
+            null,
+            "css"
+        );
+    };
+
+    /**
     * Get HTML code from portal configuration file.
     * @function getHtml
-    * @override
     * @return {string} HTML code of this page
+    * @override
     */
     this.getHtml = function () {
         return this.getContext().code;
@@ -82,13 +110,13 @@ Clouber.Sys.Portal.PageView = function () {
         }
     };
 };
-Clouber.extend(Clouber.Sys.Portal.PageView, Clouber.Sys.UI.ContainerView);
+Clouber.extend(Clouber.Portal.PageView, Clouber.Core.ContainerView);
 
 /**
 * The MVC based controller of Page controls.
-* @class  Clouber.Sys.Portal.Page
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ContainerController
+* @class  Clouber.Portal.Page
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ContainerController
 * @constructor
 * @param {object} params Object initial settings.
 * @param {object} params.portalApp Page's model object.
@@ -99,7 +127,7 @@ Clouber.extend(Clouber.Sys.Portal.PageView, Clouber.Sys.UI.ContainerView);
 * @param  params.theme web page theme, include htmls, CSSs, images
 * @param  params.title  control title
 */
-Clouber.Sys.Portal.Page = function (params) {
+Clouber.Portal.Page = function (params) {
     'use strict';
     /**
     * object type
@@ -134,7 +162,8 @@ Clouber.Sys.Portal.Page = function (params) {
     */
     this.init = function () {
          // Page's view object.
-        this.setView(new Clouber.Sys.Portal.PageView(this.getContext()));
+        this.setView(new Clouber.Portal.PageView(this.getContext()));
+        this.view.init();
     };
 
     /**
@@ -174,7 +203,7 @@ Clouber.Sys.Portal.Page = function (params) {
             } else {
                 // a new page template, need to change every window.
                 // display page template
-                this.view.loadTheme(Clouber.portal.getConf().path);  
+                this.view.loadTheme(Clouber.portal.getConf().path);
 
                 // create and display new frames
                 for (i = 0, l = context.frames.size(); i < l; i++) {
@@ -188,7 +217,7 @@ Clouber.Sys.Portal.Page = function (params) {
             // set page title
             this.view.setTitle();
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Page#display";
+            e.code = "Clouber.Portal.Page#display";
             Clouber.log(e);
         }
     };
@@ -226,7 +255,7 @@ Clouber.Sys.Portal.Page = function (params) {
             // set page title
             this.view.setTitle();
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Page#refresh";
+            e.code = "Clouber.Portal.Page#refresh";
             Clouber.log(e);
         }
     };
@@ -255,15 +284,15 @@ Clouber.Sys.Portal.Page = function (params) {
         try {
             // display frames
             if (conf.Class === undefined) {
-                conf.Class = "Clouber.Sys.Portal.Frame";
+                conf.Class = "Clouber.Portal.Frame";
             }
             frm = Clouber.create(conf.Class);
-            model = new Clouber.Sys.Portal.FrameContext(index);
+            model = new Clouber.Portal.FrameModel(index);
             frm.setModel(model);
             this.addFrame(index, frm);
             frm.init();
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Page#displayFrame";
+            e.code = "Clouber.Portal.Page#displayFrame";
             Clouber.log(e);
         }
     };
@@ -276,7 +305,7 @@ Clouber.Sys.Portal.Page = function (params) {
     */
     this.addFrame = function (index, frame) {
         //if (this.frames === null) {
-        //    this.frames = new Clouber.Map();
+        //    this.frames = new Clouber.Core.Map();
         //}
         //this.frames.set(index, frame.getId());
         this.getContext().frames.get(index).instanceId = frame.getId();
@@ -303,7 +332,7 @@ Clouber.Sys.Portal.Page = function (params) {
     */
     this.addControl = function (control) {
         if (this.controls === null) {
-            this.controls = new Clouber.Map();
+            this.controls = new Clouber.Core.Map();
         }
         this.controls.set(control.getId(), control);
     };
@@ -338,5 +367,5 @@ Clouber.Sys.Portal.Page = function (params) {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.Page, Clouber.Sys.UI.ContainerController);
+Clouber.extend(Clouber.Portal.Page, Clouber.Core.ContainerController);
 

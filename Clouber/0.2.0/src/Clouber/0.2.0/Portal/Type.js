@@ -2,19 +2,19 @@
 * @fileOverview Clouber Portlet interfaces' declaration, refer to WSPR 2.0.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portlet.*
+* @requires Clouber.* Clouber.Core.* Clouber.Sys.Portlet.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal.T.");
+Clouber.namespace("Clouber.Portal.T.");
 
 /**
 * 4.1.2 Handle Type
 * Handles are opaque references that are passed between the Consumer and
 * Producer.
-* @type Clouber.Sys.Portal.T.Handle
-* @class Clouber.Sys.Portal.T.Handle
+* @type Clouber.Portal.T.Handle
+* @class Clouber.Portal.T.Handle
 */
-Clouber.Sys.Portal.T.Handle = function () {
+Clouber.Portal.T.Handle = function () {
     'use strict';
     /**
     * handle restricts string (maximum length = 255)
@@ -28,10 +28,10 @@ Clouber.Sys.Portal.T.Handle = function () {
 * Keys are similar to Handles except that they are not opaque references. They
 * are used for keying data and therefore need to support efficient comparisons.
 * As a result their length is restricted to 255 characters.
-* @type Clouber.Sys.Portal.T.Key
-* @class Clouber.Sys.Portal.T.Key
+* @type Clouber.Portal.T.Key
+* @class Clouber.Portal.T.Key
 */
-Clouber.Sys.Portal.T.Key = function () {
+Clouber.Portal.T.Key = function () {
     'use strict';
     /**
     * handle restricts string (maximum length = 255)
@@ -44,10 +44,10 @@ Clouber.Sys.Portal.T.Key = function () {
 * 4.1.4 ID Type
 * IDs are used to refer to something, but are unlikely to be used as keys. As
 * a result the length restriction is relaxed to 4096 characters.
-* @type Clouber.Sys.Portal.T.ID
-* @class Clouber.Sys.Portal.T.ID
+* @type Clouber.Portal.T.ID
+* @class Clouber.Portal.T.ID
 */
-Clouber.Sys.Portal.T.ID = function () {
+Clouber.Portal.T.ID = function () {
     'use strict';
     /**
     * handle restricts string (maximum length = 4096)
@@ -61,10 +61,10 @@ Clouber.Sys.Portal.T.ID = function () {
 * The LocalizedString structure describes both the value for a particular
 * locale and the name that can be used to extract the value for other locales
 * from a ResourceList.
-* @type Clouber.Sys.Portal.T.LocalizedString
-* @class Clouber.Sys.Portal.T.LocalizedString
+* @type Clouber.Portal.T.LocalizedString
+* @class Clouber.Portal.T.LocalizedString
 */
-Clouber.Sys.Portal.T.LocalizedString = function () {
+Clouber.Portal.T.LocalizedString = function () {
     'use strict';
     /**
     * The locale for this supplied localized value. This is carried in the
@@ -93,10 +93,10 @@ Clouber.Sys.Portal.T.LocalizedString = function () {
 * 4.1.8 ResourceList Type
 * This is an array of Resource structure, each of which carries the values for
 * a localized resource in various locales.
-* @type Clouber.Sys.Portal.T.ResourceList
-* @class Clouber.Sys.Portal.T.ResourceList
+* @type Clouber.Portal.T.ResourceList
+* @class Clouber.Portal.T.ResourceList
 */
-Clouber.Sys.Portal.T.ResourceList = function () {
+Clouber.Portal.T.ResourceList = function () {
     'use strict';
     /**
     * Each member of this array provides the localized values for a resource.
@@ -106,7 +106,7 @@ Clouber.Sys.Portal.T.ResourceList = function () {
 
     /**
     * The extensions field MAY be used to extend this structure. Extension
-    * elements MUST be from namespaces other than Clouber.Sys.Portal.T.
+    * elements MUST be from namespaces other than Clouber.Portal.T.
     *  @type array(Extension)
     */
     this.extensions = [];
@@ -116,10 +116,10 @@ Clouber.Sys.Portal.T.ResourceList = function () {
 * 4.1.13 ModelTypes Type
 * The ModelTypes structure contains the payload mechanism for declaring the
 * types referenced by the description types.
-* @type Clouber.Sys.Portal.T.ModelTypes
-* @class Clouber.Sys.Portal.T.ModelTypes
+* @type Clouber.Portal.T.ModelTypes
+* @class Clouber.Portal.T.ModelTypes
 */
-Clouber.Sys.Portal.T.ModelTypes = function () {
+Clouber.Portal.T.ModelTypes = function () {
     'use strict';
     /** @type array(Object) */
     this.any = [];
@@ -129,16 +129,16 @@ Clouber.Sys.Portal.T.ModelTypes = function () {
 * 4.1.14 ModelDescription Type
 * The set of properties of a Portlet are described in its metadata using the
 * following structure.
-* @type Clouber.Sys.Portal.T.ModelDescription
-* @class Clouber.Sys.Portal.T.ModelDescription
+* @type Clouber.Portal.T.ModelDescription
+* @class Clouber.Portal.T.ModelDescription
 */
-Clouber.Sys.Portal.T.ModelDescription = function () {
+Clouber.Portal.T.ModelDescription = function () {
     'use strict';
     /** @type array(PropertyDescription) */
     this.propertyDescriptions = [];
 
     /** @type ModelTypes */
-    this.modelTypes = new Clouber.Sys.Portal.T.ModelTypes();
+    this.modelTypes = new Clouber.Portal.T.ModelTypes();
 
     /** @type array(Extension) */
     this.extensions = [];
@@ -148,37 +148,37 @@ Clouber.Sys.Portal.T.ModelDescription = function () {
 * 4.1.16 PortletDescription Type
 * The PortletDescription structure contains a set of fields that provide the
 * metadata to describe the Portlet as well as any clones of the Portlet.
-* @type Clouber.Sys.Portal.T.PortletDescription
-* @class Clouber.Sys.Portal.T.PortletDescription
+* @type Clouber.Portal.T.PortletDescription
+* @class Clouber.Portal.T.PortletDescription
 */
-Clouber.Sys.Portal.T.PortletDescription = function () {
+Clouber.Portal.T.PortletDescription = function () {
     'use strict';
     /** @type Handle */
-    this.portletHandle = new Clouber.Sys.Portal.T.Handle();
+    this.portletHandle = new Clouber.Portal.T.Handle();
 
     /** @type array(MarkupType) */
     this.markupTypes = [];
 
     /** @type ID */
-    this.groupID = new Clouber.Sys.Portal.T.ID();
+    this.groupID = new Clouber.Portal.T.ID();
 
     /** @type LocalizedString */
-    this.description = new Clouber.Sys.Portal.T.LocalizedString();
+    this.description = new Clouber.Portal.T.LocalizedString();
 
     /** @type LocalizedString */
-    this.shortTitle = new Clouber.Sys.Portal.T.LocalizedString();
+    this.shortTitle = new Clouber.Portal.T.LocalizedString();
 
     /** @type LocalizedString */
-    this.title = new Clouber.Sys.Portal.T.LocalizedString();
+    this.title = new Clouber.Portal.T.LocalizedString();
 
     /** @type LocalizedString */
-    this.displayName = new Clouber.Sys.Portal.T.LocalizedString();
+    this.displayName = new Clouber.Portal.T.LocalizedString();
 
     /** @type array(LocalizedString) */
     this.keywords = [];
 
     /** @type ID */
-    this.portletID = new Clouber.Sys.Portal.T.ID();
+    this.portletID = new Clouber.Portal.T.ID();
 
     /** @type array(QName) */
     this.publishedEvents = [];
@@ -225,16 +225,16 @@ Clouber.Sys.Portal.T.PortletDescription = function () {
     /** @type array(Extension) */
     this.extensions = [];
 };
-Clouber.extend(Clouber.Sys.Portal.T.PortletDescription, Clouber.BaseObject);
+Clouber.extend(Clouber.Portal.T.PortletDescription, Clouber.Core.BaseObject);
 
 /**
 * 4.1.20 CookieProtocol Type
 * This type is a restriction on the string type that is constrained to the
 * values "none", "perUser" or "perGroup".
-* @type Clouber.Sys.Portal.T.CookieProtocol
-* @class Clouber.Sys.Portal.T.CookieProtocol
+* @type Clouber.Portal.T.CookieProtocol
+* @class Clouber.Portal.T.CookieProtocol
 */
-Clouber.Sys.Portal.T.CookieProtocol = function () {
+Clouber.Portal.T.CookieProtocol = function () {
     'use strict';
     /** @type string */
     this.none = "none";
@@ -250,10 +250,10 @@ Clouber.Sys.Portal.T.CookieProtocol = function () {
 * 4.1.23 ExportDescription Type
 * The ExportDescription structure contains a set of fields for describing
 * export capabilities and restrictions.
-* @type Clouber.Sys.Portal.T.ExportDescription
-* @class Clouber.Sys.Portal.T.ExportDescription
+* @type Clouber.Portal.T.ExportDescription
+* @class Clouber.Portal.T.ExportDescription
 */
-Clouber.Sys.Portal.T.ExportDescription = function () {
+Clouber.Portal.T.ExportDescription = function () {
     'use strict';
     /** @type integer */
     this.recommendedExportSize = 0;
@@ -266,10 +266,10 @@ Clouber.Sys.Portal.T.ExportDescription = function () {
 * 4.1.24 ServiceDescription Type
 * The ServiceDescription structure contains a set of fields* that describe the
 * offered services of the Producer.
-* @type Clouber.Sys.Portal.T.ServiceDescription
-* @class Clouber.Sys.Portal.T.ServiceDescription
+* @type Clouber.Portal.T.ServiceDescription
+* @class Clouber.Portal.T.ServiceDescription
 */
-Clouber.Sys.Portal.T.ServiceDescription = function () {
+Clouber.Portal.T.ServiceDescription = function () {
     'use strict';
     /** @type boolean */
     this.requiresRegistration = true;
@@ -290,29 +290,29 @@ Clouber.Sys.Portal.T.ServiceDescription = function () {
     this.customModeDescriptions = [];
 
     /** @type CookieProtocol */
-    this.requiresInitCookie = new Clouber.Sys.Portal.T.CookieProtocol();
+    this.requiresInitCookie = new Clouber.Portal.T.CookieProtocol();
 
     /** @type ModelDescription */
     this.registrationPropertyDescription =
-        new Clouber.Sys.Portal.T.ModelDescription();
+        new Clouber.Portal.T.ModelDescription();
 
     /** @type Array(string) */
     this.locales = [];
 
     /** @type ResourceList */
-    this.resourceList = new Clouber.Sys.Portal.T.ResourceList();
+    this.resourceList = new Clouber.Portal.T.ResourceList();
 
     /** @type Array(EventDescription) */
     this.eventDescriptions = [];
 
     /** @type ModelTypes */
-    this.schemaType = new Clouber.Sys.Portal.T.ModelTypes();
+    this.schemaType = new Clouber.Portal.T.ModelTypes();
 
     /** @type Array(string) */
     this.supportedOptions = [];
 
     /** @type ExportDescription */
-    this.exportDescription = new Clouber.Sys.Portal.T.ExportDescription();
+    this.exportDescription = new Clouber.Portal.T.ExportDescription();
 
     /** @type boolean */
     this.mayReturnRegistrationState = true;
@@ -325,10 +325,10 @@ Clouber.Sys.Portal.T.ServiceDescription = function () {
 * 4.1.25 Lifetime Type
 * The Lifetime structure provides information regarding when a particular item
 * is scheduled to be expunged.
-* @type Clouber.Sys.Portal.T.Lifetime
-* @class Clouber.Sys.Portal.T.Lifetime
+* @type Clouber.Portal.T.Lifetime
+* @class Clouber.Portal.T.Lifetime
 */
-Clouber.Sys.Portal.T.Lifetime = function () {
+Clouber.Portal.T.Lifetime = function () {
     'use strict';
     /** @type dateTime */
     this.currentTime = new Date();
@@ -358,13 +358,13 @@ Clouber.Sys.Portal.T.Lifetime = function () {
 * @type RegistrationContext
 * @class RegistrationContext
 */
-Clouber.Sys.Portal.T.RegistrationContext = function () {
+Clouber.Portal.T.RegistrationContext = function () {
     'use strict';
     /**
     * registrationHandle
     * @type Handle
     */
-    this.registrationHandle = new Clouber.Sys.Portal.T.Handle();
+    this.registrationHandle = new Clouber.Portal.T.Handle();
 
     /**
     * registrationState
@@ -376,7 +376,7 @@ Clouber.Sys.Portal.T.RegistrationContext = function () {
     * scheduledDestruction
     * @type Lifetime
     */
-    this.scheduledDestruction = new Clouber.Sys.Portal.T.Lifetime();
+    this.scheduledDestruction = new Clouber.Portal.T.Lifetime();
 
     /**
     * @type Array(Extension)
@@ -388,13 +388,13 @@ Clouber.Sys.Portal.T.RegistrationContext = function () {
 * 5.1.1 SessionContext Type
 * The SessionContext structure contains the ID and expires information the
 * Consumer needs to refer to the session in subsequent invocations.
-* @type Clouber.Sys.Portal.T.SessionContext
-* @class Clouber.Sys.Portal.T.SessionContext
+* @type Clouber.Portal.T.SessionContext
+* @class Clouber.Portal.T.SessionContext
 */
-Clouber.Sys.Portal.T.SessionContext = function () {
+Clouber.Portal.T.SessionContext = function () {
     'use strict';
     /** @type ID */
-    this.sessionID = new Clouber.Sys.Portal.T.ID();
+    this.sessionID = new Clouber.Portal.T.ID();
 
     /** @type int */
     this.expires = 0;
@@ -407,19 +407,19 @@ Clouber.Sys.Portal.T.SessionContext = function () {
 * 5.1.4 PortletContext Type
 * The PortletContext structure is used as a parameter on many operations to
 * supply the Portlet information that was returned to the Consumer.
-* @type Clouber.Sys.Portal.T.PortletContext
-* @class Clouber.Sys.Portal.T.PortletContext
+* @type Clouber.Portal.T.PortletContext
+* @class Clouber.Portal.T.PortletContext
 */
-Clouber.Sys.Portal.T.PortletContext = function () {
+Clouber.Portal.T.PortletContext = function () {
     'use strict';
     /** @type Handle */
-    this.portletHandle = new Clouber.Sys.Portal.T.Handle();
+    this.portletHandle = new Clouber.Portal.T.Handle();
 
     /** @type base64Binary */
     this.portletState = {};
 
     /** @type Lifetime */
-    this.scheduledDestruction = new Clouber.Sys.Portal.T.Lifetime();
+    this.scheduledDestruction = new Clouber.Portal.T.Lifetime();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -429,10 +429,10 @@ Clouber.Sys.Portal.T.PortletContext = function () {
 * 5.1.6 CacheControl Type
 * The CacheControl structure contains a set of fields needed for the Portlet to
 * manage cached markup fragments.
-* @type Clouber.Sys.Portal.T.CacheControl
-* @class Clouber.Sys.Portal.T.CacheControl
+* @type Clouber.Portal.T.CacheControl
+* @class Clouber.Portal.T.CacheControl
 */
-Clouber.Sys.Portal.T.CacheControl = function () {
+Clouber.Portal.T.CacheControl = function () {
     'use strict';
     /** @type int */
     this.expires = 0;
@@ -451,10 +451,10 @@ Clouber.Sys.Portal.T.CacheControl = function () {
 * 5.1.9 CCPPHeaders Type
 * The CCPPHeaders structure holds the information defined by the CC/PP
 * standard.
-* @type Clouber.Sys.Portal.T.CCPPHeaders
-* @class Clouber.Sys.Portal.T.CCPPHeaders
+* @type Clouber.Portal.T.CCPPHeaders
+* @class Clouber.Portal.T.CCPPHeaders
 */
-Clouber.Sys.Portal.T.CCPPHeaders = function () {
+Clouber.Portal.T.CCPPHeaders = function () {
     'use strict';
     /** @type string */
     this.profile = "";
@@ -470,22 +470,22 @@ Clouber.Sys.Portal.T.CCPPHeaders = function () {
 * 5.1.10 ClientData Type
 * The ClientData structure contains information the client supplied to Consumer
 * about itself, including user-agent identification and capabilities.
-* @type Clouber.Sys.Portal.T.ClientData
-* @class Clouber.Sys.Portal.T.ClientData
+* @type Clouber.Portal.T.ClientData
+* @class Clouber.Portal.T.ClientData
 */
-Clouber.Sys.Portal.T.ClientData = function () {
+Clouber.Portal.T.ClientData = function () {
     'use strict';
     /** @type string */
     this.userAgent = "";
 
     /** @type CCPPHeaders */
-    this.ccppHeaders = new Clouber.Sys.Portal.T.CCPPHeaders();
+    this.ccppHeaders = new Clouber.Portal.T.CCPPHeaders();
 
     /** @type string */
     this.requestVerb = "";
 
     /** @type Array(NamedString) */
-    this.clientAttributes = new Clouber.Map();
+    this.clientAttributes = new Clouber.Core.Map();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -495,10 +495,10 @@ Clouber.Sys.Portal.T.ClientData = function () {
 * 5.1.12 NavigationalContext Type
 * The NavigationalContext type provides a means to carry both the opaque and
 * public portions of the Portlet's navigational state.
-* @type Clouber.Sys.Portal.T.NavigationalContext
-* @class Clouber.Sys.Portal.T.NavigationalContext
+* @type Clouber.Portal.T.NavigationalContext
+* @class Clouber.Portal.T.NavigationalContext
 */
-Clouber.Sys.Portal.T.NavigationalContext = function () {
+Clouber.Portal.T.NavigationalContext = function () {
     'use strict';
     /** @type string */
     this.opaqueValue = "";
@@ -514,10 +514,10 @@ Clouber.Sys.Portal.T.NavigationalContext = function () {
 * 5.1.13 MimeRequest Type
 * The MimeRequest structure contains information frequently used to control
 * generation of items with varying mime types.
-* @type Clouber.Sys.Portal.T.MimeRequest
-* @class Clouber.Sys.Portal.T.MimeRequest
+* @type Clouber.Portal.T.MimeRequest
+* @class Clouber.Portal.T.MimeRequest
 */
-Clouber.Sys.Portal.T.MimeRequest = function () {
+Clouber.Portal.T.MimeRequest = function () {
     'use strict';
     /** @type boolean */
     this.secureClientCommuncation = true;
@@ -535,10 +535,10 @@ Clouber.Sys.Portal.T.MimeRequest = function () {
     this.windowState = "";
 
     /** @type ClientData */
-    this.clientData = new Clouber.Sys.Portal.T.ClientData();
+    this.clientData = new Clouber.Portal.T.ClientData();
 
     /** @type NavigationalContext */
-    this.navigationalContext = new Clouber.Sys.Portal.T.NavigationalContext();
+    this.navigationalContext = new Clouber.Portal.T.NavigationalContext();
 
     /** @type Array(string) */
     this.markupCharacterSets = [];
@@ -562,11 +562,11 @@ Clouber.Sys.Portal.T.MimeRequest = function () {
 * MimeRequest definition (see [Section 5.1.13]) without any additional fields
 * and provides the data needed for the Portlet to generate markup that will
 * enable the End-User to visualize the state of the Portlet.
-* @extends Clouber.Sys.Portal.T.MimeRequest
-* @type Clouber.Sys.Portal.T.MarkupParams
-* @class Clouber.Sys.Portal.T.MarkupParams
+* @extends Clouber.Portal.T.MimeRequest
+* @type Clouber.Portal.T.MarkupParams
+* @class Clouber.Portal.T.MarkupParams
 */
-Clouber.Sys.Portal.T.MarkupParams = function () {
+Clouber.Portal.T.MarkupParams = function () {
     'use strict';
 
     /** @type string */
@@ -581,17 +581,17 @@ Clouber.Sys.Portal.T.MarkupParams = function () {
         return this._type;
     };
 };
-Clouber.extend(Clouber.Sys.Portal.T.MarkupParams,
-    Clouber.Sys.Portal.T.MimeRequest);
+Clouber.extend(Clouber.Portal.T.MarkupParams,
+    Clouber.Portal.T.MimeRequest);
 
 /**
 * 5.1.16 MimeResponse Type
 * The MimeResponse structure contains common fields relative to returning an
 * item described by a mime type.
-* @type Clouber.Sys.Portal.T.MimeResponse
-* @class Clouber.Sys.Portal.T.MimeResponse
+* @type Clouber.Portal.T.MimeResponse
+* @class Clouber.Portal.T.MimeResponse
 */
-Clouber.Sys.Portal.T.MimeResponse = function () {
+Clouber.Portal.T.MimeResponse = function () {
     'use strict';
     /** @type boolean */
     this.useCachedItem = true;
@@ -612,7 +612,7 @@ Clouber.Sys.Portal.T.MimeResponse = function () {
     this.requiresRewriting = true;
 
     /** @type CacheControl */
-    this.cacheControl = new Clouber.Sys.Portal.T.CacheControl();
+    this.cacheControl = new Clouber.Portal.T.CacheControl();
 
     /** @type string */
     this.ccppProfileWarning = "";
@@ -629,11 +629,11 @@ Clouber.Sys.Portal.T.MimeResponse = function () {
 * The schema definition of the MarkupContext structure extends the common
 * MimeResponse definition (see [Section 5.1.16]), adding fields relative to
 * returning a Portlet's markup.
-* @extends Clouber.Sys.Portal.T.MimeResponse
-* @type Clouber.Sys.Portal.T.MarkupContext
-* @class Clouber.Sys.Portal.T.MarkupContext
+* @extends Clouber.Portal.T.MimeResponse
+* @type Clouber.Portal.T.MarkupContext
+* @class Clouber.Portal.T.MarkupContext
 */
-Clouber.Sys.Portal.T.MarkupContext = function () {
+Clouber.Portal.T.MarkupContext = function () {
     'use strict';
     /** @type string */
     this.preferredTitle = "";
@@ -641,23 +641,23 @@ Clouber.Sys.Portal.T.MarkupContext = function () {
     /** @type Array(string) */
     this.validNewModes = [];
 };
-Clouber.extend(Clouber.Sys.Portal.T.MarkupContext,
-    Clouber.Sys.Portal.T.MimeResponse);
+Clouber.extend(Clouber.Portal.T.MarkupContext,
+    Clouber.Portal.T.MimeResponse);
 
 /**
 * 5.1.20 MarkupResponse Type
 * The MarkupResponse structure contains fields for returning various items in
 * response to a getMarkup invocation.
-* @type Clouber.Sys.Portal.T.MarkupResponse
-* @class Clouber.Sys.Portal.T.MarkupResponse
+* @type Clouber.Portal.T.MarkupResponse
+* @class Clouber.Portal.T.MarkupResponse
 */
-Clouber.Sys.Portal.T.MarkupResponse = function () {
+Clouber.Portal.T.MarkupResponse = function () {
     'use strict';
     /** @type MarkupContext */
-    this.markupContext = new Clouber.Sys.Portal.T.MarkupContext();
+    this.markupContext = new Clouber.Portal.T.MarkupContext();
 
     /** @type SessionContext */
-    this.sessionContext = new Clouber.Sys.Portal.T.SessionContext();
+    this.sessionContext = new Clouber.Portal.T.SessionContext();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -667,25 +667,25 @@ Clouber.Sys.Portal.T.MarkupResponse = function () {
 * 5.1.23 UpdateResponse Type
 * The UpdateResponse structure contains the items normally returned by
 * performBlockingInteraction or handleEvents.
-* @type Clouber.Sys.Portal.T.UpdateResponse
-* @class Clouber.Sys.Portal.T.UpdateResponse
+* @type Clouber.Portal.T.UpdateResponse
+* @class Clouber.Portal.T.UpdateResponse
 */
-Clouber.Sys.Portal.T.UpdateResponse = function () {
+Clouber.Portal.T.UpdateResponse = function () {
     'use strict';
     /** @type SessionContext */
-    this.sessionContext = new Clouber.Sys.Portal.T.SessionContext();
+    this.sessionContext = new Clouber.Portal.T.SessionContext();
 
     /** @type PortletContext */
-    this.portletContext = new Clouber.Sys.Portal.T.PortletContext();
+    this.portletContext = new Clouber.Portal.T.PortletContext();
 
     /** @type MarkupContext */
-    this.markupContext = new Clouber.Sys.Portal.T.MarkupContext();
+    this.markupContext = new Clouber.Portal.T.MarkupContext();
 
     /** @type Array(Event) */
     this.events = [];
 
     /** @type NavigationalContext */
-    this.navigationalContext = new Clouber.Sys.Portal.T.NavigationalContext();
+    this.navigationalContext = new Clouber.Portal.T.NavigationalContext();
 
     /** @type string */
     this.newWindowState = "";
@@ -701,13 +701,13 @@ Clouber.Sys.Portal.T.UpdateResponse = function () {
 * 5.1.24 BlockingInteractionResponse Type
 * The BlockingInteractionResponse structure contains the various items
 * performBlockingInteraction can return.
-* @type Clouber.Sys.Portal.T.BlockingInteractionResponse
-* @class Clouber.Sys.Portal.T.BlockingInteractionResponse
+* @type Clouber.Portal.T.BlockingInteractionResponse
+* @class Clouber.Portal.T.BlockingInteractionResponse
 */
-Clouber.Sys.Portal.T.BlockingInteractionResponse = function () {
+Clouber.Portal.T.BlockingInteractionResponse = function () {
     'use strict';
     /** @type UpdateResponse */
-    this.updateResponse = new Clouber.Sys.Portal.T.UpdateResponse();
+    this.updateResponse = new Clouber.Portal.T.UpdateResponse();
 
     /** @type string */
     this.redirectURL = "";
@@ -720,13 +720,13 @@ Clouber.Sys.Portal.T.BlockingInteractionResponse = function () {
 * 5.1.27 HandleEventsResponse Type
 * The HandleEventsResponse structure contains the various items handleEvents
 * can return.
-* @type Clouber.Sys.Portal.T.HandleEventsResponse
-* @class Clouber.Sys.Portal.T.HandleEventsResponse
+* @type Clouber.Portal.T.HandleEventsResponse
+* @class Clouber.Portal.T.HandleEventsResponse
 */
-Clouber.Sys.Portal.T.HandleEventsResponse = function () {
+Clouber.Portal.T.HandleEventsResponse = function () {
     'use strict';
     /** @type UpdateResponse */
-    this.updateResponse = new Clouber.Sys.Portal.T.UpdateResponse();
+    this.updateResponse = new Clouber.Portal.T.UpdateResponse();
 
     /** @type Array(HandleEventsFailed) */
     this.failedEvents = [];
@@ -740,10 +740,10 @@ Clouber.Sys.Portal.T.HandleEventsResponse = function () {
 * This type is a restriction on the string type that is constrained to the
 * values "readWrite", "cloneBeforeWrite" or "readOnly", the meanings of which
 * are explained in [Section 5.4.3].
-* @type Clouber.Sys.Portal.T.StateChange
-* @class Clouber.Sys.Portal.T.StateChange
+* @type Clouber.Portal.T.StateChange
+* @class Clouber.Portal.T.StateChange
 */
-Clouber.Sys.Portal.T.StateChange = function () {
+Clouber.Portal.T.StateChange = function () {
     'use strict';
     /** @type string */
     this.readWrite = "readWrite";
@@ -777,13 +777,13 @@ Clouber.Sys.Portal.T.StateChange = function () {
 * 5.1.30 InteractionParams Type
 * The InteractionParams structure contains fields specific to invoking the
 * performBlockingInteraction operation.
-* @type Clouber.Sys.Portal.T.InteractionParams
-* @class Clouber.Sys.Portal.T.InteractionParams
+* @type Clouber.Portal.T.InteractionParams
+* @class Clouber.Portal.T.InteractionParams
 */
-Clouber.Sys.Portal.T.InteractionParams = function () {
+Clouber.Portal.T.InteractionParams = function () {
     'use strict';
     /** @type StateChange */
-    this.portletStateChange = new Clouber.Sys.Portal.T.StateChange();
+    this.portletStateChange = new Clouber.Portal.T.StateChange();
 
     /** @type string */
     this.interactionState = "";
@@ -802,13 +802,13 @@ Clouber.Sys.Portal.T.InteractionParams = function () {
 * 5.1.31 EventParams Type
 * The EventParams structure contains fields specific to invoking the
 * handleEvents operation.
-* @type Clouber.Sys.Portal.T.EventParams
-* @class Clouber.Sys.Portal.T.EventParams
+* @type Clouber.Portal.T.EventParams
+* @class Clouber.Portal.T.EventParams
 */
-Clouber.Sys.Portal.T.EventParams = function () {
+Clouber.Portal.T.EventParams = function () {
     'use strict';
     /** @type StateChange */
-    this.portletStateChange = new Clouber.Sys.Portal.T.StateChange();
+    this.portletStateChange = new Clouber.Portal.T.StateChange();
 
     /** @type Array(Event) */
     this.events = [];
@@ -823,13 +823,13 @@ Clouber.Sys.Portal.T.EventParams = function () {
 * The Portlet uses the userProfileItems in its metadata to describe the fields
 * it uses to generate markup from this set and any others the Consumer
 * indicated were available when it registered.
-* @type Clouber.Sys.Portal.T.UserProfile
-* @class Clouber.Sys.Portal.T.UserProfile
+* @type Clouber.Portal.T.UserProfile
+* @class Clouber.Portal.T.UserProfile
 */
-Clouber.Sys.Portal.T.UserProfile = function () {
+Clouber.Portal.T.UserProfile = function () {
     'use strict';
     /** @type PersonName */
-    this.name = new Clouber.Sys.Portal.T.PersonName();
+    this.name = new Clouber.Portal.T.PersonName();
 
     /** @type dateTime */
     this.bdate = new Date();
@@ -838,13 +838,13 @@ Clouber.Sys.Portal.T.UserProfile = function () {
     this.gender = "";
 
     /** @type EmployerInfo */
-    this.employerInfo = new Clouber.Sys.Portal.T.EmployerInfo();
+    this.employerInfo = new Clouber.Portal.T.EmployerInfo();
 
     /** @type Contact */
-    this.homeInfo = new Clouber.Sys.Portal.T.Contact();
+    this.homeInfo = new Clouber.Portal.T.Contact();
 
     /** @type Contact */
-    this.businessInfo = new Clouber.Sys.Portal.T.Contact();
+    this.businessInfo = new Clouber.Portal.T.Contact();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -854,10 +854,10 @@ Clouber.Sys.Portal.T.UserProfile = function () {
 * 5.1.32.1 PersonName Type
 * The PersonName structure carries the detailed fields for the parts of an
 * End-User's name.
-* @type Clouber.Sys.Portal.T.PersonName
-* @class Clouber.Sys.Portal.T.PersonName
+* @type Clouber.Portal.T.PersonName
+* @class Clouber.Portal.T.PersonName
 */
-Clouber.Sys.Portal.T.PersonName = function () {
+Clouber.Portal.T.PersonName = function () {
     'use strict';
     /** @type string */
     this.prefix = "";
@@ -885,10 +885,10 @@ Clouber.Sys.Portal.T.PersonName = function () {
 * 5.1.32.2 EmployerInfo Type
 * The EmployerInfo structure contains the detailed fields concerning the
 * End-User's employer.
-* @type Clouber.Sys.Portal.T.EmployerInfo
-* @class Clouber.Sys.Portal.T.EmployerInfo
+* @type Clouber.Portal.T.EmployerInfo
+* @class Clouber.Portal.T.EmployerInfo
 */
-Clouber.Sys.Portal.T.EmployerInfo = function () {
+Clouber.Portal.T.EmployerInfo = function () {
     'use strict';
     /** @type string */
     this.employer = "";
@@ -907,10 +907,10 @@ Clouber.Sys.Portal.T.EmployerInfo = function () {
 * 5.1.32.3 TelephoneNum Type
 * The TelephoneNum structure is used to describe the subfields of a phone
 * number.
-* @type Clouber.Sys.Portal.T.TelephoneNum
-* @class Clouber.Sys.Portal.T.TelephoneNum
+* @type Clouber.Portal.T.TelephoneNum
+* @class Clouber.Portal.T.TelephoneNum
 */
-Clouber.Sys.Portal.T.TelephoneNum = function () {
+Clouber.Portal.T.TelephoneNum = function () {
     'use strict';
     /** @type string */
     this.intcode = "";
@@ -935,22 +935,22 @@ Clouber.Sys.Portal.T.TelephoneNum = function () {
 * 5.1.32.4 Telecom Type
 * The Telecom structure is used to describe the various phone contact
 * information.
-* @type Clouber.Sys.Portal.T.Telecom
-* @class Clouber.Sys.Portal.T.Telecom
+* @type Clouber.Portal.T.Telecom
+* @class Clouber.Portal.T.Telecom
 */
-Clouber.Sys.Portal.T.Telecom = function () {
+Clouber.Portal.T.Telecom = function () {
     'use strict';
     /** @type TelephoneNum */
-    this.telephone = new Clouber.Sys.Portal.T.TelephoneNum();
+    this.telephone = new Clouber.Portal.T.TelephoneNum();
 
     /** @type TelephoneNum */
-    this.fax = new Clouber.Sys.Portal.T.TelephoneNum();
+    this.fax = new Clouber.Portal.T.TelephoneNum();
 
     /** @type TelephoneNum */
-    this.mobile = new Clouber.Sys.Portal.T.TelephoneNum();
+    this.mobile = new Clouber.Portal.T.TelephoneNum();
 
     /** @type TelephoneNum */
-    this.pager = new Clouber.Sys.Portal.T.TelephoneNum();
+    this.pager = new Clouber.Portal.T.TelephoneNum();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -960,10 +960,10 @@ Clouber.Sys.Portal.T.Telecom = function () {
 * 5.1.32.5 Online Type
 * The Online structure is used to describe various types of web-oriented
 * contact information.
-* @type Clouber.Sys.Portal.T.Online
-* @class Clouber.Sys.Portal.T.Online
+* @type Clouber.Portal.T.Online
+* @class Clouber.Portal.T.Online
 */
-Clouber.Sys.Portal.T.Online = function () {
+Clouber.Portal.T.Online = function () {
     'use strict';
     /** @type string */
     this.email = "";
@@ -979,10 +979,10 @@ Clouber.Sys.Portal.T.Online = function () {
 * 5.1.32.6 Postal Type
 * The Postal structure carries the detailed fields describing a particular
 * address.
-* @type Clouber.Sys.Portal.T.Postal
-* @class Clouber.Sys.Portal.T.Postal
+* @type Clouber.Portal.T.Postal
+* @class Clouber.Portal.T.Postal
 */
-Clouber.Sys.Portal.T.Postal = function () {
+Clouber.Portal.T.Postal = function () {
     'use strict';
     /** @type string */
     this.name = "";
@@ -1012,19 +1012,19 @@ Clouber.Sys.Portal.T.Postal = function () {
 /**
 * 5.1.32.7 Contact Type
 * The Contact structure is used to describe a location for the End-User.
-* @type Clouber.Sys.Portal.T.Contact
-* @class Clouber.Sys.Portal.T.Contact
+* @type Clouber.Portal.T.Contact
+* @class Clouber.Portal.T.Contact
 */
-Clouber.Sys.Portal.T.Contact = function () {
+Clouber.Portal.T.Contact = function () {
     'use strict';
     /** @type Postal */
-    this.postal = new Clouber.Sys.Portal.T.Postal();
+    this.postal = new Clouber.Portal.T.Postal();
 
     /** @type Telecom */
-    this.telecom = new Clouber.Sys.Portal.T.Telecom();
+    this.telecom = new Clouber.Portal.T.Telecom();
 
     /** @type Online */
-    this.online = new Clouber.Sys.Portal.T.Online();
+    this.online = new Clouber.Portal.T.Online();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -1041,19 +1041,19 @@ Clouber.Sys.Portal.T.Contact = function () {
 * security-level information, namely; logging of remote invocations,
 * interoperable assertions of unauthenticated information, personalization of
 * the user experience, etc.
-* @type Clouber.Sys.Portal.T.UserContext
-* @class Clouber.Sys.Portal.T.UserContext
+* @type Clouber.Portal.T.UserContext
+* @class Clouber.Portal.T.UserContext
 */
-Clouber.Sys.Portal.T.UserContext = function () {
+Clouber.Portal.T.UserContext = function () {
     'use strict';
     /** @type Key */
-    this.userContextKey = new Clouber.Sys.Portal.T.Key();
+    this.userContextKey = new Clouber.Portal.T.Key();
 
     /** @type Array(string) */
     this.userCategories = [];
 
     /** @type UserProfile */
-    this.profile = new Clouber.Sys.Portal.T.UserProfile();
+    this.profile = new Clouber.Portal.T.UserProfile();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -1064,10 +1064,10 @@ Clouber.Sys.Portal.T.UserContext = function () {
 * The RegistrationData structure provides the means for the Consumer to supply
 * the data required for registration with a Producer as well as protocol
 * extensions that it supports [R355] [R356].
-* @type Clouber.Sys.Portal.T.RegistrationData
-* @class Clouber.Sys.Portal.T.RegistrationData
+* @type Clouber.Portal.T.RegistrationData
+* @class Clouber.Portal.T.RegistrationData
 */
-Clouber.Sys.Portal.T.RegistrationData = function () {
+Clouber.Portal.T.RegistrationData = function () {
     'use strict';
     /** @type string */
     this.consumerName = "";
@@ -1094,7 +1094,7 @@ Clouber.Sys.Portal.T.RegistrationData = function () {
     this.registrationProperties = [];
 
     /** @type ResourceList */
-    this.resourceList = new Clouber.Sys.Portal.T.ResourceList();
+    this.resourceList = new Clouber.Portal.T.ResourceList();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -1104,13 +1104,13 @@ Clouber.Sys.Portal.T.RegistrationData = function () {
 * 5.1.2 SessionParams Type
 * The SessionParams structure contains the session information the Consumer is
 * supplying to the Portlet for connection to a Portlet session.
-* @type Clouber.Sys.Portal.T.SessionParams
-* @class Clouber.Sys.Portal.T.SessionParams
+* @type Clouber.Portal.T.SessionParams
+* @class Clouber.Portal.T.SessionParams
 */
-Clouber.Sys.Portal.T.SessionParams = function () {
+Clouber.Portal.T.SessionParams = function () {
     'use strict';
     /** @type ID */
-    this.sessionID = new Clouber.Sys.Portal.T.ID();
+    this.sessionID = new Clouber.Portal.T.ID();
 
     /** @type Array(Extension) */
     this.extensions = [];
@@ -1120,25 +1120,25 @@ Clouber.Sys.Portal.T.SessionParams = function () {
 * 5.1.3 RuntimeContext Type
 * The RuntimeContext structure defines a collection of fields used only in
 * transient interactions between the Producer and Consumer.
-* @type Clouber.Sys.Portal.T.RuntimeContext
-* @class Clouber.Sys.Portal.T.RuntimeContext
+* @type Clouber.Portal.T.RuntimeContext
+* @class Clouber.Portal.T.RuntimeContext
 */
-Clouber.Sys.Portal.T.RuntimeContext = function () {
+Clouber.Portal.T.RuntimeContext = function () {
     'use strict';
     /** @type string */
     this.userAuthentication = "";
 
     /** @type Key */
-    this.portletInstanceKey = new Clouber.Sys.Portal.T.Key();
+    this.portletInstanceKey = new Clouber.Portal.T.Key();
 
     /** @type string */
     this.namespacePrefix = "";
 
     /** @type Templates */
-    this.templates = new Clouber.Sys.Portal.T.Templates();
+    this.templates = new Clouber.Portal.T.Templates();
 
     /** @type SessionParams */
-    this.sessionParams = new Clouber.Sys.Portal.T.SessionParams();
+    this.sessionParams = new Clouber.Portal.T.SessionParams();
 
     /** @type string */
     this.pageState = "";
@@ -1154,10 +1154,10 @@ Clouber.Sys.Portal.T.RuntimeContext = function () {
 * 5.1.7 Templates Type
 * The Templates structure contains a set of fields that enable Producer URL
 * writing.
-* @type Clouber.Sys.Portal.T.Templates
-* @class Clouber.Sys.Portal.T.Templates
+* @type Clouber.Portal.T.Templates
+* @class Clouber.Portal.T.Templates
 */
-Clouber.Sys.Portal.T.Templates = function () {
+Clouber.Portal.T.Templates = function () {
     'use strict';
     /** @type string */
     this.defaultTemplate = "";

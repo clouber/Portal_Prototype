@@ -2,26 +2,26 @@
 * @fileOverview Clouber PortletInfo type.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.PortletInfo
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.PortletInfo
+* @requires Clouber.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 
 /**
 * Define Portlet information type.
-* @function Clouber.Sys.Portal.PortletInfo
-* @class Clouber.Sys.Portal.PortletInfo
-* @namespace Clouber.Sys.Portal
+* @function Clouber.Portal.PortletInfo
+* @class Clouber.Portal.PortletInfo
+* @namespace Clouber.Portal
 */
-Clouber.Sys.Portal.PortletInfo = function () {
+Clouber.Portal.PortletInfo = function () {
     'use strict';
-    var i, obj = new Clouber.Sys.Portal.T.PortletDescription();
+    var i, obj = new Clouber.Portal.T.PortletDescription();
 
     /**
     * 1 portlet id
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} portletID
     */
     obj._portletID = "";
@@ -35,12 +35,12 @@ Clouber.Sys.Portal.PortletInfo = function () {
             if ((value === undefined) || (value === null) ||
                     (value.length === 0)) {
 
-                Clouber.log(new Clouber.Exception({
+                Clouber.log(new Clouber.Core.Exception({
                     number: 10000,
                     name: "ParameterError",
                     message: Clouber.message.paramError +
                         " (portletID)",
-                    code: "Clouber.Sys.Portal.PortletInfo#portletID#set"
+                    code: "Clouber.Portal.PortletInfo#portletID#set"
                 }));
             } else {
                 this._portletID = value;
@@ -50,7 +50,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 2 portlet displayName
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} displayName
     */
     obj._displayName = "";
@@ -69,7 +69,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 3 portlet groupID is namespace
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} name
     */
     obj._groupID = "";
@@ -87,7 +87,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 4 portlet title
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} title
     */
     obj._title = "";
@@ -102,7 +102,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 5 portlet description
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} description
     */
     obj._description = "";
@@ -117,7 +117,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 6 portlet shortTitle
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} shortTitle
     */
     obj._shortTitle = "";
@@ -132,28 +132,28 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 7 portlet markupTypes, include theme definition
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {Map} markupTypes
     */
-    obj.markupTypes = new Clouber.Map();
+    obj.markupTypes = new Clouber.Core.Map();
 
     /**
     * 8 portlet initial parameters
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {Map} initParameters
     */
-    obj.initParameters = new Clouber.Map();
+    obj.initParameters = new Clouber.Core.Map();
 
     /**
     * 9 handledEvents
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(QName)} handledEvents
     */
     obj.handledEvents = [];
 
     /**
     * 10 usesMethodGet
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} usesMethodGet
     */
     obj._usesMethodGet = false;
@@ -173,35 +173,35 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 11 keywords
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(LocalizedString)} keywords
     */
     obj.keywords = [];
 
     /**
     * 12 publishedEvents
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(QName)} publishedEvents
     */
     obj.publishedEvents = [];
 
     /**
     * 13 userCategories
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(string)} userCategories
     */
     obj.userCategories = [];
 
     /**
     * 14 userProfileItems
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(string)} userProfileItems
     */
     obj.userProfileItems = [];
 
     /**
     * 15 portletManagedModes
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array(string)} portletManagedModes
     */
     obj._portletManagedModes = ["view", "edit", "help",
@@ -229,7 +229,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 16 defaultMarkupSecure
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} defaultMarkupSecure
     */
     obj._defaultMarkupSecure = false;
@@ -249,7 +249,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 17 onlySecure
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} onlySecure
     */
     obj._onlySecure = false;
@@ -269,7 +269,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 18 userContextStoredInSession
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} userContextStoredInSession
     */
     obj._userContextStoredInSession = false;
@@ -289,7 +289,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 19 templatesStoredInSession
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} templatesStoredInSession
     */
     obj._templatesStoredInSession = false;
@@ -309,7 +309,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 20 hasUserSpecificState
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} hasUserSpecificState
     */
     obj._hasUserSpecificState = false;
@@ -329,7 +329,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 21 doesUrlTemplateProcessing
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} doesUrlTemplateProcessing
     */
     obj._doesUrlTemplateProcessing = false;
@@ -349,7 +349,7 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 22 mayReturnPortletState
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {boolean} mayReturnPortletState
     */
     obj._mayReturnPortletState = true;
@@ -369,21 +369,21 @@ Clouber.Sys.Portal.PortletInfo = function () {
 
     /**
     * 23 portlet inavigational Parameter Descriptions
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {Map} navigationalParameterDescriptions
     */
     obj.navigationalParameterDescriptions = [];
 
     /**
     * 24 extensions, include theme, titlebar, statusbar, option, thumbnail
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {array} extensions
     */
-    obj.extensions = new Clouber.Map();
+    obj.extensions = new Clouber.Core.Map();
 
     /**
     * 25 portletHandle
-    * @class Clouber.Sys.Portal.PortletInfo
+    * @class Clouber.Portal.PortletInfo
     * @property {string} portletHandle
     */
     Object.defineProperty(obj, "portletHandle", {

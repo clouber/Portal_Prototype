@@ -2,20 +2,20 @@
 * @fileOverview Clouber portal frame module.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Sys.Portal.Frame
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+* @module Clouber.Portal.Frame
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 /**
 * The model of portal frame.
-* @class  Clouber.Sys.Portal.FrameContext
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.Model
+* @class  Clouber.Portal.FrameModel
+* @namespace Clouber.Portal
+* @extends Clouber.Core.Model
 * @constructor
 */
-Clouber.Sys.Portal.FrameContext = function (index) {
+Clouber.Portal.FrameModel = function (index) {
     'use strict';
 
     /**
@@ -39,20 +39,20 @@ Clouber.Sys.Portal.FrameContext = function (index) {
         return Clouber.portal.context.pageContext.frames.get(this.index);
     };
 };
-Clouber.extend(Clouber.Sys.Portal.FrameContext, Clouber.Sys.UI.Model);
+Clouber.extend(Clouber.Portal.FrameModel, Clouber.Core.Model);
 
 /**
 * The panel of window Frame.
-* @class  Clouber.Sys.Portal.FramePanel
-* @namespace Clouber.Sys.Portal
+* @class  Clouber.Portal.FramePanel
+* @namespace Clouber.Portal
 * @constructor
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @param {String} tag Panel target tab.
 * @param {String} type Panel type: tile, tab, accordion, free, template.
 * @param {String} code Panel markup code.
 * @param {String} theme Panel theme.
 */
-Clouber.Sys.Portal.FramePanel = function (id, tag, style, code, theme) {
+Clouber.Portal.FramePanel = function (id, tag, style, code, theme) {
     'use strict';
 
     /**
@@ -417,14 +417,14 @@ Clouber.Sys.Portal.FramePanel = function (id, tag, style, code, theme) {
     }
     this.setPanelBorder({display: false});
 };
-Clouber.extend(Clouber.Sys.Portal.FramePanel, Clouber.BaseObject);
+Clouber.extend(Clouber.Portal.FramePanel, Clouber.Core.BaseObject);
 
 
 /**
 * The MVC based view object of window consumer.
-* @class  Clouber.Sys.Portal.FrameView
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ComponentView
+* @class  Clouber.Portal.FrameView
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ComponentView
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -434,7 +434,7 @@ Clouber.extend(Clouber.Sys.Portal.FramePanel, Clouber.BaseObject);
 * @param  params.theme web page theme, include htmls, CSSs, images
 * @param  params.variable variable instance name
 */
-Clouber.Sys.Portal.FrameView = function () {
+Clouber.Portal.FrameView = function () {
     'use strict';
 
     /**
@@ -494,7 +494,7 @@ Clouber.Sys.Portal.FrameView = function () {
     };
 
     /**
-    * Add CSS file link to the html document. can be overrided.
+    * Add CSS file link to the html document.
     * @function loadCss
     * @override
     */
@@ -518,30 +518,30 @@ Clouber.Sys.Portal.FrameView = function () {
     /**
     * After theme loading, generate frame panels.
     * @event themeLoaded
-    * @override
     * @return {string} HTML string.
+    * @override
     */
     this.themeLoaded = function () {
-        this.top = new Clouber.Sys.Portal.FramePanel(
+        this.top = new Clouber.Portal.FramePanel(
             this.controller.getId(),
             this.getContext().tag + " .Clouber_Frame .topPANEL",
             this.getContext().top
         );
 
-        this.left = new Clouber.Sys.Portal.FramePanel(
+        this.left = new Clouber.Portal.FramePanel(
             this.controller.getId(),
             this.getContext().tag + " .Clouber_Frame .leftPANEL",
             this.getContext().left
         );
 
-        this.right = new Clouber.Sys.Portal.FramePanel(
+        this.right = new Clouber.Portal.FramePanel(
             this.controller.getId(),
             this.getContext().tag + " .Clouber_Frame .rightPANEL",
             this.getContext().right
         );
 
         if (this.getContext().content === "template") {
-            this.content = new Clouber.Sys.Portal.FramePanel(
+            this.content = new Clouber.Portal.FramePanel(
                 this.controller.getId(),
                 this.getContext().tag +
                     " .Clouber_Frame .contentPANEL",
@@ -550,7 +550,7 @@ Clouber.Sys.Portal.FrameView = function () {
                 this.getContext().c_theme
             );
         } else {
-            this.content = new Clouber.Sys.Portal.FramePanel(
+            this.content = new Clouber.Portal.FramePanel(
                 this.controller.getId(),
                 this.getContext().tag +
                     " .Clouber_Frame .contentPANEL",
@@ -558,7 +558,7 @@ Clouber.Sys.Portal.FrameView = function () {
             );
         }
 
-        this.bottom = new Clouber.Sys.Portal.FramePanel(
+        this.bottom = new Clouber.Portal.FramePanel(
             this.controller.getId(),
             this.getContext().tag + " .Clouber_Frame .bottomPANEL",
             this.getContext().bottom
@@ -787,13 +787,13 @@ Clouber.Sys.Portal.FrameView = function () {
         }
     };
 };
-Clouber.extend(Clouber.Sys.Portal.FrameView, Clouber.Sys.UI.ComponentView);
+Clouber.extend(Clouber.Portal.FrameView, Clouber.Core.ComponentView);
 
 /**
 * The MVC based controller of window consumer.
-* @class  Clouber.Sys.Portal.Frame
-* @namespace Clouber.Sys.Portal
-* @extends Clouber.Sys.UI.ComponentController
+* @class  Clouber.Portal.Frame
+* @namespace Clouber.Portal
+* @extends Clouber.Core.ComponentController
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -803,7 +803,7 @@ Clouber.extend(Clouber.Sys.Portal.FrameView, Clouber.Sys.UI.ComponentView);
 * @param  params.theme web page theme, include htmls, CSSs, images
 * @param  params.variable variable instance name
 */
-Clouber.Sys.Portal.Frame = function (params) {
+Clouber.Portal.Frame = function (params) {
     'use strict';
 
     /**
@@ -828,7 +828,7 @@ Clouber.Sys.Portal.Frame = function (params) {
         var i, len, comp;
 
         this.setting();
-        this.setView(new Clouber.Sys.Portal.FrameView());
+        this.setView(new Clouber.Portal.FrameView());
 
         // generate frame markup
         this.view.loadTheme(Clouber.portal.getConf().path);
@@ -878,9 +878,9 @@ Clouber.Sys.Portal.Frame = function (params) {
     */
     this.addWindow = function (index) {
         var ctx,
-            component = new Clouber.Sys.Portal.Window();
+            component = new Clouber.Portal.Window();
         // initialize window
-        component.setModel(new Clouber.Sys.Portal.WindowModel(index));
+        component.setModel(new Clouber.Portal.WindowModel(index));
         // set component
         this.setComponent(component, index);
 
@@ -932,7 +932,7 @@ Clouber.Sys.Portal.Frame = function (params) {
                 }
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Frame#refresh";
+            e.code = "Clouber.Portal.Frame#refresh";
             Clouber.log(e);
         }
     };
@@ -977,4 +977,4 @@ Clouber.Sys.Portal.Frame = function (params) {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.Frame, Clouber.Sys.UI.ComponentController);
+Clouber.extend(Clouber.Portal.Frame, Clouber.Core.ComponentController);

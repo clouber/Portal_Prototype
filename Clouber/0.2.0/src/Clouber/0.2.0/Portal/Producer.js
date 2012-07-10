@@ -2,17 +2,17 @@
 * @fileOverview Clouber core js library.
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @requires Clouber.* Clouber.Sys.Core.* Clouber.Sys.UI.* Clouber.Sys.Portal.*
+* @requires Clouber.* Clouber.Core.* Clouber.Core.* Clouber.Portal.*
 */
 
-Clouber.namespace("Clouber.Sys.Portal");
+Clouber.namespace("Clouber.Portal");
 
 /**
  * @class  The Portlet Producer.
  * @constructor
- * @extends Clouber.BaseObject
+ * @extends Clouber.Core.BaseObject
  */
-Clouber.Sys.Portal.Producer = function () {
+Clouber.Portal.Producer = function () {
     'use strict';
 
     /**
@@ -36,10 +36,10 @@ Clouber.Sys.Portal.Producer = function () {
     this.init = function (conf) {
         var c, k, p;
         try {
-            Clouber.log("Clouber.Sys.Portal.Producer#init");
+            Clouber.log("Clouber.Portal.Producer#init");
 
             // initialize context
-            this._context = new Clouber.Sys.Portal.ProducerContext();
+            this._context = new Clouber.Portal.ProducerContext();
             this._context.init(conf);
 
             // load portlet configuration
@@ -57,7 +57,7 @@ Clouber.Sys.Portal.Producer = function () {
 
 
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#init";
+            e.code = "Clouber.Portal.Producer#init";
             Clouber.log(e);
         }
     };
@@ -76,11 +76,11 @@ Clouber.Sys.Portal.Producer = function () {
     * @return {object} UserContext
     */
     this.getUserContext = function () {
-        if (!(this.userContext instanceof Clouber.Sys.Portal.T.UserContext)) {
-            this.userContext = new Clouber.Sys.Portal.T.UserContext();
+        if (!(this.userContext instanceof Clouber.Portal.T.UserContext)) {
+            this.userContext = new Clouber.Portal.T.UserContext();
             this.userContext.userContextKey = (new Date()).valueOf() * 1000  +
                 Math.round(Math.random() * 1000);
-            this.userContext.profile = new Clouber.Sys.Portal.T.UserProfile();
+            this.userContext.profile = new Clouber.Portal.T.UserProfile();
             this.userContext.extensions[0] = Clouber.user.id();
         }
 
@@ -101,14 +101,14 @@ Clouber.Sys.Portal.Producer = function () {
     this.getServiceDescription = function (registationContext, desireLocales,
             portletHandles, userContext) {
 
-        Clouber.log("Clouber.Sys.Portal.Producer#getServiceDescription");
+        Clouber.log("Clouber.Portal.Producer#getServiceDescription");
 
         try {
-            var wp, pi, rtn = new Clouber.Sys.Portal.T.ServiceDescription();
+            var wp, pi, rtn = new Clouber.Portal.T.ServiceDescription();
             rtn.offeredPortlets = this.getContext().values();
             return rtn;
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#getServiceDescription";
+            e.code = "Clouber.Portal.Producer#getServiceDescription";
             Clouber.log(e);
         }
     };
@@ -132,7 +132,7 @@ Clouber.Sys.Portal.Producer = function () {
         var pid, prod, rsp, url, params, ns, p, script, async, method = "POST";
 
         try {
-            Clouber.log("Clouber.Sys.Portal.Producer#getMarkup");
+            Clouber.log("Clouber.Portal.Producer#getMarkup");
 
             pid = portletContext.portletHandle.handle;
             prod = portletContext.extensions[0];
@@ -171,7 +171,7 @@ Clouber.Sys.Portal.Producer = function () {
                     ns);
 
                 // get result
-                rsp = new Clouber.Sys.Portal.T.MarkupResponse();
+                rsp = new Clouber.Portal.T.MarkupResponse();
                 rsp.markupContext.mimeType = "text/html";
                 rsp.markupContext.locale = markupParams.locales[0];
                 rsp.extensions[0] = pid;
@@ -211,7 +211,7 @@ Clouber.Sys.Portal.Producer = function () {
                 return rsp;
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#getMarkup";
+            e.code = "Clouber.Portal.Producer#getMarkup";
             Clouber.log(e);
         }
     };
@@ -241,7 +241,7 @@ Clouber.Sys.Portal.Producer = function () {
 
         var pid, prod, params, rsp, url, ns, p, script, async, method = "POST";
 
-        Clouber.log("Clouber.Sys.Portal.Producer#performBlockingInteraction");
+        Clouber.log("Clouber.Portal.Producer#performBlockingInteraction");
 
         try {
             pid = portletContext.portletHandle.handle;
@@ -281,7 +281,7 @@ Clouber.Sys.Portal.Producer = function () {
                     ns);
 
                 // get result
-                rsp = new Clouber.Sys.Portal.T.BlockingInteractionResponse();
+                rsp = new Clouber.Portal.T.BlockingInteractionResponse();
                 rsp.updateResponse.markupContext.mimeType = "text/html";
                 rsp.updateResponse.markupContext.locale =
                     markupParams.locales[0];
@@ -322,7 +322,7 @@ Clouber.Sys.Portal.Producer = function () {
                 return rsp;
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#performBlockingInteraction";
+            e.code = "Clouber.Portal.Producer#performBlockingInteraction";
             Clouber.log(e);
         }
     };
@@ -349,7 +349,7 @@ Clouber.Sys.Portal.Producer = function () {
 
         var pid, prod, params, rsp, url, ns, p, script, async, method = "POST";
 
-        Clouber.log("Clouber.Sys.Portal.Producer#handleEvents");
+        Clouber.log("Clouber.Portal.Producer#handleEvents");
 
         try {
             pid = portletContext.portletHandle.handle;
@@ -389,7 +389,7 @@ Clouber.Sys.Portal.Producer = function () {
                     ns);
 
                 // get result
-                rsp = new Clouber.Sys.Portal.T.HandleEventsResponse();
+                rsp = new Clouber.Portal.T.HandleEventsResponse();
                 rsp.updateResponse.markupContext.mimeType = "text/html";
                 rsp.updateResponse.markupContext.locale =
                     markupParams.locales[0];
@@ -430,7 +430,7 @@ Clouber.Sys.Portal.Producer = function () {
                 return rsp;
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#handleEvents";
+            e.code = "Clouber.Portal.Producer#handleEvents";
             Clouber.log(e);
         }
     };
@@ -454,9 +454,9 @@ Clouber.Sys.Portal.Producer = function () {
      * @return {RegistrationContext}
      */
     this.register = function (registationData, lifetime, userContext) {
-        var ctx = new Clouber.Sys.Portal.T.RegistrationContext();
+        var ctx = new Clouber.Portal.T.RegistrationContext();
 
-        Clouber.log("Clouber.Sys.Portal.Producer#register");
+        Clouber.log("Clouber.Portal.Producer#register");
 
         try {
             ctx.registrationHandle.handle = this.getId();
@@ -473,7 +473,7 @@ Clouber.Sys.Portal.Producer = function () {
             this.registrationContext = ctx;
             return this.registrationContext;
         } catch (e) {
-            e.code = "Clouber.Sys.Portal.Producer#register";
+            e.code = "Clouber.Portal.Producer#register";
             Clouber.log(e);
         }
     };
@@ -495,4 +495,4 @@ Clouber.Sys.Portal.Producer = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Portal.Producer, Clouber.BaseObject);
+Clouber.extend(Clouber.Portal.Producer, Clouber.Core.BaseObject);
