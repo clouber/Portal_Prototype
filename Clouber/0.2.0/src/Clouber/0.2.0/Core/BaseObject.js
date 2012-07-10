@@ -6,15 +6,22 @@
 * @requires Clouber.*
 */
 
+/**
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
+*/
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber base exception class.
-* @class Clouber.Exception
+* @class Clouber.Core.Exception
 * @namespace Clouber
 * @extends Error
 * @constructor
 */
-Clouber.Exception = function (e) {
+Clouber.Core.Exception = function (e) {
     'use strict';
 
     this.name = e.name;
@@ -26,17 +33,17 @@ Clouber.Exception = function (e) {
     this.text = e.text;
     this.code = e.code;
 };
-Clouber.Exception.prototype = new Error();
-Clouber.Exception.parent = Error.prototype;
+Clouber.Core.Exception.prototype = new Error();
+Clouber.Core.Exception.parent = Error.prototype;
 
 
 /**
 * The base class of Clouber objects.
-* @class  Clouber.BaseObject
+* @class  Clouber.Core.BaseObject
 * @namespace namespace Clouber
 * @constructor
 */
-Clouber.BaseObject = function () {
+Clouber.Core.BaseObject = function () {
     'use strict';
     
     var _uid;

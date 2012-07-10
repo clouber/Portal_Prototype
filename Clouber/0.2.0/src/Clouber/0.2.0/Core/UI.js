@@ -1,32 +1,32 @@
 /**
 * @fileOverview Clouber base classes of UI controls:
-*          Clouber.Sys.UI.Controller, Clouber.Sys.UI.View
-*          Clouber.Sys.UI.ContainerController, Clouber.Sys.UI.ContainerView
-*          Clouber.Sys.UI.ComponentController, Clouber.Sys.UI.ComponentView
-* @module Clouber.Sys.UI.common
+*          Clouber.Core.Controller, Clouber.Core.View
+*          Clouber.Core.ContainerController, Clouber.Core.ContainerView
+*          Clouber.Core.ComponentController, Clouber.Core.ComponentView
+* @module Clouber.Core.common
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author  <a href="mailto:jzhouj@gmail.com">Jon Zhou</a>
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
 * Clouber system basic ui modules.
-* @class  Clouber.Sys.UI
-* @module Clouber.Sys.UI
-* @namespace Clouber.Sys.UI
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.UI");
+Clouber.namespace("Clouber.Core");
 
 /**
 * The base MVC based model of UI controls.
-* @class  Clouber.Sys.UI.Model
-* @namespace Clouber.Sys.UI
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.Model
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 * @param {object} ctx Object initial context.
 */
-Clouber.Sys.UI.Model = function (ctx) {
+Clouber.Core.Model = function (ctx) {
     'use strict';
 
     /** @constant string TYPE */
@@ -44,6 +44,12 @@ Clouber.Sys.UI.Model = function (ctx) {
     * @type Controller
     */
     this.controller = {};
+
+    /**
+    * Initialization function, can be overrided.
+    * @function init
+    */
+    this.init = function () {};
 
     /** Object setting function.
     * @function setting
@@ -64,138 +70,16 @@ Clouber.Sys.UI.Model = function (ctx) {
         return this.context;
     };
 };
-Clouber.extend(Clouber.Sys.UI.Model, Clouber.BaseObject);
-
-/**
-* The base MVC based controller of UI controls.
-* @class  Clouber.Sys.UI.Controller
-* @namespace Clouber.Sys.UI
-* @extends Clouber.BaseObject
-* @constructor
-*/
-Clouber.Sys.UI.Controller = function () {
-    'use strict';
-
-    /** @constant TYPE */
-    this.TYPE = "UI_CONTROLLER";
-
-    /**
-    * View object of UI controls.
-    * @type View
-    */
-    this.view = {};
-
-    /** Object setting function.
-    * @function setting
-    * @param {object} params Object settings.
-    * @param  params.app application name
-    * @param  params.version application version
-    * @param  params.module application module
-    * @param  params.control control name
-    * @param  params.theme web page theme, include htmls, CSSs, images
-    * @param  params.target web page target tag
-    * @param  params.style web page layout style
-    * @param  params.title  control title
-    * @param  params.variable variable instance name
-    * @param  params.index index of container's components
-    */
-    this.setting = function (params) {
-        this.model.setting(params);
-    };
-
-    /** Get control context.
-    * @function setting
-    * @return {object} Model context.
-    */
-    this.getContext = function () {
-        return this.model.getContext();
-    };
-
-    /**
-    * Set model object.
-    * @function setModel
-    * @param {Model} modelObj Set model object.
-    */
-    this.setModel = function (modelObj) {
-        var e;
-        if (modelObj instanceof Clouber.Sys.UI.Model) {
-            this.model = modelObj;
-            this.model.controller = this;
-        } else {
-            e = new Clouber.Exception({
-                number: 10000,
-                name: "TypeCasting",
-                message: Clouber.message.typeErrror,
-                description: Clouber.message.typeErrror,
-                code: "Clouber.Sys.UI.common"
-            });
-            Clouber.log(e);
-        }
-    };
-
-    /**
-    * Set view object.
-    * @function setView
-    * @param {View} viewObj Set view object.
-    */
-    this.setView = function (viewObj) {
-        var e;
-        if (viewObj instanceof Clouber.Sys.UI.View) {
-            this.view = viewObj;
-            this.view.controller = this;
-        } else {
-            e = new Clouber.Exception({
-                number: 10000,
-                name: "TypeCasting",
-                message: Clouber.message.typeErrror,
-                description: Clouber.message.typeErrror,
-                code: "Clouber.Sys.UI.common"
-            });
-            Clouber.log(e);
-        }
-    };
-
-    /**
-    * Load UI control theme, include html, css and image files.
-    * @function loadTheme
-    * @param {object} viewObj Set view object.
-    */
-    this.loadTheme = function (params) {
-        this.view.loadTheme(params);
-    };
-
-    /**
-    * Execute a command, can be overrided.
-    * @function execute
-    * @param {String} command Command name.
-    * @param {Object} params Command parameters.
-    */
-    this.execute = function (command, params) {};
-
-    /**
-    * Destroy this object. Eliminating the circular references to avoid memory
-    * leaks.
-    * @function _destroy
-    * @override
-    */
-    this._destroy = function () {
-        this.model.controller = null;
-        this.view.controller = null;
-        this.view = null;
-        this.model = null;
-    };
-};
-Clouber.extend(Clouber.Sys.UI.Controller, Clouber.BaseObject);
-
+Clouber.extend(Clouber.Core.Model, Clouber.Core.BaseObject);
 
 /**
 * The base MVC based view object of UI controls.
-* @class  Clouber.Sys.UI.View
-* @namespace Clouber.Sys.UI
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.View
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.UI.View = function () {
+Clouber.Core.View = function () {
     'use strict';
 
     /** @constant TYPE */
@@ -206,6 +90,12 @@ Clouber.Sys.UI.View = function () {
     * @type  Controller
     */
     this.controller = {};
+
+    /**
+    * Initialization function, can be overrided.
+    * @function init
+    */
+    this.init = function () {};
 
     /**
     * Object setting function.
@@ -241,12 +131,12 @@ Clouber.Sys.UI.View = function () {
     * @event htmlError
     */
     this.htmlError = function (params) {
-        var e = new Clouber.Exception({
+        var e = new Clouber.Core.Exception({
             number: 10002,
             name: params.error,
             message: Clouber.message.htmlLoadErrror + " (" + params.url + ")",
             description: params.status,
-            code: "Clouber.Sys.UI.common"
+            code: "Clouber.Core.common"
         });
         Clouber.log(e);
     };
@@ -258,11 +148,12 @@ Clouber.Sys.UI.View = function () {
     * @param  params.async load method.
     * @param  params.namespace application name
     * @param  params.theme web page theme, include htmls, CSSs, images
+    * @return {string} HTML text
     */
     this.getHtml = function (path, params) {
         params = Clouber.merge({async: false}, params);
 
-        Clouber.loader.get(
+        return Clouber.loader.get(
             {namespace: this.getContext().namespace,
                 theme: this.getContext().theme},
             path,
@@ -339,11 +230,10 @@ Clouber.Sys.UI.View = function () {
             return;
         }
 
-        if ((data !== undefined) && (data !== null)) {
-            if (this.TYPE === "PAGE_VIEW") {
-                tag = "body";
-            } else {
-                tag = this.getContext().tag;
+        if (!Clouber.isNull(data)) {
+            tag = this.getContext().tag;
+            if (Clouber.isNull(tag)) {
+                tag = "#CLOUBER_PAGE";
             }
 
             Clouber.document.html(tag, data);
@@ -352,14 +242,142 @@ Clouber.Sys.UI.View = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.UI.View, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.View, Clouber.Core.BaseObject);
+
+
+/**
+* The base MVC based controller of UI controls.
+* @class  Clouber.Core.Controller
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
+* @constructor
+*/
+Clouber.Core.Controller = function () {
+    'use strict';
+
+    /** @constant TYPE */
+    this.TYPE = "UI_CONTROLLER";
+
+    /**
+    * View object of UI controls.
+    * @type View
+    */
+    this.view = {};
+
+    /**
+    * Initialization function, can be overrided.
+    * @function init
+    */
+    this.init = function () {};
+
+    /** Object setting function.
+    * @function setting
+    * @param {object} params Object settings.
+    * @param  params.app application name
+    * @param  params.version application version
+    * @param  params.module application module
+    * @param  params.control control name
+    * @param  params.theme web page theme, include htmls, CSSs, images
+    * @param  params.target web page target tag
+    * @param  params.style web page layout style
+    * @param  params.title  control title
+    * @param  params.variable variable instance name
+    * @param  params.index index of container's components
+    */
+    this.setting = function (params) {
+        this.model.setting(params);
+    };
+
+    /** Get control context.
+    * @function setting
+    * @return {object} Model context.
+    */
+    this.getContext = function () {
+        return this.model.getContext();
+    };
+
+    /**
+    * Set model object.
+    * @function setModel
+    * @param {Model} modelObj Set model object.
+    */
+    this.setModel = function (modelObj) {
+        var e;
+        if (modelObj instanceof Clouber.Core.Model) {
+            this.model = modelObj;
+            this.model.controller = this;
+        } else {
+            e = new Clouber.Core.Exception({
+                number: 10000,
+                name: "TypeCasting",
+                message: Clouber.message.typeErrror,
+                description: Clouber.message.typeErrror,
+                code: "Clouber.Core.common"
+            });
+            Clouber.log(e);
+        }
+    };
+
+    /**
+    * Set view object.
+    * @function setView
+    * @param {View} viewObj Set view object.
+    */
+    this.setView = function (viewObj) {
+        var e;
+        if (viewObj instanceof Clouber.Core.View) {
+            this.view = viewObj;
+            this.view.controller = this;
+        } else {
+            e = new Clouber.Core.Exception({
+                number: 10000,
+                name: "TypeCasting",
+                message: Clouber.message.typeErrror,
+                description: Clouber.message.typeErrror,
+                code: "Clouber.Core.common"
+            });
+            Clouber.log(e);
+        }
+    };
+
+    /**
+    * Load UI control theme, include html, css and image files.
+    * @function loadTheme
+    * @param {object} viewObj Set view object.
+    */
+    this.loadTheme = function (params) {
+        this.view.loadTheme(params);
+    };
+
+    /**
+    * Execute a command, can be overrided.
+    * @function execute
+    * @param {String} command Command name.
+    * @param {Object} params Command parameters.
+    */
+    this.execute = function (command, params) {};
+
+    /**
+    * Destroy this object. Eliminating the circular references to avoid memory
+    * leaks.
+    * @function _destroy
+    * @override
+    */
+    this._destroy = function () {
+        this.model.controller = null;
+        this.view.controller = null;
+        this.view = null;
+        this.model = null;
+    };
+};
+Clouber.extend(Clouber.Core.Controller, Clouber.Core.BaseObject);
 
 
 /**
 * The base MVC based controller of UI Container
-* @class  Clouber.Sys.UI.ContainerController
-* @namespace Clouber.Sys.UI
-* @extends Clouber.Sys.UI.Controller
+* @class  Clouber.Core.ContainerController
+* @namespace Clouber.Core
+* @extends Clouber.Core.Controller
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -373,7 +391,7 @@ Clouber.extend(Clouber.Sys.UI.View, Clouber.BaseObject);
 * @param  params.variable variable instance name
 * @param  params.index index of container's components
 */
-Clouber.Sys.UI.ContainerController = function () {
+Clouber.Core.ContainerController = function () {
     'use strict';
     /** @constant TYPE */
     this.TYPE = "CONTAINER_CONTROLLER";
@@ -396,7 +414,7 @@ Clouber.Sys.UI.ContainerController = function () {
         }
 
         if (this.components === null) {
-            this.components = new Clouber.Map();
+            this.components = new Clouber.Core.Map();
         }
 
         this.components.set(index, component);
@@ -477,7 +495,7 @@ Clouber.Sys.UI.ContainerController = function () {
         var keys, i, len;
 
         // remove all components
-        if (this.components instanceof Clouber.Map) {
+        if (this.components instanceof Clouber.Core.Map) {
             keys = this.components.keys();
             len = keys.length;
         } else {
@@ -504,13 +522,13 @@ Clouber.Sys.UI.ContainerController = function () {
     this.refresh = function (params) {};
 
 };
-Clouber.extend(Clouber.Sys.UI.ContainerController, Clouber.Sys.UI.Controller);
+Clouber.extend(Clouber.Core.ContainerController, Clouber.Core.Controller);
 
 /**
 * The MVC based view object of UI Container
-* @class  Clouber.Sys.UI.ContainerView
-* @namespace Clouber.Sys.UI
-* @extends Clouber.Sys.UI.View
+* @class  Clouber.Core.ContainerView
+* @namespace Clouber.Core
+* @extends Clouber.Core.View
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -524,20 +542,20 @@ Clouber.extend(Clouber.Sys.UI.ContainerController, Clouber.Sys.UI.Controller);
 * @param  params.variable variable instance name
 * @param  params.index index of container's components
 */
-Clouber.Sys.UI.ContainerView = function () {
+Clouber.Core.ContainerView = function () {
     'use strict';
     /** @constant TYPE */
     this.TYPE = "CONTAINER_VIEW";
 
 };
-/** @inherits inherit from Clouber.Sys.UI.View*/
-Clouber.extend(Clouber.Sys.UI.ContainerView, Clouber.Sys.UI.View);
+/** @inherits inherit from Clouber.Core.View*/
+Clouber.extend(Clouber.Core.ContainerView, Clouber.Core.View);
 
 /**
 * The MVC based controller of UI component
-* @class  Clouber.Sys.UI.ComponentController
-* @namespace Clouber.Sys.UI
-* @extends Clouber.Sys.UI.ContainerController
+* @class  Clouber.Core.ComponentController
+* @namespace Clouber.Core
+* @extends Clouber.Core.ContainerController
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -551,7 +569,7 @@ Clouber.extend(Clouber.Sys.UI.ContainerView, Clouber.Sys.UI.View);
 * @param  params.variable variable instance name
 * @param  params.index index of container's components
 */
-Clouber.Sys.UI.ComponentController = function () {
+Clouber.Core.ComponentController = function () {
     'use strict';
     /** @constant TYPE */
     this.TYPE = "COMPONENT_CONTROLLER";
@@ -586,14 +604,14 @@ Clouber.Sys.UI.ComponentController = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.UI.ComponentController,
-    Clouber.Sys.UI.ContainerController);
+Clouber.extend(Clouber.Core.ComponentController,
+    Clouber.Core.ContainerController);
 
 /**
 * The MVC based view object of UI component
-* @class  Clouber.Sys.UI.ComponentView
-* @namespace Clouber.Sys.UI
-* @extends Clouber.Sys.UI.ContainerView
+* @class  Clouber.Core.ComponentView
+* @namespace Clouber.Core
+* @extends Clouber.Core.ContainerView
 * @constructor
 * @param {object} params Object initial settings.
 * @param  params.app application name
@@ -607,12 +625,12 @@ Clouber.extend(Clouber.Sys.UI.ComponentController,
 * @param  params.variable variable instance name
 * @param  params.index index of container's components
 */
-Clouber.Sys.UI.ComponentView = function () {
+Clouber.Core.ComponentView = function () {
     'use strict';
     /** @constant TYPE */
     this.TYPE = "COMPONENT_VIEW";
 };
-/** @inherits inherit from Clouber.Sys.UI.View*/
-Clouber.extend(Clouber.Sys.UI.ComponentView, Clouber.Sys.UI.ContainerView);
+/** @inherits inherit from Clouber.Core.View*/
+Clouber.extend(Clouber.Core.ComponentView, Clouber.Core.ContainerView);
 
 

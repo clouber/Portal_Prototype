@@ -4,17 +4,17 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires jQuery Clouber.* Clouber.Sys.Core.*
+* @requires jQuery Clouber.* Clouber.Core.*
 */
 
 /**
 * DOM Document utility.
-* @class  Clouber.Sys.Core.Document
-* @namespace Clouber.Sys.Core
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.Document
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Document = function () {
+Clouber.Core.Document = function () {
     "use strict";
     /**
     * Set document node html.
@@ -32,7 +32,7 @@ Clouber.Sys.Core.Document = function () {
                     return jQuery(selector).html();
                 }
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#html> " +
+                Clouber.log("<Clouber.Core.Document#html> " +
                     Clouber.dump(e));
                 return this.text(selector, html);
             }
@@ -55,7 +55,7 @@ Clouber.Sys.Core.Document = function () {
                     return jQuery(selector).text();
                 }
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#text> " +
+                Clouber.log("<Clouber.Core.Document#text> " +
                     Clouber.dump(e));
             }
         }
@@ -75,7 +75,7 @@ Clouber.Sys.Core.Document = function () {
                     return jQuery(selector).append(html);
                 }
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#append> " +
+                Clouber.log("<Clouber.Core.Document#append> " +
                     Clouber.dump(e));
             }
         }
@@ -94,7 +94,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).attr(attribute, value);
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#attr> " +
+                Clouber.log("<Clouber.Core.Document#attr> " +
                     Clouber.dump(e));
             }
         }
@@ -112,7 +112,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).size();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#size> " +
+                Clouber.log("<Clouber.Core.Document#size> " +
                     Clouber.dump(e));
             }
         }
@@ -129,7 +129,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).remove();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#remove> " +
+                Clouber.log("<Clouber.Core.Document#remove> " +
                     Clouber.dump(e));
             }
         }
@@ -146,7 +146,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).show();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#show> " +
+                Clouber.log("<Clouber.Core.Document#show> " +
                     Clouber.dump(e));
             }
         }
@@ -163,7 +163,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).hide();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#hide> " +
+                Clouber.log("<Clouber.Core.Document#hide> " +
                     Clouber.dump(e));
             }
         }
@@ -180,7 +180,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).fadeIn();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#fadeIn> " +
+                Clouber.log("<Clouber.Core.Document#fadeIn> " +
                     Clouber.dump(e));
             }
         }
@@ -197,7 +197,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).fadeOut();
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#fadeOut> " +
+                Clouber.log("<Clouber.Core.Document#fadeOut> " +
                     Clouber.dump(e));
             }
         }
@@ -215,7 +215,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).addClass(className);
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#addClass> " +
+                Clouber.log("<Clouber.Core.Document#addClass> " +
                     Clouber.dump(e));
             }
         }
@@ -233,7 +233,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).removeClass(className);
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#removeClass> " +
+                Clouber.log("<Clouber.Core.Document#removeClass> " +
                     Clouber.dump(e));
             }
         }
@@ -252,7 +252,7 @@ Clouber.Sys.Core.Document = function () {
             try {
                 return jQuery(selector).css(name, value);
             } catch (e) {
-                Clouber.log("<Clouber.Sys.Core.Document#css> " +
+                Clouber.log("<Clouber.Core.Document#css> " +
                     Clouber.dump(e));
             }
         }
@@ -285,7 +285,7 @@ Clouber.Sys.Core.Document = function () {
                 data: params.data,
                 beforeSend: function (request) {
                     var i, l;
-                    if (params.headers instanceof Clouber.Map) {
+                    if (params.headers instanceof Clouber.Core.Map) {
                         for (i = 0, l = params.headers.size(); i < l; i++) {
                             request.setRequestHeader(
                                 params.headers.getKeyByIndex(i),
@@ -299,7 +299,7 @@ Clouber.Sys.Core.Document = function () {
                 //success: params.success,
                 success: jQuery.proxy(function (jqXHR, textStatus) {
                     Clouber.log(
-                        "Clouber.Sys.Core.Document#ajax#success ********** (" +
+                        "Clouber.Core.Document#ajax#success ********** (" +
                             params.url + ", " + textStatus + ")  [" +
                             ((new Date() - time) / 1000) + "s]"
                     );
@@ -315,7 +315,7 @@ Clouber.Sys.Core.Document = function () {
                     }
                 }, params.context),
                 error: jQuery.proxy(function (jqXHR, textStatus, errorThrown) {
-                    Clouber.log("Clouber.Sys.Core.Document#ajax#error ***** (" +
+                    Clouber.log("Clouber.Core.Document#ajax#error ***** (" +
                             params.url + ", " + textStatus + ")  [" +
                             ((new Date() - time) / 1000) + "s]"
                         );
@@ -343,22 +343,22 @@ Clouber.Sys.Core.Document = function () {
                 }, params.loadedContext)
             });
         } catch (e) {
-            e.code = "Clouber.Sys.Core.Document#ajax";
+            e.code = "Clouber.Core.Document#ajax";
             Clouber.log(e);
         }
     };
 
 };
-Clouber.extend(Clouber.Sys.Core.Document, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Document, Clouber.Core.BaseObject);
 
 /**
 * Window and DOM event utility.
-* @class  Clouber.Sys.Core.Event
-* @namespace Clouber.Sys.Core
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.Event
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Event = function () {
+Clouber.Core.Event = function () {
     "use strict";
 
     /**
@@ -395,17 +395,17 @@ Clouber.Sys.Core.Event = function () {
         }
     };
 };
-Clouber.extend(Clouber.Sys.Core.Event, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Event, Clouber.Core.BaseObject);
 
 /**
 * Clouber document object initialization.
 */
-Clouber.set("document", new Clouber.Sys.Core.Document());
+Clouber.set("document", new Clouber.Core.Document());
 Clouber.lock(Clouber.document);
 
 /**
 * Clouber event object initialization.
 */
-Clouber.set("event", new Clouber.Sys.Core.Event());
+Clouber.set("event", new Clouber.Core.Event());
 Clouber.lock(Clouber.event);
 

@@ -3,26 +3,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Cache
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber user class.
-* @class  Clouber.Sys.Core.User
+* @class  Clouber.Core.User
 * @namespace Clouber
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.User = function () {
+Clouber.Core.User = function () {
     "use strict";
 
     /**
@@ -88,11 +88,11 @@ Clouber.Sys.Core.User = function () {
         return _name;
     };
 };
-Clouber.extend(Clouber.Sys.Core.User, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.User, Clouber.Core.BaseObject);
 
 /**
 * Clouber user object initialization.
 */
-Clouber.set("user", new Clouber.Sys.Core.User());
+Clouber.set("user", new Clouber.Core.User());
 Clouber.lock(Clouber.user);
 

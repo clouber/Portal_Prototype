@@ -4,26 +4,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Message_en
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @property  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @property  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber English message package.
-* @class  Clouber.Sys.Core.Message_EN
-* @namespace namespace Clouber.Sys.Core
+* @class  Clouber.Core.Message_EN
+* @namespace namespace Clouber.Core
 * @constructor
 */
-Clouber.Sys.Core.Message_EN = function () {
+Clouber.Core.Message_EN = function () {
 
     this.ajaxCallError = "Ajax call failed!";
     this.decryptError = "Decryption failed!";
@@ -46,4 +46,4 @@ Clouber.Sys.Core.Message_EN = function () {
     this.unsupportedLanguage =
         "The language setting is not supported (default language is English)!";
 };
-Clouber.message = new Clouber.Sys.Core.Message_EN();
+Clouber.message = new Clouber.Core.Message_EN();

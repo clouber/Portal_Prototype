@@ -4,18 +4,18 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 /**
 * The base class of Clouber application.
-* @class  Clouber.Sys.Core.Application
-* @namespace Clouber.Sys.Core
-* @extends Clouber.Sys.Core.Config
+* @class  Clouber.Core.Application
+* @namespace Clouber.Core
+* @extends Clouber.Core.Config
 * @constructor
 * @param {object} conf Configuration object.
 */
-Clouber.Sys.Core.Application = function () {
+Clouber.Core.Application = function () {
     'use strict';
 
     /**
@@ -49,5 +49,5 @@ Clouber.Sys.Core.Application = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Core.Application, Clouber.Sys.Core.Config);
+Clouber.extend(Clouber.Core.Application, Clouber.Core.Config);
 

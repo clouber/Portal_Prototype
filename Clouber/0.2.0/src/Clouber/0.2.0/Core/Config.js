@@ -3,26 +3,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber configuration object.
-* @class  Clouber.Sys.Core.Config
-* @namespace Clouber.Sys.Core
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.Config
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Config = function () {
+Clouber.Core.Config = function () {
     'use strict';
 
     /**
@@ -116,7 +116,7 @@ Clouber.Sys.Core.Config = function () {
         var o;
         try {
             if ((typeof this._data === "undefined") || (this._data === null)) {
-                this._data = new Clouber.Sys.Core.Cache();
+                this._data = new Clouber.Core.Cache();
                 this._data.setKey(this._key);
                 // get config from cache
                 o = this._data.get(this.getName(), null);
@@ -134,7 +134,7 @@ Clouber.Sys.Core.Config = function () {
             return this._conf;
 
         } catch (e) {
-            e.code = "Clouber.Sys.Core.ConfigManager#getConfig";
+            e.code = "Clouber.Core.ConfigManager#getConfig";
             Clouber.log(e);
         }
     };
@@ -151,7 +151,7 @@ Clouber.Sys.Core.Config = function () {
                 this._conf = Clouber.merge(this._conf, config);
             }
         } catch (e) {
-            e.code = "Clouber.Sys.Core.ConfigManager#getConfig";
+            e.code = "Clouber.Core.ConfigManager#getConfig";
             Clouber.log(e);
         }
     };
@@ -207,7 +207,7 @@ Clouber.Sys.Core.Config = function () {
             conf.base = ".";
         }
         if (typeof conf.config !== "string") {
-            conf.config = "Sys/conf.json";
+            conf.config = "Clouber/conf.json";
         }
         //this.setting(conf);
 
@@ -267,7 +267,7 @@ Clouber.Sys.Core.Config = function () {
     */
     this.configLoaded = function (data, status, url) {
         try {
-            Clouber.log("Clouber.Sys.Core.Config#configLoaded " +
+            Clouber.log("Clouber.Core.Config#configLoaded " +
                 status + "(" + url + ")");
         } catch (e) {
             e.description = Clouber.message.typeErrror;
@@ -296,7 +296,7 @@ Clouber.Sys.Core.Config = function () {
         try {
             // save config into cache
             if ((typeof this._data === "undefined") || (this._data === null)) {
-                this._data = new Clouber.Sys.Core.Cache();
+                this._data = new Clouber.Core.Cache();
                 this._data.setKey(this._key);
             }
             this._data.set(this.getName(), data, null);
@@ -313,7 +313,7 @@ Clouber.Sys.Core.Config = function () {
             this.confSuccess(data, status, url);
 
         } catch (e) {
-            e.code = "Clouber.Sys.Core.Config#_confSuccess";
+            e.code = "Clouber.Core.Config#_confSuccess";
             Clouber.log(e);
         }
     };
@@ -333,7 +333,7 @@ Clouber.Sys.Core.Config = function () {
     * @param {string} url Config file url.
     */
     this.confLoaded = function (jqXHR, status, url) {
-        Clouber.log("Clouber.Sys.Core.Config#confLoaded " +
+        Clouber.log("Clouber.Core.Config#confLoaded " +
             status + "(" + url + ")");
     };
 
@@ -346,12 +346,12 @@ Clouber.Sys.Core.Config = function () {
     */
     this._loadError = function (status, errorThrown, url, text, context) {
         var e;
-        e = new Clouber.Exception({
+        e = new Clouber.Core.Exception({
             number: 10001,
             name: status,
             message: Clouber.message.loadError + "(" + url + ")",
             description: errorThrown,
-            code: "Clouber.Sys.Core.Config#_loadError"
+            code: "Clouber.Core.Config#_loadError"
         });
         Clouber.log(e);
         this.loadError({status: status, error: errorThrown});
@@ -372,16 +372,16 @@ Clouber.Sys.Core.Config = function () {
     this.parse = function (data) {};
 
 };
-Clouber.extend(Clouber.Sys.Core.Config, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Config, Clouber.Core.BaseObject);
 
 /**
 * Configuration Management object.
-* @class  Clouber.Sys.Core.ConfigManager
+* @class  Clouber.Core.ConfigManager
 * @namespace Clouber
-* @extends Clouber.Sys.Core.Config
+* @extends Clouber.Core.Config
 * @constructor
 */
-Clouber.Sys.Core.ConfigManager = function () {
+Clouber.Core.ConfigManager = function () {
     'use strict';
 
     /** @constant string TYPE */
@@ -532,19 +532,13 @@ Clouber.Sys.Core.ConfigManager = function () {
             }
 
             if (names[0].toLowerCase() === "clouber") {
-
-                if (names[1].toLowerCase() === "sys") {
-                    href = href + "Sys/" + this.getConfig().version;
-
-                } else {
-                    href = href + path;
-                }
+                href = href + "Clouber/" + this.getConfig().version;
 
             } else {
-                href = href + path + "/" + names[1];
+                href = href + path;
             }
 
-            for (i = 2, leng = names.length; i < leng; i++) {
+            for (i = 1, leng = names.length; i < leng; i++) {
                 href = href + "/" + names[i];
             }
 
@@ -567,19 +561,19 @@ Clouber.Sys.Core.ConfigManager = function () {
 
             return href;
         } catch (e) {
-            e.code = "Clouber.Sys.Core.ConfigManager#getModuleUrl";
+            e.code = "Clouber.Core.ConfigManager#getModuleUrl";
             e.text = name;
             Clouber.log(e);
         }
     };
 
 };
-Clouber.extend(Clouber.Sys.Core.ConfigManager, Clouber.Sys.Core.Config);
+Clouber.extend(Clouber.Core.ConfigManager, Clouber.Core.Config);
 
 /**
 * Clouber config object initialization.
 */
-Clouber.set("config", new Clouber.Sys.Core.ConfigManager());
+Clouber.set("config", new Clouber.Core.ConfigManager());
 Clouber.lock(Clouber.config);
 Clouber.config.loadConf();
 

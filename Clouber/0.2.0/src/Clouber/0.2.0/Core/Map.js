@@ -2,19 +2,26 @@
 * @fileOverview Clouber Map class
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
-* @module Clouber.Map
-* @requires Clouber.* Clouber.Sys.Core.*
+* @module Clouber.Core.Map
+* @requires Clouber.* Clouber.Core.*
 */
 
+/**
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
+*/
+Clouber.namespace("Clouber.Core");
 
 /**
 * An object that maps keys to values.
-* @class  Clouber.BaseObject
+* @class  Clouber.Core.BaseObject
 * @namespace namespace Clouber
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Map = function () {
+Clouber.Core.Map = function () {
     'use strict';
 
     this._list = [];
@@ -235,7 +242,7 @@ Clouber.Map = function () {
     */
     this.equals = function (obj) {
         var b = true, i = -1, j, l, item;
-        if (obj instanceof Clouber.Map) {
+        if (obj instanceof Clouber.Core.Map) {
             if (obj.size() === this._list.length) {
                 for (j = 0, l = this._list.length; j < l; j++) {
                     if ((this._list[j].key !== obj.data()[j].key) ||
@@ -370,7 +377,7 @@ Clouber.Map = function () {
     this.append = function (map) {
         var i, l;
         if ((typeof map !== "undefined") && (map !== null) &&
-                (map instanceof Clouber.Map)) {
+                (map instanceof Clouber.Core.Map)) {
 
             for (i = 0, l = map._list.length; i < l; i++) {
                 this.set(map._list[i].key, map._list[i].value);
@@ -401,6 +408,6 @@ Clouber.Map = function () {
     };
 
 };
-Clouber.extend(Clouber.Map, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Map, Clouber.Core.BaseObject);
 
 

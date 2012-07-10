@@ -3,26 +3,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module clouber
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber loader object to load js, html, css and json files, etc.
-* @class  Clouber.Sys.Core.Loader
-* @namespace Clouber.Sys.Core
-* @extends Clouber.BaseObject
+* @class  Clouber.Core.Loader
+* @namespace Clouber.Core
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Loader = function (config) {
+Clouber.Core.Loader = function (config) {
     "use strict";
 
     /**
@@ -175,13 +175,13 @@ Clouber.Sys.Core.Loader = function (config) {
     this.message = function (lang) {
         switch (lang) {
         case "cn":
-            Clouber.message = new Clouber.Sys.Core.Message_CN();
+            Clouber.message = new Clouber.Core.Message_CN();
             break;
         case "en":
-            Clouber.message = new Clouber.Sys.Core.Message_EN();
+            Clouber.message = new Clouber.Core.Message_EN();
             break;
         default:
-            Clouber.message = new Clouber.Sys.Core.Message_EN();
+            Clouber.message = new Clouber.Core.Message_EN();
             Clouber.log(Clouber.message.unsupportedLanguage);
         }
     };
@@ -201,11 +201,11 @@ Clouber.Sys.Core.Loader = function (config) {
     };
 
 };
-Clouber.extend(Clouber.Sys.Core.Loader, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Loader, Clouber.Core.BaseObject);
 
 /**
 * Clouber loader object initialization.
 */
-Clouber.set("loader", new Clouber.Sys.Core.Loader(Clouber.config));
+Clouber.set("loader", new Clouber.Core.Loader(Clouber.config));
 Clouber.lock(Clouber.loader);
 

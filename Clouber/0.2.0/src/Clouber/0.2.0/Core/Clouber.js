@@ -188,12 +188,12 @@ var Clouber = Clouber || {};
         _instance.extend = function (child, Parent) {
             if ((typeof child !== "function") ||
                     ((typeof Parent !== "function"))) {
-                _instance.log(new Clouber.Exception({
+                _instance.log(new Clouber.Core.Exception({
                     number: 10001,
                     name: "typeErrror",
                     message: Clouber.message.typeErrror,
                     description: Clouber.message.typeErrror,
-                    code: "Clouber.sys.portlet.Clouber#extend",
+                    code: "Clouber#extend",
                     text: "Child's type is " + (typeof child) +
                         ", Parent's type is " + (typeof Parent)
                 }));
@@ -217,7 +217,7 @@ var Clouber = Clouber || {};
             var i, len, funi, interf, obj, e;
 
             if (arguments.length < 2) {
-                e = new Clouber.Exception({
+                e = new Clouber.Core.Exception({
                     number: 10000,
                     name: "ParameterError",
                     message: Clouber.message.paramError + " (" +
@@ -238,7 +238,7 @@ var Clouber = Clouber || {};
                         if (!CLASS[funi] ||
                                 typeof CLASS[funi] !== 'function') {
 
-                            e = new Clouber.Exception({
+                            e = new Clouber.Core.Exception({
                                 number: 10000,
                                 name: "ParameterError",
                                 message: Clouber.message.typeErrror + " (" +
@@ -372,8 +372,9 @@ var Clouber = Clouber || {};
         */
         _instance.log = function (e) {
             if ((typeof console !== "undefined") && (console !== null)) {
-                if ((Clouber.Exception !== undefined) &&
-                        (e instanceof Clouber.Exception)) {
+                if ((Clouber.Core !== undefined) &&
+                        (Clouber.Core.Exception !== undefined) &&
+                        (e instanceof Clouber.Core.Exception)) {
                     console.log("[Exception] " + _instance.dump(e));
                 } else if ((Error !== undefined) && (e instanceof Error)) {
                     console.log("[Error] " + _instance.dump(e));
@@ -394,7 +395,7 @@ var Clouber = Clouber || {};
                     (_instance.config !== null) &&
                     (_instance.config._conf !== null)) {
                 if (_instance.config._conf.runtime === "development") {
-                    if ((e instanceof Clouber.Exception) ||
+                    if ((e instanceof Clouber.Core.Exception) ||
                             (e instanceof Error)) {
                         throw e;
                     }

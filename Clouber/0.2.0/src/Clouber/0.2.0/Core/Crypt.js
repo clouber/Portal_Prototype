@@ -3,26 +3,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Cache
-* @requires CryptoJS Clouber.* Clouber.Sys.Core.* 
+* @requires CryptoJS Clouber.* Clouber.Core.* 
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber Cache object. it uses HTML5 LocalStorage to cache client data.
-* @class  Clouber.Sys.Core.Crypt
+* @class  Clouber.Core.Crypt
 * @namespace Clouber
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Crypt = function () {
+Clouber.Core.Crypt = function () {
     'use strict';
 
     /**
@@ -73,7 +73,7 @@ Clouber.Sys.Core.Crypt = function () {
             try {
                 dt = CryptoJS.AES.decrypt(ct, key).toString(CryptoJS.enc.Utf8);
             } catch(e) {
-                Clouber.log("Clouber.Sys.Core.Crypt#decrypt " +
+                Clouber.log("Clouber.Core.Crypt#decrypt " +
                     Clouber.message.decryptError);
                 dt = null;
             }
@@ -90,11 +90,11 @@ Clouber.Sys.Core.Crypt = function () {
         return CryptoJS.MD5(text);
     };
 };
-Clouber.extend(Clouber.Sys.Core.Crypt, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Crypt, Clouber.Core.BaseObject);
 
 /**
 * Clouber crypt object initialization.
 */
-Clouber.set("crypt", new Clouber.Sys.Core.Crypt());
+Clouber.set("crypt", new Clouber.Core.Crypt());
 Clouber.lock(Clouber.crypt);
 

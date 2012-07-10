@@ -3,26 +3,26 @@
 * @copyright (c) 20012 by Clouber.org. All rights reserved.
 * @author Jon Zhou
 * @module Cache
-* @requires Clouber.* Clouber.Sys.Core.*
+* @requires Clouber.* Clouber.Core.*
 */
 
 
 /**
-* Clouber system core modules, using namespace Clouber.Sys.Core
-* @class  Clouber.Sys.Core
-* @module Clouber.Sys.Core
-* @namespace Clouber.Sys.Core
+* Clouber system core modules, using namespace Clouber.Core
+* @class  Clouber.Core
+* @module Clouber.Core
+* @namespace Clouber.Core
 */
-Clouber.namespace("Clouber.Sys.Core");
+Clouber.namespace("Clouber.Core");
 
 /**
 * Clouber Cache object. it uses HTML5 LocalStorage to cache client data.
-* @class  Clouber.Sys.Core.Cache
+* @class  Clouber.Core.Cache
 * @namespace Clouber
-* @extends Clouber.BaseObject
+* @extends Clouber.Core.BaseObject
 * @constructor
 */
-Clouber.Sys.Core.Cache = function () {
+Clouber.Core.Cache = function () {
     'use strict';
 
     /**
@@ -129,13 +129,13 @@ Clouber.Sys.Core.Cache = function () {
                     _count = this.count() + 1;
                     return true;
                 } catch (e) {
-                    e.code = "Clouber.Sys.Core.Cache#set";
+                    e.code = "Clouber.Core.Cache#set";
                     Clouber.log(e);
                     window.localStorage.removeItem(_user + "@" + l + ":" + _name);
                     return false;
                 }
             } else {
-                Clouber.log("Clouber.Sys.Core.Cache#set " +
+                Clouber.log("Clouber.Core.Cache#set " +
                     Clouber.message.noLocalStorage);
             }
         }
@@ -174,7 +174,7 @@ Clouber.Sys.Core.Cache = function () {
                     }
                   
                     if (!Clouber.isNull(t)) {
-                        Clouber.log("Clouber.Sys.Core.Cache#get ======== " +
+                        Clouber.log("Clouber.Core.Cache#get ======== " +
                             user + ":" + name);
                         if (_encrypt) {
                             _data = Clouber.crypt.decrypt(t, _key);
@@ -187,11 +187,11 @@ Clouber.Sys.Core.Cache = function () {
                         return _data;
                     }
                 } catch (e) {
-                    e.code = "Clouber.Sys.Core.Cache#get";
+                    e.code = "Clouber.Core.Cache#get";
                     Clouber.log(e);
                 }
             } else {
-                Clouber.log("Clouber.Sys.Core.Cache#get " +
+                Clouber.log("Clouber.Core.Cache#get " +
                     Clouber.message.noLocalStorage);
             }
 
@@ -276,5 +276,5 @@ Clouber.Sys.Core.Cache = function () {
     };
 
 };
-Clouber.extend(Clouber.Sys.Core.Cache, Clouber.BaseObject);
+Clouber.extend(Clouber.Core.Cache, Clouber.Core.BaseObject);
 
