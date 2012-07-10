@@ -9,6 +9,7 @@
     <property name="builddir" value="./build" override="true" />
     <property name="betadir" value="./beta" override="true" />
     <property name="srcdir" value="./src" override="true" />
+    <property name="appdir" value="./src/app" override="true" />
     <property name="jsdocdir" value="./docs/jsdoc" override="true" />
     <property name="jscoredocdir" value="./docs/jscore" override="true" />
     <property name="jsportaldocdir" value="./docs/jsportal" override="true" />
@@ -128,7 +129,7 @@
         <delete dir="${jscoredocdir}"/>
         <mkdir dir="${jscoredocdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jscoredocdir} -E=jsr ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI" dir="." output="${logdir}\jscoredoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jscoredocdir} -E=jsr ${stagedir}\Clouber\0.2.0\Core" dir="." output="${logdir}\jscoredoc.log"/>
     </target> 
     
     <!-- ============================================  -->
@@ -139,7 +140,7 @@
         <delete dir="${jsportaldocdir}"/>
         <mkdir dir="${jsportaldocdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Sys\0.2.0\Portal" dir="." output="${logdir}\jsportaldoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Clouber\0.2.0\Portal" dir="." output="${logdir}\jsportaldoc.log"/>
     </target> 
     
     <!-- ============================================  -->
@@ -151,7 +152,7 @@
         <mkdir dir="${jsdocdir}" />
         <mkdir dir="${logdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Sys\0.2.0\Core ${stagedir}\Sys\0.2.0\UI ${stagedir}\Sys\0.2.0\Portal ${stagedir}\Sys\0.2.0\UI" dir="." output="${logdir}\jsdoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Clouber\0.2.0\Core ${stagedir}\Clouber\0.2.0\Portal" dir="." output="${logdir}\jsdoc.log"/>
     </target> 
     
     <!-- ============================================  -->
@@ -175,31 +176,21 @@
     <target name="jsmerg" depends="export">
         <echo msg="Merge JavaScript codes." />
         
-        <append destFile="${stagedir}/Sys/0.2.0/Core/core.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, Loader.js, User.js, Application.js" />
+        <append destFile="${stagedir}/Clouber/0.2.0/Core/core.js">
+            <filelist dir="${stagedir}/Clouber/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, Loader.js, User.js, Application.js, UI.js" />
         </append>
         <delete>
-            <fileset dir="${stagedir}/Sys/0.2.0/Core">
+            <fileset dir="${stagedir}/Clouber/0.2.0/Core">
                 <include name="*.js"/>
                 <exclude name="core.js"/>
             </fileset>
         </delete>
 
-        <append destFile="${stagedir}/Sys/0.2.0/UI/ui.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/UI" files="common.js" />
+        <append destFile="${stagedir}/Clouber/0.2.0/Portal/portal.js">
+            <filelist dir="${stagedir}/Clouber/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, Consumer.js" />
         </append>
         <delete>
-            <fileset dir="${stagedir}/Sys/0.2.0/UI">
-                <include name="*.js"/>
-                <exclude name="ui.js"/>
-            </fileset>
-        </delete>
-
-        <append destFile="${stagedir}/Sys/0.2.0/Portal/portal.js">
-            <filelist dir="${stagedir}/Sys/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, Consumer.js" />
-        </append>
-        <delete>
-            <fileset dir="${stagedir}/Sys/0.2.0/Portal">
+            <fileset dir="${stagedir}/Clouber/0.2.0/Portal">
                 <include name="*.js"/>
                 <exclude name="portal.js"/>
             </fileset>
@@ -286,6 +277,7 @@
         <copy todir="${betadir}" overwrite="true">
             <fileset refid="codefiles" />
         </copy>
+        <exec command="copy ${appdir}/ ${betadir}/" />
     </target>
 
 
