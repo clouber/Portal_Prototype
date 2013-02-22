@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+#CLOUBER_PAGE_BAR {
+    position: fixed;
+    background-color: black;
+    z-index: 500;
+	margin: 0;
+	padding: 0;
+    min-height: 2em;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: block;
+}
+
+#CLOUBER_PAGE {
+	margin: 2em auto 0 auto;
+	width: 60em;
+    clear: both;
+}

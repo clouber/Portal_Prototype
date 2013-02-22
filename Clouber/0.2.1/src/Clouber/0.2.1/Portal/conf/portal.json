@@ -1,0 +1,3 @@
+{"base":".","version":"0.2.1","description":"Clouber","apps":[
+{"app":"cms","description":"content management system","version":"0.1.0","path":"apps/cms"}
+]}
