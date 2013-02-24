@@ -17,7 +17,7 @@
     <property name="yui-jarfile" value="/opt/yuicompressor-2.4.7/build/yuicompressor-2.4.7.jar" />
     <property name="svnusername" value="username" />
     <property name="svnpassword" value="password" />
-    <property name="svnrepo" value="file:///F:/dev/svn/Clouber/0.2.0/src" />
+    <property name="svnrepo" value="file:///F:/dev/svn/Clouber/0.2.1/src" />
     <property name="svnpath" value="C:/Program Files/TortoiseSVN/bin/svn.exe" />
     <property name="svnrevision" value="HEAD" />
 
@@ -75,7 +75,7 @@
     </fileset>
 
     <!-- ============================================  -->
-    <!-- Target: clean                                 -->
+    <!-- TARGET: clean                                 -->
     <!-- ============================================  -->
     <target name="clean">
         <echo msg="Remove directories." />
@@ -86,7 +86,7 @@
     
 
     <!-- ============================================  -->
-    <!-- Target: export                                  -->
+    <!-- TARGET: export                                  -->
     <!-- ============================================  -->
     <target name="export" depends="clean">
         <echo msg="Export files into a test environment of '${package}' from SVN." />
@@ -103,7 +103,7 @@
 
     
     <!-- ============================================  -->
-    <!-- Target: checkout                              -->
+    <!-- TARGET: checkout                              -->
     <!-- ============================================  -->
     <target name="checkout">
         <echo msg="Checkout files into a coding environment of '${package}' from SVN." />
@@ -122,29 +122,29 @@
 
   
     <!-- ============================================  -->
-    <!-- Target: jscoredoc                                 -->
+    <!-- TARGET: jscoredoc                                 -->
     <!-- ============================================  -->
     <target name="jscoredoc" depends="export">
         <echo msg="Generate JavaScript document." />
         <delete dir="${jscoredocdir}"/>
         <mkdir dir="${jscoredocdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jscoredocdir} -E=jsr ${stagedir}\Clouber\0.2.0\Core" dir="." output="${logdir}\jscoredoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jscoredocdir} -E=jsr ${stagedir}\Clouber\0.2.1\Core" dir="." output="${logdir}\jscoredoc.log"/>
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: jsportaldoc                                 -->
+    <!-- TARGET: jsportaldoc                                 -->
     <!-- ============================================  -->
     <target name="jsportaldoc" depends="export">
         <echo msg="Generate JavaScript document." />
         <delete dir="${jsportaldocdir}"/>
         <mkdir dir="${jsportaldocdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Clouber\0.2.0\Portal" dir="." output="${logdir}\jsportaldoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsportaldocdir} -E=jsr ${stagedir}\Clouber\0.2.1\Portal" dir="." output="${logdir}\jsportaldoc.log"/>
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: jsdoc                                 -->
+    <!-- TARGET: jsdoc                                 -->
     <!-- ============================================  -->
     <target name="jsdoc" depends="export">
         <echo msg="Generate JavaScript document." />
@@ -152,11 +152,11 @@
         <mkdir dir="${jsdocdir}" />
         <mkdir dir="${logdir}" />
 
-        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Clouber\0.2.0\Core ${stagedir}\Clouber\0.2.0\Portal" dir="." output="${logdir}\jsdoc.log"/>
+        <exec command="java -Xms256m -jar \opt\jstoolkit\jsrun.jar \opt\jstoolkit\app\run.js -a -t=\opt\jstoolkit\templates\jsdoc -r=10 -x=js -S -d=${jsdocdir} -E='jsr' ${stagedir}\Clouber\0.2.1\Core ${stagedir}\Clouber\0.2.1\Portal" dir="." output="${logdir}\jsdoc.log"/>
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: phpdoc                                 -->
+    <!-- TARGET: phpdoc                                 -->
     <!-- ============================================  -->
     <target name="phpdoc" depends="export">
         <echo msg="Generate PHP document." />
@@ -171,26 +171,26 @@
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: jsmerg                                -->
+    <!-- TARGET: jsmerg                                -->
     <!-- ============================================  -->
     <target name="jsmerg" depends="export">
         <echo msg="Merge JavaScript codes." />
         
-        <append destFile="${stagedir}/Clouber/0.2.0/Core/core.js">
-            <filelist dir="${stagedir}/Clouber/0.2.0/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, Loader.js, User.js, Application.js, UI.js" />
+        <append destFile="${stagedir}/Clouber/0.2.1/Core/core.js">
+            <filelist dir="${stagedir}/Clouber/0.2.1/Core" files="Clouber.js, BaseObject.js, Map.js, Message_en.js, Message_cn.js, Crypt.js, Document.js, Cache.js, Config.js, Loader.js, User.js, Application.js, UI.js" />
         </append>
         <delete>
-            <fileset dir="${stagedir}/Clouber/0.2.0/Core">
+            <fileset dir="${stagedir}/Clouber/0.2.1/Core">
                 <include name="*.js"/>
                 <exclude name="core.js"/>
             </fileset>
         </delete>
 
-        <append destFile="${stagedir}/Clouber/0.2.0/Portal/portal.js">
-            <filelist dir="${stagedir}/Clouber/0.2.0/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, Consumer.js" />
+        <append destFile="${stagedir}/Clouber/0.2.1/Portal/portal.js">
+            <filelist dir="${stagedir}/Clouber/0.2.1/Portal" files="Type.js, PortletInfo.js, ProducerContext.js, Producer.js, PortalInfo.js, ProducerConnection.js, PortalContext.js, Window.js, Frame.js, Page.js, Consumer.js" />
         </append>
         <delete>
-            <fileset dir="${stagedir}/Clouber/0.2.0/Portal">
+            <fileset dir="${stagedir}/Clouber/0.2.1/Portal">
                 <include name="*.js"/>
                 <exclude name="portal.js"/>
             </fileset>
@@ -199,7 +199,7 @@
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: jsmin                                 -->
+    <!-- TARGET: jsmin                                 -->
     <!-- ============================================  -->
     <target name="jsmin" depends="jsmerg">
         <echo msg="Minify JavaScript codes." />
@@ -210,14 +210,14 @@
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: yuicompressor                         -->
+    <!-- TARGET: yuicompressor                         -->
     <!-- ============================================  -->
     <target name="yuicompressor">
         <exec command="java -jar ${yui-jarfile} -o ${builddir}/${filename} ${stagedir}/${filename}" />
     </target>
     
     <!-- ============================================  -->
-    <!-- Target: cssmin                                 -->
+    <!-- TARGET: cssmin                                 -->
     <!-- ============================================  -->
     <target name="cssmin" depends="export">
         <echo msg="**** Minifying CSS files." />
@@ -235,7 +235,7 @@
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: phpmin                                 -->
+    <!-- TARGET: phpmin                                 -->
     <!-- ============================================  -->
     <target name="phpmin" depends="export">
         <echo msg="Minify PHP codes." />
@@ -244,7 +244,7 @@
     </target> 
     
     <!-- ============================================  -->
-    <!-- Target: jstest                               -->
+    <!-- TARGET: jstest                               -->
     <!-- ============================================  -->
     <target name="jstest" depends="">
         <echo msg="js Test Driver." />
@@ -252,7 +252,7 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Target: phptest                               -->
+    <!-- TARGET: phptest                               -->
     <!-- ============================================  -->
     <target name="phptest" depends="export">
         <phpunit haltonfailure="true" printsummary="true">
@@ -265,7 +265,7 @@
     </target>
 
     <!-- ============================================  -->
-    <!-- Target: beta                                 -->
+    <!-- TARGET: beta                                 -->
     <!-- ============================================  -->
     <target name="beta" depends="export,phpdoc,jsdoc,jsmerg,jsmin,cssmin,phpmin">
                 
