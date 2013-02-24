@@ -4,49 +4,49 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta http-equiv="Content-Language" content="en-us" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
-<link rel="icon" href="Clouber/0.2.0/Portal/Page/theme/default/icon.png" type="image/png" sizes="16x16" />
+<link rel="icon" href="Clouber/0.2.1/Portal/Page/theme/default/icon.png" type="image/png" sizes="16x16" />
 
 <!--load common js library-->
-<script type="text/javascript" src="lib/CryptoJS-3.0.2/rollups/md5.js"></script>
-<script type="text/javascript" src="lib/CryptoJS-3.0.2/rollups/aes.js"></script>
+<script type="text/javascript" src="../lib/CryptoJS-3.0.2/rollups/md5.js"></script>
+<script type="text/javascript" src="../lib/CryptoJS-3.0.2/rollups/aes.js"></script>
 
 <script type="text/javascript">
 if (location.hostname=="localhost") {
     // development environment
-	document.write("<scr"+"ipt src=\"lib/js/jquery-1.7.2.min.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"../lib/js/jquery-1.7.2.min.js\"></sc"+"ript>") ;
     
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Clouber.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/BaseObject.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Map.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Message_en.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Message_cn.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Crypt.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Document.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Cache.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Config.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Loader.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/User.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/Application.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/UI.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Clouber.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/BaseObject.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Map.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Message_en.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Message_cn.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Crypt.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Document.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Cache.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Config.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Loader.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/User.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/Application.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/UI.js\"></sc"+"ript>") ;
     
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Type.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/PortletInfo.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/ProducerContext.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Producer.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Type.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/PortletInfo.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/ProducerContext.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Producer.js\"></sc"+"ript>") ;
     
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/PortalInfo.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/PortalContext.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/ProducerConnection.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Window.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Frame.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Page.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/Consumer.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/PortalInfo.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/PortalContext.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/ProducerConnection.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Window.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Frame.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Page.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/Consumer.js\"></sc"+"ript>") ;
     
 } else {
     // production environment
 	document.write("<scr"+"ipt src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Core/core.js\"></sc"+"ript>") ;
-	document.write("<scr"+"ipt src=\"Clouber/0.2.0/Portal/portal.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Core/core.js\"></sc"+"ript>") ;
+	document.write("<scr"+"ipt src=\"Clouber/0.2.1/Portal/portal.js\"></sc"+"ript>") ;
 };
 </script>
 
