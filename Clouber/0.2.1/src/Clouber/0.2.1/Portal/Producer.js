@@ -158,7 +158,7 @@ Clouber.Portal.Producer = function () {
                 params = Clouber.copy(p.initParameters);
                 params = params.stringify();
 
-                // set attributes, CLOUBER_EVENT, CLOUBER_REQUEST, CLOUBER_PATH
+                // set attributes, CLOUBER_EVENT, CLOUBER_REQUEST, CLOUBER_PATH, CLOUBER_MODE, CLOUBER_STATE
                 runtimeContext.extensions[0].set("CLOUBER_MODE",
                     markupParams.mode);
                 runtimeContext.extensions[0].set("CLOUBER_STATE",
