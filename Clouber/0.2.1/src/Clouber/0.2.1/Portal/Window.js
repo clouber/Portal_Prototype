@@ -255,11 +255,7 @@ Clouber.Portal.WindowView = function () {
 
         return '<div class="Clouber_Window" id="' +
             this.controller.getId() +
-            '"><div class="Clouber_Window_b WB_S1">' +
-            '<div class="Clouber_Window_b WB_S2">' +
-            '<div class="Clouber_Window_b WB_S3">' +
-            '<div class="Clouber_Window_b WB_S4">' +
-            '<div class="W_CONTENT">' +
+            '"><div class="W_CONTENT">' +
             '<div class="W_TITLEBAR">' +
             ' <div class="thumbnail"></div>' +
             ' <div class="captionBtn">' +
@@ -273,8 +269,7 @@ Clouber.Portal.WindowView = function () {
             ' </div>' +
             '<div class="W_COMPONENT"></div>' +
             '<div class="W_FOOTER"><div class="W_STATUSBAR">' +
-            '<div class="statusInfo"></div></div></div>' +
-            '</div></div></div></div>';
+            '<div class="statusInfo"></div></div></div>';
     };
 
     /**
@@ -545,10 +540,10 @@ Clouber.Portal.WindowView = function () {
     this.setBorder = function (params) {
         if (params) {
             Clouber.document.removeClass(this.getContext().tag +
-                    " .Clouber_Window_b", "Clouber_Window_b_hide");
+                    " .Clouber_Window", "Clouber_Window_b_hide");
         } else {
             Clouber.document.addClass(this.getContext().tag +
-                    " .Clouber_Window_b", "Clouber_Window_b_hide");
+                    " .Clouber_Window", "Clouber_Window_b_hide");
         }
     };
 

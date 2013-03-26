@@ -136,20 +136,20 @@ Clouber.Portal.Page = function (params) {
     this.TYPE = "PAGE_CONTROL";
 
     /**
-    * Page's frames.
-    * @property {Map} frames
+    * Page's regions.
+    * @property {Map} regions
     */
-    //this.frames = null;
+    //this.regions = null;
 
     /**
-    * Page's controls, include frames and windows.
+    * Page's controls, include regions and windows.
     * @property {Map} controls
     */
     this.controls = null;
 
     /**
     * Page's old context, if page changed but template doesn't change,
-    * only need to refresh a part of frames.
+    * only need to refresh a part of regions.
     * @property _pageContext
     * @ignore
     */
@@ -190,13 +190,13 @@ Clouber.Portal.Page = function (params) {
             if ((typeof this._pageContext !== "undefined") &&
                     (context.template === this._pageContext.template)) {
 
-                // current page, only refresh and change a part of frames
-                for (i = 0, l = context.frames.size(); i < l; i++) {
-    //                    this.displayFrame(i, context.frames.getByIndex(i));
-                    if (this._pageContext.frames.getByIndex(i).namespace !==
-                            context.frames.getByIndex(i).namespace) {
+                // current page, only refresh and change a part of regions
+                for (i = 0, l = context.regions.size(); i < l; i++) {
+    //                    this.displayRegion(i, context.regions.getByIndex(i));
+                    if (this._pageContext.regions.getByIndex(i).namespace !==
+                            context.regions.getByIndex(i).namespace) {
 
-                        this.displayFrame(i, context.frames.getByIndex(i));
+                        this.displayRegion(i, context.regions.getByIndex(i));
                     }
                 }
 
@@ -205,9 +205,9 @@ Clouber.Portal.Page = function (params) {
                 // display page template
                 this.view.loadTheme(Clouber.portal.getConf().path);
 
-                // create and display new frames
-                for (i = 0, l = context.frames.size(); i < l; i++) {
-                    this.displayFrame(i, context.frames.getByIndex(i));
+                // create and display new regions
+                for (i = 0, l = context.regions.size(); i < l; i++) {
+                    this.displayRegion(i, context.regions.getByIndex(i));
                 }
             }
 
@@ -233,7 +233,7 @@ Clouber.Portal.Page = function (params) {
 
         try {
             if (id === undefined) {
-                // refresh every Frame and window.
+                // refresh every Region and window.
                 for (i = 0, l = this.components.size(); i < l; i++) {
                     this.components.getByIndex(i).refresh();
                 }
@@ -264,7 +264,7 @@ Clouber.Portal.Page = function (params) {
     * Set page header title.
     * @function setTitle
     * @param {string} title, sub title.
-    * @param {string} fid, frame id.
+    * @param {string} fid, region id.
     */
     this.setTitle = function (title, fid) {
         if (fid === this.getContext().content) {
@@ -274,54 +274,54 @@ Clouber.Portal.Page = function (params) {
 
     /**
     * Display a new window.
-    * @function displayFrame
-    * @param {int} index Frame's index in the page.
-    * @param {object} conf Frame's configuration information.
+    * @function displayRegion
+    * @param {int} index Region's index in the page.
+    * @param {object} conf Region's configuration information.
     */
-    this.displayFrame = function (index, conf) {
+    this.displayRegion = function (index, conf) {
         var frm, model;
 
         try {
-            // display frames
+            // display regions
             if (conf.Class === undefined) {
-                conf.Class = "Clouber.Portal.Frame";
+                conf.Class = "Clouber.Portal.Region";
             }
             frm = Clouber.create(conf.Class);
-            model = new Clouber.Portal.FrameModel(index);
+            model = new Clouber.Portal.RegionModel(index);
             frm.setModel(model);
-            this.addFrame(index, frm);
+            this.addRegion(index, frm);
             frm.init();
         } catch (e) {
-            e.code = "Clouber.Portal.Page#displayFrame";
+            e.code = "Clouber.Portal.Page#displayRegion";
             Clouber.log(e);
         }
     };
 
     /**
-    * Add a new frame.
-    * @function addFrame
-    * @param {int} index Frame index in the page context.
-    * @param {Frame} frame Frame .
+    * Add a new region.
+    * @function addRegion
+    * @param {int} index Region index in the page context.
+    * @param {Region} region Region .
     */
-    this.addFrame = function (index, frame) {
-        //if (this.frames === null) {
-        //    this.frames = new Clouber.Core.Map();
+    this.addRegion = function (index, region) {
+        //if (this.regions === null) {
+        //    this.regions = new Clouber.Core.Map();
         //}
-        //this.frames.set(index, frame.getId());
-        this.getContext().frames.get(index).instanceId = frame.getId();
-        this.setComponent(frame, index);
-        this.addControl(frame);
+        //this.regions.set(index, region.getId());
+        this.getContext().regions.get(index).instanceId = region.getId();
+        this.setComponent(region, index);
+        this.addControl(region);
     };
 
     /**
-    * get a frame.
-    * @function getFrame
-    * @param {int} index Frame index in the page context.
-    * @return {Frame}
+    * get a region.
+    * @function getRegion
+    * @param {int} index Region index in the page context.
+    * @return {Region}
     */
-    this.getFrame = function (index) {
-        //var id = this.frames.get(index);
-        var id = this.getContext().frames.get(index).instanceId;
+    this.getRegion = function (index) {
+        //var id = this.regions.get(index);
+        var id = this.getContext().regions.get(index).instanceId;
         return this.getControl(id);
     };
 

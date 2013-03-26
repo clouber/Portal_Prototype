@@ -205,9 +205,9 @@ Clouber.Portal.PortalContext = function () {
             // p = this.pageContext.portlets.unique();
             this.portlets = new Clouber.Core.Map();
             c = this.getConfig();
-            for (i in c.frames) {
-                if (c.frames.hasOwnProperty(i)) {
-                    f = c.frames[i];
+            for (i in c.regions) {
+                if (c.regions.hasOwnProperty(i)) {
+                    f = c.regions[i];
                     for (j in f.windows) {
                         if (f.windows.hasOwnProperty(j)) {
                             w = this.createWindowCtx();
@@ -344,8 +344,8 @@ Clouber.Portal.PortalContext = function () {
         try {
             port = attrs.get("CLOUBER_PORTLET");
 
-            for (i = 0, l = this.pageContext.frames.size(); i < l; i++) {
-                ws = this.pageContext.frames.getByIndex(i).windows;
+            for (i = 0, l = this.pageContext.regions.size(); i < l; i++) {
+                ws = this.pageContext.regions.getByIndex(i).windows;
                 for (j = 0, m = ws.size(); j < m; j++) {
 
                     w = ws.getByIndex(j);
@@ -731,33 +731,33 @@ Clouber.Portal.PortalContext = function () {
                         }
                     }
 
-                    // get page frames
-                    for (j = 0, leng2 = portalConf.pages[i].frames.length;
+                    // get page regions
+                    for (j = 0, leng2 = portalConf.pages[i].regions.length;
                             j < leng2; j++) {
 
-                        frm = new Clouber.Portal.FrameInfo();
+                        frm = new Clouber.Portal.RegionInfo();
                         Object.seal(frm);
-                        frm.tag = portalConf.pages[i].frames[j].tag;
-                        frm.fid = portalConf.pages[i].frames[j].frame;
+                        frm.tag = portalConf.pages[i].regions[j].tag;
+                        frm.fid = portalConf.pages[i].regions[j].region;
 
-                        // get frames configuration information
-                        for (k = 0, leng3 = portalConf.frames.length;
+                        // get regions configuration information
+                        for (k = 0, leng3 = portalConf.regions.length;
                                 k < leng3; k++) {
 
-                            if (frm.fid === portalConf.frames[k].frame) {
+                            if (frm.fid === portalConf.regions[k].region) {
 
-                                frm.namespace = portalConf.frames[k].namespace;
-                                frm.Class = portalConf.frames[k].Class;
+                                frm.namespace = portalConf.regions[k].namespace;
+                                frm.Class = portalConf.regions[k].Class;
                                 frm.description =
-                                    portalConf.frames[k].description;
-                                frm.top = portalConf.frames[k].topStyle;
-                                frm.content = portalConf.frames[k].contentStyle;
-                                frm.left = portalConf.frames[k].leftStyle;
-                                frm.right = portalConf.frames[k].rightStyle;
-                                frm.bottom = portalConf.frames[k].bottomStyle;
-                                frm.c_theme = portalConf.frames[k].c_theme;
+                                    portalConf.regions[k].description;
+                                frm.top = portalConf.regions[k].topStyle;
+                                frm.content = portalConf.regions[k].contentStyle;
+                                frm.left = portalConf.regions[k].leftStyle;
+                                frm.right = portalConf.regions[k].rightStyle;
+                                frm.bottom = portalConf.regions[k].bottomStyle;
+                                frm.c_theme = portalConf.regions[k].c_theme;
 
-                                // get frame template code
+                                // get region template code
                                 for (l = 0, leng4 = portalConf.templates.length;
                                          l < leng4; l++) {
                                     if (frm.namespace ===
@@ -770,9 +770,9 @@ Clouber.Portal.PortalContext = function () {
                                 }
 
                                 // get windows information
-                                leng4 = portalConf.frames[k].windows.length;
+                                leng4 = portalConf.regions[k].windows.length;
                                 for (l = 0; l < leng4; l++) {
-                                    f = portalConf.frames[k].windows[l];
+                                    f = portalConf.regions[k].windows[l];
                                     if (Clouber.isEmpty(f.producer)) {
                                         f.producer = "localhost";
                                     }
@@ -783,7 +783,7 @@ Clouber.Portal.PortalContext = function () {
                                 break;
                             }
                         }
-                        pageInfo.frames.set(j, frm);
+                        pageInfo.regions.set(j, frm);
                     }
 
                     break;

@@ -29,7 +29,7 @@ Clouber.Portal.Producer = function () {
     this._context = {};
 
     /**
-     * Initialize Producer control, display the frame.
+     * Initialize Producer control, display the region.
      * @param {object} conf Object settings.
      * @override
      */

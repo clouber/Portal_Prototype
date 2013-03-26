@@ -48,13 +48,13 @@ Clouber.Portal.WindowInfo = function () {
     this.theme = "default";
 
     /**
-    * position in the frame, could be top, left, right, content, bottom
+    * position in the region, could be top, left, right, content, bottom
     * @type string
     */
     this.position = "content";
 
     /**
-    * markup tag in the frame.
+    * markup tag in the region.
     * @type string
     */
     this.tag = "";
@@ -188,51 +188,51 @@ Clouber.Portal.WindowInfo = function () {
 };
 
 /**
-* Page frame information type.
-* @type FrameInfo
-* @class FrameInfo
+* Page region information type.
+* @type RegionInfo
+* @class RegionInfo
 * @namespace Clouber.Portal
 */
-Clouber.Portal.FrameInfo = function () {
+Clouber.Portal.RegionInfo = function () {
     'use strict';
     /**
-    * Frame ID.
+    * Region ID.
     * @type string
     */
     this.fid = "";
 
     /**
-    * Frame instanceId
+    * Region instanceId
     * @type int
     */
     this.instanceId = -1;
 
     /**
-    * Frame's target tag.
+    * Region's target tag.
     * @type string
     */
     this.tag = "";
 
     /**
-    * Frame's class.
+    * Region's class.
     * @type string
     */
-    this.Class = "Clouber.Portal.Frame";
+    this.Class = "Clouber.Portal.Region";
 
     /**
-    * Frame's namespace.
+    * Region's namespace.
     * @type string
     */
     this.namespace = "";
 
     /**
-    * Frame's description.
+    * Region's description.
     * @type string
     */
     this.description = "";
 
     /**
-    * Frame's theme
+    * Region's theme
     * @type string
     */
     this.theme = "default";
@@ -244,49 +244,49 @@ Clouber.Portal.FrameInfo = function () {
     this.border = false;
     
     /**
-    * Style of frame's top panel, could be tile, tab, accordion
+    * Style of region's top panel, could be tile, tab, accordion
     * @type string
     */
     this.top = "tile";
 
     /**
-    * Style of frame's left panel.
+    * Style of region's left panel.
     * @type string
     */
     this.left = "tile";
 
     /**
-    * Style of frame's right panel.
+    * Style of region's right panel.
     * @type string
     */
     this.right = "tile";
 
     /**
-    * Style of frame's content panel. only content style can be template.
+    * Style of region's content panel. only content style can be template.
     * @type string
     */
     this.content = "tile";
 
     /**
-    * Frame's content panel's template markup code.
+    * Region's content panel's template markup code.
     * @type string
     */
     this.c_code = "";
 
     /**
-    * Frame's content panel's theme.
+    * Region's content panel's theme.
     * @type string
     */
     this.c_theme = "default";
 
     /**
-    * Style of frame's bottom panel.
+    * Style of region's bottom panel.
     * @type string
     */
     this.bottom = "tile";
 
     /**
-    * Windows of the frame.
+    * Windows of the region.
     * @type array(WindowInfo)
     */
     this.windows = new Clouber.Core.Map();
@@ -351,7 +351,7 @@ Clouber.Portal.PageInfo = function () {
     this.code = "";
 
     /**
-    * Page's content frame id.
+    * Page's content region id.
     * @type string
     */
     this.content = "";
@@ -369,10 +369,10 @@ Clouber.Portal.PageInfo = function () {
     this.theme = "";
 
     /**
-    * Page's frames.
+    * Page's regions.
     * @type Map
     */
-    this.frames = new Clouber.Core.Map();
+    this.regions = new Clouber.Core.Map();
 
     /**
     * Page's portlets.
