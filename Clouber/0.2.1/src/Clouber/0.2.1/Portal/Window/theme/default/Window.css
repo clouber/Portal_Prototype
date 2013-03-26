@@ -2,34 +2,18 @@
 
 .Clouber_Window {
 	clear: both;
+	/*border: solid 1px #B6B6B6;*/
+	box-shadow: 2px 2px 5px 3px #868686;
+	border-radius: 2px;
 }
 
-
-.Clouber_Window_b .WB_S1 {
-    background-color: #FEFEFE;
-    padding: 0.2em;
-	border-radius: 0.1em;
-}
-.Clouber_Window_b .WB_S2 {
-    background-color: #FEFEFE;
-    padding: 0.1em;
-	border-radius: 0.1em;
-}
-.Clouber_Window_b .WB_S3 {
-    background-color: #DDDDDD;
-    padding: 0.1em;
-	border-radius: 0.1em;
-}
-.Clouber_Window_b .WB_S4 {
-    background-color: #999999;
-    padding: 0.07em;
-	border-radius: 0.07em;
-}
 
 .Clouber_Window_b_hide {
     background-color: white !important;
+	border: none !important;
     padding: 0 !important;
 	border-radius: 0 !important;
+	box-shadow:  none !important;
 }
 
 .Clouber_Window .W_CONTENT  {
